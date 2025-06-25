@@ -16,29 +16,16 @@ about:
 
 ---
 
-<p align="left"> 
 Hello! I am Madhukara. Welcome to my blog!
 
-<p align="left">
-A few years ago, I worked in the space industry. Then, as often happens, life
-moved in a different direction. I stepped away — not entirely by choice — and
-found myself on another path. But the interest in space systems never really
-left. Now, I’m following that fascination.
+I’m exploring space systems and scientific software, with the help of AI.
 
-<p align="left">
-I’ve been revisiting the foundations of orbital mechanics, space systems, and
-mission design. As I read and explore, I write. Each chapter began as a
-self-study note — an attempt to understand something clearly and explain it
-carefully. Along the way, I’ve also begun learning about scientific software
-development, with the hope that one day I can contribute through code as well as
-concepts.
+This blog is a reflection of my journey — learning one step at a time, and
+building in public.
 
-<p align="left">
-I’ve been sharing parts of this journey on LinkedIn — learning in public, as
-they say. It’s not always easy, but it’s helped me stay focused and connected.
-I’ve also embraced AI as a partner and a guide in this process — not to bypass
-effort, but to learn more deeply and work more steadily.
+I work with AI not just as a tool, but as a thinking partner, editor, and
+teacher. Most blog posts here are part of that collaboration. You’ll also find
+these ideas on my LinkedIn, where I regularly share posts about the work and the
+evolving way I do it.
 
-<p align="left">
-I’ve started with the basics — the aim is to go deeper, and eventually build the
-skills to write scientific software for space systems.
+My goal is to become very good at what I do — and to stay true to the process.

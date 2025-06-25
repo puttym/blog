@@ -1,0 +1,209 @@
+---
+title: "Automating a Scientific Python Setup: A Gentle Walkthrough"
+subtitle: "A shell script to set up poliastro and its dependencies"
+description: "The first in a series of posts on poliastro – a Python library for visualizing and analyzing orbits in Python."
+author: "Madhukara S Putty"
+date: "2025-06-25"
+categories: [orbital mechanics, scientific computing, poliastro, shell scripts]
+---
+## Introduction
+
+Setting up scientific Python environments used to feel overwhelming to me—until
+I started collaborating with AI. With its help, I’ve learned how to automate my
+setup using shell scripts and gained confidence in managing the tools I use for
+orbital mechanics and data visualization.
+
+In this post, I’ll walk you through a script that sets up a fully functional
+Python environment to work with Poliastro, a powerful library for orbital
+mechanics. Whether you're a beginner or someone looking to streamline your
+workflow, this guide will give you both a working setup and an understanding of
+what each step does.
+
+## What We'll Do
+By the end of this post, you’ll know how to:
+
+* Write and run a basic shell script
+
+* Use conda to manage environments and packages
+
+* Install the correct versions of poliastro, astropy, and other tools
+
+* Understand why versions matter in scientific computing
+
+## The Full Script (Preview)
+Here’s what you’ll build and understand step by step. To get started, copy the
+code below into a new file and save it as ```setup_orbitviz.sh```. This script
+will automate the creation of your orbital mechanics Python environment.
+
+```bash
+#!/bin/bash
+
+echo "🛰️  Creating conda environment 'orbitviz' with Python 3.10..."
+conda create -y -n orbitviz python=3.10
+
+echo "🚀 Activating environment (if this fails, activate manually)..."
+conda activate orbitviz || source activate orbitviz
+
+echo "🔭 Installing astropy 5.3..."
+conda install -y -n orbitviz -c conda-forge astropy=5.3
+
+echo "📈 Installing matplotlib 3.5..."
+conda install -y -n orbitviz matplotlib=3.5
+
+echo "🌌 Installing poliastro (with all extras)..."
+conda run -n orbitviz pip install poliastro[all]
+
+echo "📓 Installing JupyterLab..."
+conda install -y -n orbitviz -c conda-forge jupyterlab
+
+echo "🎨 Installing Plotly..."
+conda install -y -n orbitviz -c plotly plotly
+
+echo "🧮 Installing numpy, scipy, tqdm..."
+conda install -y -n orbitviz numpy scipy tqdm
+
+echo "✅ Setup complete. To activate the environment later, run: conda activate orbitviz"
+```
+
+## Line-by-Line Explanation
+1. ```#!/bin/bash```
+
+This is called a shebang. It tells the operating system:
+“Run this file using the bash shell.”
+
+Without this line, the system might not know how to run the script.
+
+2. ```echo```
+
+The echo command prints messages to the terminal. It's a simple way to give
+feedback while the script runs:
+
+```echo "Creating environment..."```
+
+You’ll often use this to keep the user informed of progress.
+
+3. ```conda create -y -n orbitviz python=3.10```
+
+Let’s break this down:
+
+```conda``` is a package and environment manager, especially useful for scientific work.
+
+```create``` tells it to make a new environment.
+
+```-n orbitviz``` gives the environment a name.
+
+```python=3.10``` installs Python 3.10 in that environment.
+
+```-y``` means “yes to all prompts” — it won’t ask for confirmation.
+
+**Why use environments?**
+
+They keep your projects isolated. This way, a change in one project (e.g.
+upgrading NumPy) won’t break another.
+
+4. ```conda activate orbitviz || source activate orbitviz```
+This tries to activate the environment so all future commands run inside it.
+
+```conda activate orbitviz```: Standard command for modern conda setups.
+
+```|| source activate orbitviz```: This part runs only if the first one fails
+(older conda versions).
+
+5. ```conda install -n orbitviz -c conda-forge astropy=5.3```
+This installs a package called ```astropy``` from the conda-forge channel:
+
+```-n orbitviz```: Install into this environment.
+
+```-c conda-forge```: Use the ```conda-forge``` channel — a community-driven source of scientific packages.
+
+```astropy=5.3```: Install exactly version 5.3.
+
+Why a specific version? 
+Not all versions of Astropy work well with Poliastro. Version pinning helps avoid compatibility issues.
+
+This logic repeats for:
+
+```matplotlib=3.5```
+
+```jupyterlab```
+
+```plotly```
+
+```numpy```, ```scipy```, and ```tqdm```.
+
+6. ```conda run -n orbitviz pip install poliastro[all]```
+
+Sometimes, we need ```pip``` to install packages from PyPI (Python Package Index).
+
+* ```conda run -n orbitviz```: Run a command inside the environment.
+
+* ```pip install poliastro[all]```: Install Poliastro and all its optional features.
+
+
+7. ```chmod +x setup_orbitviz.sh```
+
+Before you run the script, you make it executable with:
+```
+chmod +x setup_orbitviz.sh
+```
+
+```chmod``` changes file permissions.
+
+```+x``` means “make this file executable.”
+
+Now you can run it as:
+```
+./setup_orbitviz.sh
+```
+
+## Why Do Versions Matter?
+Scientific libraries like astropy, matplotlib, and poliastro evolve constantly.
+But newer isn’t always better—especially when libraries depend on each other.
+
+For example:
+
+* Poliastro might rely on internal behavior of Astropy 5.3 that’s changed in 5.4.
+
+* Matplotlib might break visualization formatting if you jump versions.
+
+Version pinning ensures a stable and predictable environment—which is critical
+when you’re doing simulations or research.
+
+## Want to try?
+Here's how you can run the whole thing:
+
+```bash
+# Make the script executable
+chmod +x setup_orbitviz.sh
+
+# Run it!
+./setup_orbitviz.sh
+```
+
+If something fails (e.g. activation), try this manually:
+```bash
+conda activate orbitviz
+```
+
+And then:
+```bash
+jupyterlab
+```
+
+## Summary
+* You learned how to write and run a bash script
+
+* Understood conda environments, channels, and version pinning
+
+* Set up a working Python lab for orbital mechanics in just a few commands
+
+In the next post, we’ll write our first orbit simulation using Poliastro. You’ll
+be able to compute orbital elements, propagate orbits, and visualize them in 3D.
+
+---
+
+***AI Attribution:***
+*This blog post is part of an ongoing experiment in human–AI collaboration. The
+shell script presented here was generated by AI based on the author's request
+and intent. The initial draft of this article was also AI-assisted, with light
+human edits and review.*

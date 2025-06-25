@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Hello! I am Madhukara. Welcome to my blog!\n\nA few years ago, I worked in the space industry. Then, as often happens, life moved in a different direction. I stepped away — not entirely by choice — and found myself on another path. But the interest in space systems never really left. Now, I’m following that fascination.\n\nI’ve been revisiting the foundations of orbital mechanics, space systems, and mission design. As I read and explore, I write. Each chapter began as a self-study note — an attempt to understand something clearly and explain it carefully. Along the way, I’ve also begun learning about scientific software development, with the hope that one day I can contribute through code as well as concepts.\n\nI’ve been sharing parts of this journey on LinkedIn — learning in public, as they say. It’s not always easy, but it’s helped me stay focused and connected. I’ve also embraced AI as a partner and a guide in this process — not to bypass effort, but to learn more deeply and work more steadily.\n\nI’ve started with the basics — the aim is to go deeper, and eventually build the skills to write scientific software for space systems."
+  },
+  {
+    "objectID": "posts/install_poliastro/index.html",
+    "href": "posts/install_poliastro/index.html",
+    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
+    "section": "",
+    "text": "Setting up scientific Python environments used to feel overwhelming to me—until I started collaborating with AI. With its help, I’ve learned how to automate my setup using shell scripts and gained confidence in managing the tools I use for orbital mechanics and data visualization.\nIn this post, I’ll walk you through a script that sets up a fully functional Python environment to work with Poliastro, a powerful library for orbital mechanics. Whether you’re a beginner or someone looking to streamline your workflow, this guide will give you both a working setup and an understanding of what each step does."
+  },
+  {
+    "objectID": "posts/install_poliastro/index.html#introduction",
+    "href": "posts/install_poliastro/index.html#introduction",
+    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
+    "section": "",
+    "text": "Setting up scientific Python environments used to feel overwhelming to me—until I started collaborating with AI. With its help, I’ve learned how to automate my setup using shell scripts and gained confidence in managing the tools I use for orbital mechanics and data visualization.\nIn this post, I’ll walk you through a script that sets up a fully functional Python environment to work with Poliastro, a powerful library for orbital mechanics. Whether you’re a beginner or someone looking to streamline your workflow, this guide will give you both a working setup and an understanding of what each step does."
+  },
+  {
+    "objectID": "posts/install_poliastro/index.html#what-well-do",
+    "href": "posts/install_poliastro/index.html#what-well-do",
+    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
+    "section": "What We’ll Do",
+    "text": "What We’ll Do\nBy the end of this post, you’ll know how to:\n\nWrite and run a basic shell script\nUse conda to manage environments and packages\nInstall the correct versions of poliastro, astropy, and other tools\nUnderstand why versions matter in scientific computing"
+  },
+  {
+    "objectID": "posts/install_poliastro/index.html#the-full-script-preview",
+    "href": "posts/install_poliastro/index.html#the-full-script-preview",
+    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
+    "section": "The Full Script (Preview)",
+    "text": "The Full Script (Preview)\nHere’s what you’ll build and understand step by step. To get started, copy the code below into a new file and save it as setup_orbitviz.sh. This script will automate the creation of your orbital mechanics Python environment.\n#!/bin/bash\n\necho \"🛰️  Creating conda environment 'orbitviz' with Python 3.10...\"\nconda create -y -n orbitviz python=3.10\n\necho \"🚀 Activating environment (if this fails, activate manually)...\"\nconda activate orbitviz || source activate orbitviz\n\necho \"🔭 Installing astropy 5.3...\"\nconda install -y -n orbitviz -c conda-forge astropy=5.3\n\necho \"📈 Installing matplotlib 3.5...\"\nconda install -y -n orbitviz matplotlib=3.5\n\necho \"🌌 Installing poliastro (with all extras)...\"\nconda run -n orbitviz pip install poliastro[all]\n\necho \"📓 Installing JupyterLab...\"\nconda install -y -n orbitviz -c conda-forge jupyterlab\n\necho \"🎨 Installing Plotly...\"\nconda install -y -n orbitviz -c plotly plotly\n\necho \"🧮 Installing numpy, scipy, tqdm...\"\nconda install -y -n orbitviz numpy scipy tqdm\n\necho \"✅ Setup complete. To activate the environment later, run: conda activate orbitviz\""
+  },
+  {
+    "objectID": "posts/install_poliastro/index.html#line-by-line-explanation",
+    "href": "posts/install_poliastro/index.html#line-by-line-explanation",
+    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
+    "section": "Line-by-Line Explanation",
+    "text": "Line-by-Line Explanation\n\n#!/bin/bash\n\nThis is called a shebang. It tells the operating system: “Run this file using the bash shell.”\nWithout this line, the system might not know how to run the script.\n\necho\n\nThe echo command prints messages to the terminal. It’s a simple way to give feedback while the script runs:\necho \"Creating environment...\"\nYou’ll often use this to keep the user informed of progress.\n\nconda create -y -n orbitviz python=3.10\n\nLet’s break this down:\nconda is a package and environment manager, especially useful for scientific work.\ncreate tells it to make a new environment.\n-n orbitviz gives the environment a name.\npython=3.10 installs Python 3.10 in that environment.\n-y means “yes to all prompts” — it won’t ask for confirmation.\nWhy use environments?\nThey keep your projects isolated. This way, a change in one project (e.g. upgrading NumPy) won’t break another.\n\nconda activate orbitviz || source activate orbitviz This tries to activate the environment so all future commands run inside it.\n\nconda activate orbitviz: Standard command for modern conda setups.\n|| source activate orbitviz: This part runs only if the first one fails (older conda versions).\n\nconda install -n orbitviz -c conda-forge astropy=5.3 This installs a package called astropy from the conda-forge channel:\n\n-n orbitviz: Install into this environment.\n-c conda-forge: Use the conda-forge channel — a community-driven source of scientific packages.\nastropy=5.3: Install exactly version 5.3.\nWhy a specific version? Not all versions of Astropy work well with Poliastro. Version pinning helps avoid compatibility issues.\nThis logic repeats for:\nmatplotlib=3.5\njupyterlab\nplotly\nnumpy, scipy, and tqdm.\n\nconda run -n orbitviz pip install poliastro[all]\n\nSometimes, we need pip to install packages from PyPI (Python Package Index).\n\nconda run -n orbitviz: Run a command inside the environment.\npip install poliastro[all]: Install Poliastro and all its optional features.\n\n\nchmod +x setup_orbitviz.sh\n\nBefore you run the script, you make it executable with:\nchmod +x setup_orbitviz.sh\nchmod changes file permissions.\n+x means “make this file executable.”\nNow you can run it as:\n./setup_orbitviz.sh"
+  },
+  {
+    "objectID": "posts/install_poliastro/index.html#why-do-versions-matter",
+    "href": "posts/install_poliastro/index.html#why-do-versions-matter",
+    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
+    "section": "Why Do Versions Matter?",
+    "text": "Why Do Versions Matter?\nScientific libraries like astropy, matplotlib, and poliastro evolve constantly. But newer isn’t always better—especially when libraries depend on each other.\nFor example:\n\nPoliastro might rely on internal behavior of Astropy 5.3 that’s changed in 5.4.\nMatplotlib might break visualization formatting if you jump versions.\n\nVersion pinning ensures a stable and predictable environment—which is critical when you’re doing simulations or research."
+  },
+  {
+    "objectID": "posts/install_poliastro/index.html#want-to-try",
+    "href": "posts/install_poliastro/index.html#want-to-try",
+    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
+    "section": "Want to try?",
+    "text": "Want to try?\nHere’s how you can run the whole thing:\n# Make the script executable\nchmod +x setup_orbitviz.sh\n\n# Run it!\n./setup_orbitviz.sh\nIf something fails (e.g. activation), try this manually:\nconda activate orbitviz\nAnd then:\njupyterlab"
+  },
+  {
+    "objectID": "posts/install_poliastro/index.html#summary",
+    "href": "posts/install_poliastro/index.html#summary",
+    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
+    "section": "Summary",
+    "text": "Summary\n\nYou learned how to write and run a bash script\nUnderstood conda environments, channels, and version pinning\nSet up a working Python lab for orbital mechanics in just a few commands\n\nIn the next post, we’ll write our first orbit simulation using Poliastro. You’ll be able to compute orbital elements, propagate orbits, and visualize them in 3D.\n\nAI Attribution: This blog post is part of an ongoing experiment in human–AI collaboration. The shell script presented here was generated by AI based on the author’s request and intent. The initial draft of this article was also AI-assisted, with light human edits and review."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "All articles",
+    "section": "",
+    "text": "Automating a Scientific Python Setup: A Gentle Walkthrough\n\n\nA shell script to set up poliastro and its dependencies\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\nshell scripts\n\n\n\nThe first in a series of posts on poliastro – a Python library for visualizing and analyzing orbits in Python.\n\n\n\n\n\nJun 25, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\nNo matching items"
+  }
+]

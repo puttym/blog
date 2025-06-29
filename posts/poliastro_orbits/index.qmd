@@ -1,0 +1,161 @@
+---
+title: "Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects"
+subtitle: "Learn how to create circular and elliptical orbit objects in Python using Poliastro."
+description: "Learn how to create orbit objects in Poliastro using classical
+elements and state vectors — with beginner-friendly explanations of key concepts
+like epochs and astronomical units."
+author: "Madhukara S Putty"
+date: "2025-06-29"
+categories: [orbital mechanics, scientific computing, poliastro]
+---
+## Introduction
+
+Poliastro is a modern Python library for orbital mechanics. It’s designed for
+both educational use and practical analysis, and integrates beautifully with
+Python tools like Astropy and Matplotlib.
+
+In this post, we’ll learn how to define orbits in Poliastro using both state
+vectors and orbital elements. We won’t dive into plotting yet — we’ll just set
+up the orbits. Visualizations will come in a follow-up article.
+
+## Understanding the imports
+```python
+from poliastro.bodies import Earth
+from poliastro.twobody import Orbit
+from poliastro.plotting.static import StaticOrbitPlotter
+from astropy import units as u
+from astropy.time import Time
+```
+
+Let’s break these down:
+
+* ```Earth``` is a predefined object representing Earth, with built-in values
+* for radius, mass, and gravitational constant.
+
+* ```Orbit``` is the main class for representing orbits using either position/velocity vectors or classical elements.
+
+* ```StaticOrbitPlotter``` will let us visualize the orbit using Matplotlib (we won’t use it in this post).
+
+* ```units``` comes from Astropy — it allows us to specify and enforce physical units in our calculations.
+
+* ```Time``` is used to represent specific epochs (times) for orbital calculations.
+
+## The Earth Object in Poliastro
+
+When you run ```from poliastro.bodies import Earth```, you're import a
+predefined instance of the ```SolarSystemPlanet``` class. It comes with physical
+constants like:
+
+```python
+Earth.R       # Radius of Earth
+Earth.k       # Gravitational parameter (GM)
+Earth.mass    # Mass
+```
+
+These are essential when calculating orbits.
+
+## Creating Orbit Objects
+
+There are two ways to create an orbit in Poliastro:
+
+1. Using Position and Velocity Vectors
+
+```python
+r = [7000, 0, 0] * u.km
+v = [0, 7.5, 1] * u.km / u.s
+epoch = Time("2025-01-01", scale="utc")
+
+orbit1 = Orbit.from_vectors(Earth, r, v, epoch=epoch)
+```
+
+This method is useful when you have raw observational data or simulation outputs.
+
+Note: When creating orbits from vectors, epoch is required. This is the time at
+which the vectors are valid.
+
+2. Using Classical Orbital Elements
+
+You can also define an orbit using elements like:
+
+* Semi-major axis (a): average size of the orbit
+
+* Eccentricity (ecc): shape of the orbit
+
+* Inclination (inc): tilt of the orbit relative to Earth’s equator
+
+* RAAN: Right Ascension of the Ascending Node
+
+* Argument of perigee (argp)
+
+* True anomaly (nu): position of the object along the orbit
+
+Here’s how to define a circular orbit at 500 km altitude with a 30° inclination:
+
+```python
+a_circ = Earth.R + 500 * u.km
+inc_circ = 30 * u.deg
+orbit2 = Orbit.circular(Earth, alt=500 * u.km, inc=inc_circ)
+```
+
+Now, let’s define an elliptical orbit with perigee at 500 km and apogee at 1500 km:
+
+```python
+r_p = Earth.R + 500 * u.km  # Perigee
+r_a = Earth.R + 1500 * u.km # Apogee
+
+a = (r_p + r_a) / 2                     # Semi-major axis
+ecc = (r_a - r_p) / (r_a + r_p)        # Eccentricity
+inc = 60 * u.deg                       # Inclination
+raan = 30 * u.deg
+argp = 0 * u.deg
+nu = 0 * u.deg
+
+orbit3 = Orbit.from_classical(Earth, a, ecc, inc, raan, argp, nu)
+```
+
+Note: You don’t need to provide epoch when creating orbits using classical
+elements — the default is J2000, the standard astronomical epoch corresponding
+to January 1, 2000, 12:00 TT.
+
+### A Note on Units and ```u.one```
+Poliastro uses Astropy Units to manage dimensions. That’s why you'll often see values like:
+
+```python
+ecc = 0.1 * u.one  # Eccentricity is dimensionless
+```
+
+Here, ```u.one``` is a special unit that denotes "dimensionless" quantities.
+This ensures compatibility with Astropy's quantity system while preserving
+physical correctness.
+
+### What is J2000?
+J2000 refers to January 1, 2000, 12:00 TT (Terrestrial Time). It’s a standard
+epoch used in astronomy and orbital mechanics.
+
+In Poliastro, if you don’t specify an epoch, it defaults to J2000. Since
+Poliastro assumes perfect Keplerian motion (i.e., no perturbations), these
+orbits don’t change over time — so using J2000 as the default epoch is a safe
+baseline.
+
+## Summary
+In this post, we learnt how to:
+
+* Import and use Poliastro’s core modules
+
+* Define orbits using state vectors or classical elements
+
+* Handle physical units properly using Astropy
+
+* Understand default behavior like epoch and dimensionless quantities
+
+* In the next post, we’ll use StaticOrbitPlotter to visualize these orbits with Matplotlib.
+
+---
+
+***AI Attribution:***
+This post is the result of an ongoing collaboration between the author and AI.
+The code examples were generated by AI based on specific requests. The author
+asked many follow-up questions, made detailed notes, and shared key takeaways —
+which were then shaped into this post with help from AI. This is part of an
+ongoing experiment in human–AI collaboration for technical learning and writing.
+

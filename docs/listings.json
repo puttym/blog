@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/poliastro_orbits/index.html",
       "/posts/install_poliastro/index.html"
     ]
   }

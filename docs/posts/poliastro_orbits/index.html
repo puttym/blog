@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Madhukara S Putty">
+<meta name="dcterms.date" content="2025-06-29">
+<meta name="description" content="Learn how to create orbit objects in Poliastro using classical elements and state vectors — with beginner-friendly explanations of key concepts like epochs and astronomical units.">
 
-<title>All articles – Sea of Tranquillity</title>
+<title>Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects – Sea of Tranquillity</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,28 +23,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,77 +105,19 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-subtitle','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Sea of Tranquillity</span>
     </a>
   </div>
@@ -150,7 +128,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
@@ -173,118 +151,155 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">All articles</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects</h1>
+            <p class="subtitle lead">Learn how to create circular and elliptical orbit objects in Python using Poliastro.</p>
+                  <div>
+        <div class="description">
+          Learn how to create orbit objects in Poliastro using classical elements and state vectors — with beginner-friendly explanations of key concepts like epochs and astronomical units.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">orbital mechanics</div>
+                <div class="quarto-category">scientific computing</div>
+                <div class="quarto-category">poliastro</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Madhukara S Putty </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">June 29, 2025</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(2)</span></div><div class="category" data-category="b3JiaXRhbCUyMG1lY2hhbmljcw==">orbital mechanics <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cG9saWFzdHJv">poliastro <span class="quarto-category-count">(2)</span></div><div class="category" data-category="c2NpZW50aWZpYyUyMGNvbXB1dGluZw==">scientific computing <span class="quarto-category-count">(2)</span></div><div class="category" data-category="c2hlbGwlMjBzY3JpcHRz">shell scripts <span class="quarto-category-count">(1)</span></div></div></div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Poliastro is a modern Python library for orbital mechanics. It’s designed for both educational use and practical analysis, and integrates beautifully with Python tools like Astropy and Matplotlib.</p>
+<p>In this post, we’ll learn how to define orbits in Poliastro using both state vectors and orbital elements. We won’t dive into plotting yet — we’ll just set up the orbits. Visualizations will come in a follow-up article.</p>
+</section>
+<section id="understanding-the-imports" class="level2">
+<h2 class="anchored" data-anchor-id="understanding-the-imports">Understanding the imports</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> poliastro.bodies <span class="im">import</span> Earth</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> poliastro.twobody <span class="im">import</span> Orbit</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> poliastro.plotting.static <span class="im">import</span> StaticOrbitPlotter</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> astropy <span class="im">import</span> units <span class="im">as</span> u</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> astropy.time <span class="im">import</span> Time</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s break these down:</p>
+<ul>
+<li><p><code>Earth</code> is a predefined object representing Earth, with built-in values</p></li>
+<li><p>for radius, mass, and gravitational constant.</p></li>
+<li><p><code>Orbit</code> is the main class for representing orbits using either position/velocity vectors or classical elements.</p></li>
+<li><p><code>StaticOrbitPlotter</code> will let us visualize the orbit using Matplotlib (we won’t use it in this post).</p></li>
+<li><p><code>units</code> comes from Astropy — it allows us to specify and enforce physical units in our calculations.</p></li>
+<li><p><code>Time</code> is used to represent specific epochs (times) for orbital calculations.</p></li>
+</ul>
+</section>
+<section id="the-earth-object-in-poliastro" class="level2">
+<h2 class="anchored" data-anchor-id="the-earth-object-in-poliastro">The Earth Object in Poliastro</h2>
+<p>When you run <code>from poliastro.bodies import Earth</code>, you’re import a predefined instance of the <code>SolarSystemPlanet</code> class. It comes with physical constants like:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Earth.R       <span class="co"># Radius of Earth</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Earth.k       <span class="co"># Gravitational parameter (GM)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>Earth.mass    <span class="co"># Mass</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These are essential when calculating orbits.</p>
+</section>
+<section id="creating-orbit-objects" class="level2">
+<h2 class="anchored" data-anchor-id="creating-orbit-objects">Creating Orbit Objects</h2>
+<p>There are two ways to create an orbit in Poliastro:</p>
+<ol type="1">
+<li>Using Position and Velocity Vectors</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> [<span class="dv">7000</span>, <span class="dv">0</span>, <span class="dv">0</span>] <span class="op">*</span> u.km</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> [<span class="dv">0</span>, <span class="fl">7.5</span>, <span class="dv">1</span>] <span class="op">*</span> u.km <span class="op">/</span> u.s</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>epoch <span class="op">=</span> Time(<span class="st">"2025-01-01"</span>, scale<span class="op">=</span><span class="st">"utc"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>orbit1 <span class="op">=</span> Orbit.from_vectors(Earth, r, v, epoch<span class="op">=</span>epoch)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This method is useful when you have raw observational data or simulation outputs.</p>
+<p>Note: When creating orbits from vectors, epoch is required. This is the time at which the vectors are valid.</p>
+<ol start="2" type="1">
+<li>Using Classical Orbital Elements</li>
+</ol>
+<p>You can also define an orbit using elements like:</p>
+<ul>
+<li><p>Semi-major axis (a): average size of the orbit</p></li>
+<li><p>Eccentricity (ecc): shape of the orbit</p></li>
+<li><p>Inclination (inc): tilt of the orbit relative to Earth’s equator</p></li>
+<li><p>RAAN: Right Ascension of the Ascending Node</p></li>
+<li><p>Argument of perigee (argp)</p></li>
+<li><p>True anomaly (nu): position of the object along the orbit</p></li>
+</ul>
+<p>Here’s how to define a circular orbit at 500 km altitude with a 30° inclination:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a_circ <span class="op">=</span> Earth.R <span class="op">+</span> <span class="dv">500</span> <span class="op">*</span> u.km</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>inc_circ <span class="op">=</span> <span class="dv">30</span> <span class="op">*</span> u.deg</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>orbit2 <span class="op">=</span> Orbit.circular(Earth, alt<span class="op">=</span><span class="dv">500</span> <span class="op">*</span> u.km, inc<span class="op">=</span>inc_circ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, let’s define an elliptical orbit with perigee at 500 km and apogee at 1500 km:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>r_p <span class="op">=</span> Earth.R <span class="op">+</span> <span class="dv">500</span> <span class="op">*</span> u.km  <span class="co"># Perigee</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>r_a <span class="op">=</span> Earth.R <span class="op">+</span> <span class="dv">1500</span> <span class="op">*</span> u.km <span class="co"># Apogee</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> (r_p <span class="op">+</span> r_a) <span class="op">/</span> <span class="dv">2</span>                     <span class="co"># Semi-major axis</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ecc <span class="op">=</span> (r_a <span class="op">-</span> r_p) <span class="op">/</span> (r_a <span class="op">+</span> r_p)        <span class="co"># Eccentricity</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>inc <span class="op">=</span> <span class="dv">60</span> <span class="op">*</span> u.deg                       <span class="co"># Inclination</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>raan <span class="op">=</span> <span class="dv">30</span> <span class="op">*</span> u.deg</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>argp <span class="op">=</span> <span class="dv">0</span> <span class="op">*</span> u.deg</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>nu <span class="op">=</span> <span class="dv">0</span> <span class="op">*</span> u.deg</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>orbit3 <span class="op">=</span> Orbit.from_classical(Earth, a, ecc, inc, raan, argp, nu)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note: You don’t need to provide epoch when creating orbits using classical elements — the default is J2000, the standard astronomical epoch corresponding to January 1, 2000, 12:00 TT.</p>
+<section id="a-note-on-units-and-u.one" class="level3">
+<h3 class="anchored" data-anchor-id="a-note-on-units-and-u.one">A Note on Units and <code>u.one</code></h3>
+<p>Poliastro uses Astropy Units to manage dimensions. That’s why you’ll often see values like:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ecc <span class="op">=</span> <span class="fl">0.1</span> <span class="op">*</span> u.one  <span class="co"># Eccentricity is dimensionless</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here, <code>u.one</code> is a special unit that denotes “dimensionless” quantities. This ensures compatibility with Astropy’s quantity system while preserving physical correctness.</p>
+</section>
+<section id="what-is-j2000" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-j2000">What is J2000?</h3>
+<p>J2000 refers to January 1, 2000, 12:00 TT (Terrestrial Time). It’s a standard epoch used in astronomy and orbital mechanics.</p>
+<p>In Poliastro, if you don’t specify an epoch, it defaults to J2000. Since Poliastro assumes perfect Keplerian motion (i.e., no perturbations), these orbits don’t change over time — so using J2000 as the default epoch is a safe baseline.</p>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>In this post, we learnt how to:</p>
+<ul>
+<li><p>Import and use Poliastro’s core modules</p></li>
+<li><p>Define orbits using state vectors or classical elements</p></li>
+<li><p>Handle physical units properly using Astropy</p></li>
+<li><p>Understand default behavior like epoch and dimensionless quantities</p></li>
+<li><p>In the next post, we’ll use StaticOrbitPlotter to visualize these orbits with Matplotlib.</p></li>
+</ul>
+<hr>
+<p><strong><em>AI Attribution:</em></strong> This post is the result of an ongoing collaboration between the author and AI. The code examples were generated by AI based on specific requests. The author asked many follow-up questions, made detailed notes, and shared key takeaways — which were then shaped into this post with help from AI. This is part of an ongoing experiment in human–AI collaboration for technical learning and writing.</p>
 
 
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="b3JiaXRhbCUyMG1lY2hhbmljcyUyQ3NjaWVudGlmaWMlMjBjb21wdXRpbmclMkNwb2xpYXN0cm8=" data-listing-date-sort="1751135400000" data-listing-file-modified-sort="1751199361568" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="731">
-<div class="thumbnail"><a href="./posts/poliastro_orbits/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/poliastro_orbits/index.html" class="no-external">Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/poliastro_orbits/index.html" class="no-external">Learn how to create circular and elliptical orbit objects in Python using Poliastro.</a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('b3JiaXRhbCUyMG1lY2hhbmljcw=='); return false;">orbital mechanics</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c2NpZW50aWZpYyUyMGNvbXB1dGluZw=='); return false;">scientific computing</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cG9saWFzdHJv'); return false;">poliastro</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/poliastro_orbits/index.html" class="no-external">
-<p>Learn how to create orbit objects in Poliastro using classical elements and state vectors — with beginner-friendly explanations of key concepts like epochs and astronomical units.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/poliastro_orbits/index.html" class="no-external">
-<div class="listing-date">
-Jun 29, 2025
-</div>
-<div class="listing-author">
-Madhukara S Putty
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="b3JiaXRhbCUyMG1lY2hhbmljcyUyQ3NjaWVudGlmaWMlMjBjb21wdXRpbmclMkNwb2xpYXN0cm8lMkNzaGVsbCUyMHNjcmlwdHM=" data-listing-date-sort="1750789800000" data-listing-file-modified-sort="1750811984872" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="754">
-<div class="thumbnail"><a href="./posts/install_poliastro/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/install_poliastro/index.html" class="no-external">Automating a Scientific Python Setup: A Gentle Walkthrough</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/install_poliastro/index.html" class="no-external">A shell script to set up poliastro and its dependencies</a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('b3JiaXRhbCUyMG1lY2hhbmljcw=='); return false;">orbital mechanics</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c2NpZW50aWZpYyUyMGNvbXB1dGluZw=='); return false;">scientific computing</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cG9saWFzdHJv'); return false;">poliastro</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c2hlbGwlMjBzY3JpcHRz'); return false;">shell scripts</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/install_poliastro/index.html" class="no-external">
-<p>The first in a series of posts on poliastro – a Python library for visualizing and analyzing orbits in Python.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/install_poliastro/index.html" class="no-external">
-<div class="listing-date">
-Jun 25, 2025
-</div>
-<div class="listing-author">
-Madhukara S Putty
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

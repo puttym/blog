@@ -1,0 +1,268 @@
+---
+title: "Visualizing Orbits with Poliastro — A Detailed Walkthrough"
+description: "A detailed guide to plotting orbits using Python"
+author: "Madhukara Putty"
+date: "2025-08-15"
+categories: [orbital mechanics, poliastro]
+---
+This post continues my series on poliastro, a modern Python library for orbital
+mechanics.
+
+If you’re new to poliastro, you may want to read these first:
+
+1. [Install poliastro](https://puttym.github.io/blog/posts/install_poliastro/)
+2. [Specify orbits in poliastro](https://puttym.github.io/blog/posts/poliastro_orbits/)
+
+In this article, I’ll dissect a compact program that plots an orbit and marks
+the spacecraft’s current position. The focus is on what each line does and why
+it’s written that way.
+
+## The Code
+```python
+import matplotlib.pyplot as plt
+from astropy import units as u
+from poliastro.bodies import Earth
+from poliastro.twobody import Orbit
+from poliastro.plotting.static import StaticOrbitPlotter
+
+def plot_and_save(orbit, filename, options=None):
+    if options is None:
+        options = {}
+
+    fig, ax = plt.subplots()
+    plotter = StaticOrbitPlotter(ax)
+    plotter.plot(orbit)
+
+    # Marker at current position
+    marker_color = options.get("marker_color", "ro")
+    ax.plot(*orbit.r.to(u.km).value[:2], marker_color)
+
+    # Title and styling
+    ax.set_title(options.get("title", "Orbit Plot"))
+    if not options.get("show_legend", False):
+        ax.legend().remove()
+    if not options.get("show_grid", False):
+        ax.grid(False)
+    ax.set_facecolor(options.get("background", "white"))
+
+    fig.savefig(filename, dpi=options.get("dpi", 300), bbox_inches="tight")
+    plt.close(fig)
+```
+
+## Imports: What we’re bringing in (and why)
+```python
+import matplotlib.pyplot as plt
+```
+* Matplotlib is the plotting workhorse. We use it to create the figure/axes and to save the image.
+
+```python
+from astropy import units as u
+```
+* ```units``` comes from Astropy and is central to scientific correctness.
+
+* Any physical value (like position, velocity) can be a ```Quantity```: a number
+* with units attached (e.g., kilometers, meters per second).
+
+* Using ```Quantity``` lets the library enforce unit consistency and convert units safely.
+
+```python
+from poliastro.bodies import Earth
+from poliastro.twobody import Orbit
+from poliastro.plotting.static import StaticOrbitPlotter
+```
+* ```Earth``` is a predefined body with constants you’d expect (e.g., μ).
+
+* ```Orbit``` is the class that represents an orbit, either from classical elements or from a state vector.
+
+* ```StaticOrbitPlotter``` handles drawing the orbit on a Matplotlib axes (2D static view).
+
+## Function signature and the “mutable default” pattern
+```python
+def plot_and_save(orbit, filename, options=None):
+    if options is None:
+        options = {}
+```
+
+* Parameters:
+    - ```orbit```: a ```poliastro.twobody.Orbit``` instance (already created elsewhere).
+    - ```filename```: output path for the saved image.
+    - ```options```: a dictionary for styling and toggles (e.g., title, legend, grid).
+
+* Why ```options=None```, and  then ```options = {}```? \
+In Python, using a mutable value (like ```{}```) as a default argument can lead
+to surprising behavior because the same object is reused across calls. Setting
+the default to None and creating a new dict inside the function avoids that
+whole class of bugs. This is a **best practice**.
+
+## Creating the figure and the orbit plotter
+```python
+fig, ax = plt.subplots()
+plotter = StaticOrbitPlotter(ax)
+plotter.plot(orbit)
+```
+* ```plt.subplots()``` returns a Figure (the overall canvas) and an Axes (a plotting
+region). You can have multiple axes on a single figure; think “subplots on one
+canvas”.
+* ```StaticOrbitPlotter(ax)``` binds the plotter to our axes.
+* ```plotter.plot(orbit)``` draws the orbit curve on the axes (the trajectory).
+
+## Marking the current position
+```python
+marker_color = options.get("marker_color", "ro")
+ax.plot(*orbit.r.to(u.km).value[:2], marker_color)
+```
+```options.get("marker_color", "ro")```
+
+* ```.get(key, default)``` looks up a key in a dict and returns the value if
+present, otherwise the provided default.
+
+* Here, if the user doesn’t pass a ```marker_color``` option, we default to
+ ```ro``` (Matplotlib shorthand for red o-marker).
+
+### What is ```orbit.r```?
+
+* ```orbit.r``` is an instance of ```Quantity``` class defined in Astropy —
+specifically, a 3-component position vector with units (e.g., [x, y, z] in
+kilometers or meters).
+
+* Being a ```Quantity``` means unit conversions and consistency checks are handled
+for you.
+
+```.to(u.km)```
+
+* Converts the ```Quantity``` to kilometers.
+
+* If the vector is already in km, it’s effectively a no-op; if not, it’s converted safely.
+
+```.value```
+
+* On an ```astropy.units.Quantity```, ```.value``` removes the units and returns a
+plain NumPy array.  Here, after ```.to(u.km)```, you get something like
+```array([x_km, y_km, z_km])```.
+
+```[:2]```
+
+* We’re drawing a 2D projection (x–y plane). ```[:2]``` slices the first two
+components (x and y), ignoring z.
+
+```*``` (argument unpacking)
+
+* ```ax.plot``` wants x, y as two separate arguments.
+
+* We currently have an array of two numbers. The ```*``` operator unpacks that
+ array, so the call becomes ```ax.plot(x, y, marker_color)``` rather than
+ ```ax.plot([x, y], marker_color)```.
+
+Result: a marker is placed at the satellite’s current position on the plotted
+trajectory.
+
+## Title and styling
+
+```python
+ax.set_title(options.get("title", "Orbit Plot"))
+
+if not options.get("show_legend", False):
+    ax.legend().remove()
+
+if not options.get("show_grid", False):
+    ax.grid(False)
+
+ax.set_facecolor(options.get("background", "white"))
+```
+
+```options.get("show_legend", False)```
+
+* Looks up ```show_legend``` in ```options```.
+
+* If missing, it defaults to ```False```.
+
+### Understanding ```if not``` … precisely
+
+* The ```if``` statement expects a Boolean.
+
+* ```not``` flips it: ```not True → False```, ```not False → True```.
+
+Let’s enumerate the cases for the legend:
+
+### Case 1: ```show_legend = True```
+
+* ```options.get("show_legend", False)``` → ```True```
+
+* ```if not True``` → ```if False``` → block is skipped
+
+* No removal → the legend stays.
+
+### Case 2: ```show_legend = False```
+
+* ```options.get("show_legend", False)``` → ```False```
+
+* ```if not False``` → ```if True``` → block runs
+
+* ```ax.legend().remove()``` → the legend is removed.
+
+### Case 3: ```show_legend``` missing
+
+* ```options.get("show_legend", False)``` → default False
+
+* Same as Case 2 → legend is removed.
+
+## Saving the figure and cleaning up
+```python
+fig.savefig(filename, dpi=options.get("dpi", 300), bbox_inches="tight")
+plt.close(fig)
+```
+* ```dpi```: output resolution. 300 is a good default for documents.
+
+* ```bbox_inches="tight"```: trims extra whitespace around the figure.
+
+* ```plt.close(fig)```: frees memory (important if you batch-generate many plots).
+
+## Minimal working examples
+```python
+from astropy import units as u
+from poliastro.bodies import Earth
+from poliastro.twobody import Orbit
+from astropy.time import Time
+
+# Example: circular-ish LEO from classical elements
+epoch = Time("2025-08-01 00:00:00", scale="utc")
+a = (Earth.R.to(u.km) + 500 * u.km)             # semi-major axis: Earth radius + 500 km
+ecc = 0.001 * u.one
+inc = 51.6 * u.deg
+raan = 40.0 * u.deg
+argp = 0.0 * u.deg
+nu = 0.0 * u.deg
+
+leo = Orbit.from_classical(Earth, a, ecc, inc, raan, argp, nu, epoch=epoch)
+
+options = {
+    "title": "LEO ~500 km (x–y projection)",
+    "marker_color": "bo",       # blue circle
+    "show_legend": False,
+    "show_grid": True,
+    "background": "white",
+    "dpi": 300
+}
+
+plot_and_save(leo, "leo_xy.png", options)
+```
+
+If you instead have a state vector (r, v) at an epoch:
+```python
+r = [7000, 0, 0] * u.km
+v = [0, 7.5, 1] * (u.km / u.s)
+state_orbit = Orbit.from_vectors(Earth, r, v, epoch=epoch)
+plot_and_save(state_orbit, "state_xy.png", options)
+```
+
+## Conclusion
+Poliastro is a fantastic tool for visualizing satellite orbits. In this post, we
+not only plotted orbits but also found opportunities to work with Python
+dictionaries and touch on a few other programming concepts along the way.
+
+***AI Attribution:***
+This post came together over a week-long conversation with AI. I started by
+asking it to write code, making sure dictionaries were included where they made
+sense. As we went along, I asked plenty of follow-up questions, took detailed
+notes, and eventually handed those notes back to the AI to shape into the post
+you’ve just read.

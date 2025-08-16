@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Sea of Tranquillity"
+  title: "Learning with AI"
   navbar:
     right:
       - about.qmd

@@ -109,6 +109,97 @@
     "href": "index.html",
     "title": "All articles",
     "section": "",
-    "text": "Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects\n\n\nLearn how to create circular and elliptical orbit objects in Python using Poliastro.\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\n\n\nLearn how to create orbit objects in Poliastro using classical elements and state vectors — with beginner-friendly explanations of key concepts like epochs and astronomical units.\n\n\n\n\n\nJun 29, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\n\n\n\n\n\n\n\nAutomating a Scientific Python Setup: A Gentle Walkthrough\n\n\nA shell script to set up poliastro and its dependencies\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\nshell scripts\n\n\n\nThe first in a series of posts on poliastro – a Python library for visualizing and analyzing orbits in Python.\n\n\n\n\n\nJun 25, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\nNo matching items"
+    "text": "Visualizing Orbits with Poliastro — A Detailed Walkthrough\n\n\n\n\n\n\norbital mechanics\n\npoliastro\n\n\n\nA detailed guide to plotting orbits using Python\n\n\n\n\n\nAug 15, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nIs the satellite moving away from perigee?\n\n\nSome subtitle\n\n\n\norbital mechanics\n\n\n\nSome description\n\n\n\n\n\nJul 13, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nVisualizing Orbits with Poliastro – Part 1: Creating Orbit Objects\n\n\nLearn how to create circular and elliptical orbit objects in Python using Poliastro.\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\n\n\nLearn how to create orbit objects in Poliastro using classical elements and state vectors — with beginner-friendly explanations of key concepts like epochs and astronomical units.\n\n\n\n\n\nJun 29, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\n\n\n\n\n\n\n\nAutomating a Scientific Python Setup: A Gentle Walkthrough\n\n\nA shell script to set up poliastro and its dependencies\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\nshell scripts\n\n\n\nThe first in a series of posts on poliastro – a Python library for visualizing and analyzing orbits in Python.\n\n\n\n\n\nJun 25, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/position_vel_angle/index.html",
+    "href": "posts/position_vel_angle/index.html",
+    "title": "Is the satellite moving away from perigee?",
+    "section": "",
+    "text": "Consider a satellite in an elliptical orbit with eccentricity \\(e\\). Let \\(\\theta\\) be its true anomaly at any time \\(t\\). Then the angle \\(\\psi\\) between the position and velocity vectors of the satellite is given by:\n\\[\n\\psi = \\cos^{-1} \\left( \\frac{e \\sin \\theta}{\\sqrt{1 + 2e \\cos \\theta + e^2}} \\right)\n\\] {#eq-pos-vel-ang}\nThis relationship makes physical sense only if the denominator is positive. If it equals zero, the term inside the cosine function diverges, which is invalid. If it becomes negative, the expression under the square root turns imaginary. Since \\(\\psi\\) is a real-valued angle, the expression must remain real and finite.\nLet:\n\\[\ng(e) = 1 + 2e\\cos\\theta + e^2\n\\]\nWe want to verify whether \\(g(e) &gt; 0\\) for all \\(\\theta\\) and all elliptical values \\(e \\in (0, 1)\\).\nThe minimum value of \\(2e\\cos\\theta\\) is \\(-2e\\). So the minimum possible value of \\(g(e)\\) is:\n\\[\ng(e) = 1 + e^2 - 2e\n\\]\nLet:\n\\[\nf(e) = e^2 - 2e\n\\]\nWe want to show that:\n\\[\nf(e) &lt; 1 \\quad \\text{for all } e \\in (0,1)\n\\]\nTo understand how \\(f(e)\\) behaves, consider its first derivative:\n\\[\nf'(e) = 2e - 2 = 2(e - 1)\n\\]\nSince \\(e &lt; 1\\), we have \\(f'(e) &lt; 0\\), so \\(f(e)\\) is strictly decreasing on \\((0, 1)\\). That is, as \\(e\\) increases, \\(f(e)\\) decreases.\nNow evaluate the limiting values of \\(f(e)\\):\n\nAs \\(e \\to 0^+\\):\n\n\\[\n\\lim_{e \\to 0^+} f(e) = 0\n\\]\n\nAs \\(e \\to 1^-\\):\n\n\\[\n\\lim_{e \\to 1^-} f(e) = -1\n\\]\nThus:\n\\[\n-1 &lt; f(e) &lt; 0 \\quad \\text{for all } e \\in (0, 1)\n\\]\nTherefore:\n\\[\n1 + e^2 - 2e &gt; 0\n\\quad \\Rightarrow \\quad\ng(e) = 1 + 2e\\cos\\theta + e^2 &gt; 0\n\\]\nSo the expression inside the square root in ?@eq-pos-vel-ang is always positive for elliptical orbits, ensuring the term inside the cosine is always real and within the valid domain \\([-1, 1]\\)."
+  },
+  {
+    "objectID": "posts/position_vel_angle/index.html#angle-between-position-and-velocity-vectors-in-elliptical-motion",
+    "href": "posts/position_vel_angle/index.html#angle-between-position-and-velocity-vectors-in-elliptical-motion",
+    "title": "Is the satellite moving away from perigee?",
+    "section": "",
+    "text": "Consider a satellite in an elliptical orbit with eccentricity \\(e\\). Let \\(\\theta\\) be its true anomaly at any time \\(t\\). Then the angle \\(\\psi\\) between the position and velocity vectors of the satellite is given by:\n\\[\n\\psi = \\cos^{-1} \\left( \\frac{e \\sin \\theta}{\\sqrt{1 + 2e \\cos \\theta + e^2}} \\right)\n\\] {#eq-pos-vel-ang}\nThis relationship makes physical sense only if the denominator is positive. If it equals zero, the term inside the cosine function diverges, which is invalid. If it becomes negative, the expression under the square root turns imaginary. Since \\(\\psi\\) is a real-valued angle, the expression must remain real and finite.\nLet:\n\\[\ng(e) = 1 + 2e\\cos\\theta + e^2\n\\]\nWe want to verify whether \\(g(e) &gt; 0\\) for all \\(\\theta\\) and all elliptical values \\(e \\in (0, 1)\\).\nThe minimum value of \\(2e\\cos\\theta\\) is \\(-2e\\). So the minimum possible value of \\(g(e)\\) is:\n\\[\ng(e) = 1 + e^2 - 2e\n\\]\nLet:\n\\[\nf(e) = e^2 - 2e\n\\]\nWe want to show that:\n\\[\nf(e) &lt; 1 \\quad \\text{for all } e \\in (0,1)\n\\]\nTo understand how \\(f(e)\\) behaves, consider its first derivative:\n\\[\nf'(e) = 2e - 2 = 2(e - 1)\n\\]\nSince \\(e &lt; 1\\), we have \\(f'(e) &lt; 0\\), so \\(f(e)\\) is strictly decreasing on \\((0, 1)\\). That is, as \\(e\\) increases, \\(f(e)\\) decreases.\nNow evaluate the limiting values of \\(f(e)\\):\n\nAs \\(e \\to 0^+\\):\n\n\\[\n\\lim_{e \\to 0^+} f(e) = 0\n\\]\n\nAs \\(e \\to 1^-\\):\n\n\\[\n\\lim_{e \\to 1^-} f(e) = -1\n\\]\nThus:\n\\[\n-1 &lt; f(e) &lt; 0 \\quad \\text{for all } e \\in (0, 1)\n\\]\nTherefore:\n\\[\n1 + e^2 - 2e &gt; 0\n\\quad \\Rightarrow \\quad\ng(e) = 1 + 2e\\cos\\theta + e^2 &gt; 0\n\\]\nSo the expression inside the square root in ?@eq-pos-vel-ang is always positive for elliptical orbits, ensuring the term inside the cosine is always real and within the valid domain \\([-1, 1]\\)."
+  },
+  {
+    "objectID": "posts/position_vel_angle/index.html#interpretation-of-sign",
+    "href": "posts/position_vel_angle/index.html#interpretation-of-sign",
+    "title": "Is the satellite moving away from perigee?",
+    "section": "Interpretation of Sign",
+    "text": "Interpretation of Sign\nThe sign of the term inside the cosine depends on the numerator \\(e \\sin\\theta\\):\n\nWhen \\(0^\\circ &lt; \\theta &lt; 180^\\circ\\), \\(\\sin\\theta &gt; 0\\), so the term inside the cosine is positive, and \\(0^\\circ &lt; \\psi &lt; 90^\\circ\\).\nWhen \\(180^\\circ &lt; \\theta &lt; 360^\\circ\\), \\(\\sin\\theta &lt; 0\\), so the term is negative, and \\(90^\\circ &lt; \\psi &lt; 180^\\circ\\).\n\nBut remember: \\(\\psi\\) is the angle between two real vectors in space, so it must lie between \\(0^\\circ\\) and \\(180^\\circ\\). The arccos function always returns an angle in this range, and the value of \\(\\vec{r} \\cdot \\vec{v}\\) gives additional insight:\n\nIf \\(\\vec{r} \\cdot \\vec{v} &gt; 0\\), then \\(\\psi &lt; 90^\\circ\\) → the satellite is moving away from the perigee.\nIf \\(\\vec{r} \\cdot \\vec{v} &lt; 0\\), then \\(\\psi &gt; 90^\\circ\\) → the satellite is moving toward the perigee.\n\nTherefore:\n\nWhen \\(0^\\circ &lt; \\theta &lt; 180^\\circ\\): the satellite is moving away from perigee.\nWhen \\(180^\\circ &lt; \\theta &lt; 360^\\circ\\): the satellite is moving toward perigee."
+  },
+  {
+    "objectID": "posts/poliastro_plot_orbits/index.html",
+    "href": "posts/poliastro_plot_orbits/index.html",
+    "title": "Visualizing Orbits with Poliastro — A Detailed Walkthrough",
+    "section": "",
+    "text": "This post continues my series on poliastro, a modern Python library for orbital mechanics.\nIf you’re new to poliastro, you may want to read these first:\nIn this article, I’ll dissect a compact program that plots an orbit and marks the spacecraft’s current position. The focus is on what each line does and why it’s written that way."
+  },
+  {
+    "objectID": "posts/poliastro_plot_orbits/index.html#the-code",
+    "href": "posts/poliastro_plot_orbits/index.html#the-code",
+    "title": "Visualizing Orbits with Poliastro — A Detailed Walkthrough",
+    "section": "The Code",
+    "text": "The Code\nimport matplotlib.pyplot as plt\nfrom astropy import units as u\nfrom poliastro.bodies import Earth\nfrom poliastro.twobody import Orbit\nfrom poliastro.plotting.static import StaticOrbitPlotter\n\ndef plot_and_save(orbit, filename, options=None):\n    if options is None:\n        options = {}\n\n    fig, ax = plt.subplots()\n    plotter = StaticOrbitPlotter(ax)\n    plotter.plot(orbit)\n\n    # Marker at current position\n    marker_color = options.get(\"marker_color\", \"ro\")\n    ax.plot(*orbit.r.to(u.km).value[:2], marker_color)\n\n    # Title and styling\n    ax.set_title(options.get(\"title\", \"Orbit Plot\"))\n    if not options.get(\"show_legend\", False):\n        ax.legend().remove()\n    if not options.get(\"show_grid\", False):\n        ax.grid(False)\n    ax.set_facecolor(options.get(\"background\", \"white\"))\n\n    fig.savefig(filename, dpi=options.get(\"dpi\", 300), bbox_inches=\"tight\")\n    plt.close(fig)"
+  },
+  {
+    "objectID": "posts/poliastro_plot_orbits/index.html#imports-what-were-bringing-in-and-why",
+    "href": "posts/poliastro_plot_orbits/index.html#imports-what-were-bringing-in-and-why",
+    "title": "Visualizing Orbits with Poliastro — A Detailed Walkthrough",
+    "section": "Imports: What we’re bringing in (and why)",
+    "text": "Imports: What we’re bringing in (and why)\nimport matplotlib.pyplot as plt\n\nMatplotlib is the plotting workhorse. We use it to create the figure/axes and to save the image.\n\nfrom astropy import units as u\n\nunits comes from Astropy and is central to scientific correctness.\nAny physical value (like position, velocity) can be a Quantity: a number\nwith units attached (e.g., kilometers, meters per second).\nUsing Quantity lets the library enforce unit consistency and convert units safely.\n\nfrom poliastro.bodies import Earth\nfrom poliastro.twobody import Orbit\nfrom poliastro.plotting.static import StaticOrbitPlotter\n\nEarth is a predefined body with constants you’d expect (e.g., μ).\nOrbit is the class that represents an orbit, either from classical elements or from a state vector.\nStaticOrbitPlotter handles drawing the orbit on a Matplotlib axes (2D static view)."
+  },
+  {
+    "objectID": "posts/poliastro_plot_orbits/index.html#function-signature-and-the-mutable-default-pattern",
+    "href": "posts/poliastro_plot_orbits/index.html#function-signature-and-the-mutable-default-pattern",
+    "title": "Visualizing Orbits with Poliastro — A Detailed Walkthrough",
+    "section": "Function signature and the “mutable default” pattern",
+    "text": "Function signature and the “mutable default” pattern\ndef plot_and_save(orbit, filename, options=None):\n    if options is None:\n        options = {}\n\nParameters:\n\norbit: a poliastro.twobody.Orbit instance (already created elsewhere).\nfilename: output path for the saved image.\noptions: a dictionary for styling and toggles (e.g., title, legend, grid).\n\nWhy options=None, and then options = {}?\nIn Python, using a mutable value (like {}) as a default argument can lead to surprising behavior because the same object is reused across calls. Setting the default to None and creating a new dict inside the function avoids that whole class of bugs. This is a best practice."
+  },
+  {
+    "objectID": "posts/poliastro_plot_orbits/index.html#creating-the-figure-and-the-orbit-plotter",
+    "href": "posts/poliastro_plot_orbits/index.html#creating-the-figure-and-the-orbit-plotter",
+    "title": "Visualizing Orbits with Poliastro — A Detailed Walkthrough",
+    "section": "Creating the figure and the orbit plotter",
+    "text": "Creating the figure and the orbit plotter\nfig, ax = plt.subplots()\nplotter = StaticOrbitPlotter(ax)\nplotter.plot(orbit)\n\nplt.subplots() returns a Figure (the overall canvas) and an Axes (a plotting region). You can have multiple axes on a single figure; think “subplots on one canvas”.\nStaticOrbitPlotter(ax) binds the plotter to our axes.\nplotter.plot(orbit) draws the orbit curve on the axes (the trajectory)."
+  },
+  {
+    "objectID": "posts/poliastro_plot_orbits/index.html#marking-the-current-position",
+    "href": "posts/poliastro_plot_orbits/index.html#marking-the-current-position",
+    "title": "Visualizing Orbits with Poliastro — A Detailed Walkthrough",
+    "section": "Marking the current position",
+    "text": "Marking the current position\nmarker_color = options.get(\"marker_color\", \"ro\")\nax.plot(*orbit.r.to(u.km).value[:2], marker_color)\noptions.get(\"marker_color\", \"ro\")\n\n.get(key, default) looks up a key in a dict and returns the value if present, otherwise the provided default.\nHere, if the user doesn’t pass a marker_color option, we default to ro (Matplotlib shorthand for red o-marker).\n\n\nWhat is orbit.r?\n\norbit.r is an instance of Quantity class defined in Astropy — specifically, a 3-component position vector with units (e.g., [x, y, z] in kilometers or meters).\nBeing a Quantity means unit conversions and consistency checks are handled for you.\n\n.to(u.km)\n\nConverts the Quantity to kilometers.\nIf the vector is already in km, it’s effectively a no-op; if not, it’s converted safely.\n\n.value\n\nOn an astropy.units.Quantity, .value removes the units and returns a plain NumPy array. Here, after .to(u.km), you get something like array([x_km, y_km, z_km]).\n\n[:2]\n\nWe’re drawing a 2D projection (x–y plane). [:2] slices the first two components (x and y), ignoring z.\n\n* (argument unpacking)\n\nax.plot wants x, y as two separate arguments.\nWe currently have an array of two numbers. The * operator unpacks that array, so the call becomes ax.plot(x, y, marker_color) rather than ax.plot([x, y], marker_color).\n\nResult: a marker is placed at the satellite’s current position on the plotted trajectory."
+  },
+  {
+    "objectID": "posts/poliastro_plot_orbits/index.html#title-and-styling",
+    "href": "posts/poliastro_plot_orbits/index.html#title-and-styling",
+    "title": "Visualizing Orbits with Poliastro — A Detailed Walkthrough",
+    "section": "Title and styling",
+    "text": "Title and styling\nax.set_title(options.get(\"title\", \"Orbit Plot\"))\n\nif not options.get(\"show_legend\", False):\n    ax.legend().remove()\n\nif not options.get(\"show_grid\", False):\n    ax.grid(False)\n\nax.set_facecolor(options.get(\"background\", \"white\"))\noptions.get(\"show_legend\", False)\n\nLooks up show_legend in options.\nIf missing, it defaults to False.\n\n\nUnderstanding if not … precisely\n\nThe if statement expects a Boolean.\nnot flips it: not True → False, not False → True.\n\nLet’s enumerate the cases for the legend:\n\n\nCase 1: show_legend = True\n\noptions.get(\"show_legend\", False) → True\nif not True → if False → block is skipped\nNo removal → the legend stays.\n\n\n\nCase 2: show_legend = False\n\noptions.get(\"show_legend\", False) → False\nif not False → if True → block runs\nax.legend().remove() → the legend is removed.\n\n\n\nCase 3: show_legend missing\n\noptions.get(\"show_legend\", False) → default False\nSame as Case 2 → legend is removed."
+  },
+  {
+    "objectID": "posts/poliastro_plot_orbits/index.html#saving-the-figure-and-cleaning-up",
+    "href": "posts/poliastro_plot_orbits/index.html#saving-the-figure-and-cleaning-up",
+    "title": "Visualizing Orbits with Poliastro — A Detailed Walkthrough",
+    "section": "Saving the figure and cleaning up",
+    "text": "Saving the figure and cleaning up\nfig.savefig(filename, dpi=options.get(\"dpi\", 300), bbox_inches=\"tight\")\nplt.close(fig)\n\ndpi: output resolution. 300 is a good default for documents.\nbbox_inches=\"tight\": trims extra whitespace around the figure.\nplt.close(fig): frees memory (important if you batch-generate many plots)."
+  },
+  {
+    "objectID": "posts/poliastro_plot_orbits/index.html#minimal-working-examples",
+    "href": "posts/poliastro_plot_orbits/index.html#minimal-working-examples",
+    "title": "Visualizing Orbits with Poliastro — A Detailed Walkthrough",
+    "section": "Minimal working examples",
+    "text": "Minimal working examples\nfrom astropy import units as u\nfrom poliastro.bodies import Earth\nfrom poliastro.twobody import Orbit\nfrom astropy.time import Time\n\n# Example: circular-ish LEO from classical elements\nepoch = Time(\"2025-08-01 00:00:00\", scale=\"utc\")\na = (Earth.R.to(u.km) + 500 * u.km)             # semi-major axis: Earth radius + 500 km\necc = 0.001 * u.one\ninc = 51.6 * u.deg\nraan = 40.0 * u.deg\nargp = 0.0 * u.deg\nnu = 0.0 * u.deg\n\nleo = Orbit.from_classical(Earth, a, ecc, inc, raan, argp, nu, epoch=epoch)\n\noptions = {\n    \"title\": \"LEO ~500 km (x–y projection)\",\n    \"marker_color\": \"bo\",       # blue circle\n    \"show_legend\": False,\n    \"show_grid\": True,\n    \"background\": \"white\",\n    \"dpi\": 300\n}\n\nplot_and_save(leo, \"leo_xy.png\", options)\nIf you instead have a state vector (r, v) at an epoch:\nr = [7000, 0, 0] * u.km\nv = [0, 7.5, 1] * (u.km / u.s)\nstate_orbit = Orbit.from_vectors(Earth, r, v, epoch=epoch)\nplot_and_save(state_orbit, \"state_xy.png\", options)"
+  },
+  {
+    "objectID": "posts/poliastro_plot_orbits/index.html#conclusion",
+    "href": "posts/poliastro_plot_orbits/index.html#conclusion",
+    "title": "Visualizing Orbits with Poliastro — A Detailed Walkthrough",
+    "section": "Conclusion",
+    "text": "Conclusion\nPoliastro is a fantastic tool for visualizing satellite orbits. In this post, we not only plotted orbits but also found opportunities to work with Python dictionaries and touch on a few other programming concepts along the way.\nAI Attribution: This post came together over a week-long conversation with AI. I started by asking it to write code, making sure dictionaries were included where they made sense. As we went along, I asked plenty of follow-up questions, took detailed notes, and eventually handed those notes back to the AI to shape into the post you’ve just read."
   }
 ]

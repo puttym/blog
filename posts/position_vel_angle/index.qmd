@@ -1,0 +1,160 @@
+---
+title: "What the Radius–Velocity Angle Reveals About Orbit Direction"
+subtitle: "A geometric shortcut for interpreting orbital motion."
+description: "A geometric look at how the dot product of radius and velocity vectors reveals whether a satellite is moving toward or away from perigee."
+author: "Madhukara Putty"
+date: "2025-08-23"
+categories: [orbital mechanics]
+---
+
+## Goal
+
+We want a clear, intuitive answer to: *given the true anomaly $\theta$, how can we tell from the geometry whether a satellite in an elliptical orbit is moving toward perigee or away from it?*  
+We will first give a short, intuitive argument (no heavy algebra), then derive an explicit formula for the angle $\psi$ between the position vector $\mathbf{r}$ and velocity vector $\mathbf{v}$.
+
+
+## Quick, intuitive argument (sign of radial velocity)
+
+Decompose the velocity into radial and transverse components:
+$$
+\mathbf{v} = v_r\,\hat{\mathbf r} + v_\theta\,\hat{\boldsymbol\theta}.
+$$ {#eq-v-decomp}
+
+The cosine of the angle $\psi$ between $\mathbf r$ and $\mathbf v$ is
+$$
+\cos\psi = \frac{\mathbf r\cdot\mathbf v}{r\,v} = \frac{r v_r}{r v} = \frac{v_r}{v},
+$$ {#eq-cospsi-vr-over-v}
+so the **sign of $v_r$ alone** determines whether $\psi$ is less than or greater than $90^\circ$.
+
+The radial component of velocity is simply $\dot{r}$ — the time rate of change
+of the satellite’s distance from Earth.  
+
+- When the satellite moves **away from perigee** (the closest point), its
+distance from Earth is **growing** until it reaches a maximum at apogee.  In
+this phase, $\dot{r} > 0$, so the radial velocity $v_r$ is positive.  
+
+- When the satellite moves **back toward perigee**, its distance is
+**shrinking** until it reaches a minimum again at perigee.  Here, $\dot{r} < 0$, 
+so $v_r$ is negative.  
+
+We can now conclude:  
+
+- If $v_r > 0$, then $\cos \psi > 0 \;\Rightarrow\; \psi < 90^\circ$.  In this 
+case, the velocity has a **growing radial component**, meaning the satellite is 
+moving **away from perigee** toward apogee.  
+
+- If $v_r < 0$, then $\cos \psi < 0 \;\Rightarrow\; \psi > 90^\circ$. Here, the 
+velocity has a **shrinking radial component**, meaning the satellite is moving 
+**back toward perigee** from apogee. 
+
+Thus, a quick test for "toward/away" is simply the sign of $v_r$.
+
+
+## Full derivation: express $\cos\psi$ in terms of $e$ and $\theta$
+
+Below we derive an explicit relation $\cos\psi=\cos\psi(\theta)$ so a reader can compute $\psi$ (not only its sign).
+
+### Orbit geometry
+The orbit in polar coordinates (focus at origin) is
+$$
+r(\theta) = \frac{p}{1 + e\cos\theta}, \qquad p = a(1-e^2), \quad 0<e<1.
+$$ {#eq-r-of-theta}
+
+### Radial velocity via the chain rule
+Because $r=r(\theta(t))$,
+$$
+v_r \equiv \dot r = \frac{dr}{dt} = \frac{dr}{d\theta}\,\dot\theta.
+$$ {#eq-vr-chain}
+
+Differentiate $r(\theta)$ with respect to $\theta$:
+$$
+\frac{dr}{d\theta}
+= \frac{d}{d\theta}\!\left(\frac{p}{1+e\cos\theta}\right)
+= \frac{p\,e\sin\theta}{(1+e\cos\theta)^2}.
+$$ {#eq-dr-dtheta}
+
+Specific angular momentum gives
+$$
+h = r^2\dot\theta = \sqrt{\mu p},
+$$ {#eq-h}
+so $\dot\theta = h/r^2$. Using $r=\dfrac{p}{1+e\cos\theta}$ and substituting into @eq-vr-chain:
+$$
+\begin{aligned}
+v_r
+&= \frac{p\,e\sin\theta}{(1+e\cos\theta)^2}\cdot\frac{h}{r^2} \\
+&= \frac{p\,e\sin\theta}{(1+e\cos\theta)^2}\cdot\frac{h(1+e\cos\theta)^2}{p^2} \\
+&= \frac{h}{p}\,e\sin\theta
+= \sqrt{\frac{\mu}{p}}\,e\sin\theta.
+\end{aligned}
+$$ {#eq-vr}
+
+### Transverse component and speed
+From $h = r v_\theta$,
+$$
+v_\theta = \frac{h}{r} = \sqrt{\frac{\mu}{p}}\,(1+e\cos\theta).
+$$ {#eq-vtheta}
+
+Then the speed is
+$$
+\begin{aligned}
+v &= \sqrt{v_r^2 + v_\theta^2} \\
+&= \sqrt{\frac{\mu}{p}\Big(e^2\sin^2\theta + (1+e\cos\theta)^2\Big)} \\
+&= \sqrt{\frac{\mu}{p}}\sqrt{1 + 2e\cos\theta + e^2}.
+\end{aligned}
+$$ {#eq-speed}
+
+### Final formula for $\cos\psi$
+Using @eq-cospsi-vr-over-v, @eq-vr and @eq-speed we get
+$$
+\boxed{%
+\cos\psi(\theta) = \frac{e\sin\theta}{\sqrt{\,1 + 2e\cos\theta + e^2\,}}%
+}
+$$ {#eq-cospsi-final}
+
+
+## Why the denominator is always positive (ellipses)
+
+The term under the square root can be rearranged as
+$$
+1 + 2e\cos\theta + e^2 = (1+e\cos\theta)^2 + e^2\sin^2\theta,
+$$ {#eq-denom-rewrite}
+which is a sum of two non-negative terms. For $0<e<1$ there is no $\theta$ making both terms zero simultaneously (that would require $\cos\theta=-1/e$, impossible). Hence the denominator in @eq-cospsi-final is strictly positive for elliptic orbits.
+
+As a simple check, at $\theta=\pi$ the expression becomes $(1-e)^2>0$.
+
+
+## Conclusion
+
+We can now conclude the following.  
+Since the velocity vector in an elliptical orbit always has a tangential component, the angle $\psi$ between $\mathbf{r}$ and $\mathbf{v}$ is restricted to the physically meaningful range
+
+$$
+0^\circ < \psi < 180^\circ.
+$$
+
+The endpoints are excluded, because $\psi = 0^\circ$ or $180^\circ$ would imply
+purely radial motion, which is impossible in a bound Keplerian orbit.
+
+Within this range:
+
+- If $v_r > 0$, then $\cos\psi > 0 \;\;\Rightarrow\;\; \psi < 90^\circ$  (velocity 
+has a **growing** radial component → satellite moving **away** from perigee).  
+
+- If $v_r < 0$, then $\cos\psi < 0 \;\;\Rightarrow\;\; \psi > 90^\circ$  (velocity 
+has a **shrinking** radial component → satellite moving **toward** perigee).
+
+We can express this in terms of dot product of the radius and velocity vectors:
+
+$$
+\mathbf{r}\cdot\mathbf{v} = r v \cos \psi
+$$
+
+Since $r>0$ and $v>0$, the sign of $\mathbf{r}\cdot\mathbf{v}$ is determined entirely by $\cos\psi$:
+
+- If $\mathbf{r}\cdot\mathbf{v} > 0$, then $0^\circ < \psi < 90^\circ$ (satellite is moving **away** from perigee).  
+
+- If $\mathbf{r}\cdot\mathbf{v} < 0$, then $90^\circ < \psi < 180^\circ$ (satellite is moving **toward** perigee).  
+
+---
+***AI Attribution:***
+Textbooks often state that the dot product of the radius and velocity vectors indicates the direction of a satellite’s motion, but they rarely explain the reasoning in detail. I explored this idea in depth through a long conversation with AI, making detailed notes along the way. The first draft of this post grew out of those notes, and I refined it further with AI’s help.

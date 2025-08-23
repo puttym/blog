@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Madhukara Putty">
+<meta name="dcterms.date" content="2025-08-23">
+<meta name="description" content="A geometric look at how the dot product of radius and velocity vectors reveals whether a satellite is moving toward or away from perigee.">
 
-<title>All articles – Learning with AI</title>
+<title>What the Radius–Velocity Angle Reveals About Orbit Direction – Learning with AI</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,25 +26,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,35 +70,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-subtitle','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -129,17 +101,17 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Learning with AI</span>
     </a>
   </div>
@@ -150,7 +122,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
@@ -173,219 +145,166 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">All articles</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">What the Radius–Velocity Angle Reveals About Orbit Direction</h1>
+            <p class="subtitle lead">A geometric shortcut for interpreting orbital motion.</p>
+                  <div>
+        <div class="description">
+          A geometric look at how the dot product of radius and velocity vectors reveals whether a satellite is moving toward or away from perigee.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">orbital mechanics</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Madhukara Putty </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 23, 2025</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(5)</span></div><div class="category" data-category="b3JiaXRhbCUyMG1lY2hhbmljcw==">orbital mechanics <span class="quarto-category-count">(5)</span></div><div class="category" data-category="cG9saWFzdHJv">poliastro <span class="quarto-category-count">(3)</span></div><div class="category" data-category="c2NpZW50aWZpYyUyMGNvbXB1dGluZw==">scientific computing <span class="quarto-category-count">(2)</span></div><div class="category" data-category="c2hlbGwlMjBzY3JpcHRz">shell scripts <span class="quarto-category-count">(1)</span></div></div></div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<section id="goal" class="level2">
+<h2 class="anchored" data-anchor-id="goal">Goal</h2>
+<p>We want a clear, intuitive answer to: <em>given the true anomaly <span class="math inline">\(\theta\)</span>, how can we tell from the geometry whether a satellite in an elliptical orbit is moving toward perigee or away from it?</em><br>
+We will first give a short, intuitive argument (no heavy algebra), then derive an explicit formula for the angle <span class="math inline">\(\psi\)</span> between the position vector <span class="math inline">\(\mathbf{r}\)</span> and velocity vector <span class="math inline">\(\mathbf{v}\)</span>.</p>
+</section>
+<section id="quick-intuitive-argument-sign-of-radial-velocity" class="level2">
+<h2 class="anchored" data-anchor-id="quick-intuitive-argument-sign-of-radial-velocity">Quick, intuitive argument (sign of radial velocity)</h2>
+<p>Decompose the velocity into radial and transverse components: <span id="eq-v-decomp"><span class="math display">\[
+\mathbf{v} = v_r\,\hat{\mathbf r} + v_\theta\,\hat{\boldsymbol\theta}.
+\tag{1}\]</span></span></p>
+<p>The cosine of the angle <span class="math inline">\(\psi\)</span> between <span class="math inline">\(\mathbf r\)</span> and <span class="math inline">\(\mathbf v\)</span> is <span id="eq-cospsi-vr-over-v"><span class="math display">\[
+\cos\psi = \frac{\mathbf r\cdot\mathbf v}{r\,v} = \frac{r v_r}{r v} = \frac{v_r}{v},
+\tag{2}\]</span></span> so the <strong>sign of <span class="math inline">\(v_r\)</span> alone</strong> determines whether <span class="math inline">\(\psi\)</span> is less than or greater than <span class="math inline">\(90^\circ\)</span>.</p>
+<p>The radial component of velocity is simply <span class="math inline">\(\dot{r}\)</span> — the time rate of change of the satellite’s distance from Earth.</p>
+<ul>
+<li><p>When the satellite moves <strong>away from perigee</strong> (the closest point), its distance from Earth is <strong>growing</strong> until it reaches a maximum at apogee. In this phase, <span class="math inline">\(\dot{r} &gt; 0\)</span>, so the radial velocity <span class="math inline">\(v_r\)</span> is positive.</p></li>
+<li><p>When the satellite moves <strong>back toward perigee</strong>, its distance is <strong>shrinking</strong> until it reaches a minimum again at perigee. Here, <span class="math inline">\(\dot{r} &lt; 0\)</span>, so <span class="math inline">\(v_r\)</span> is negative.</p></li>
+</ul>
+<p>We can now conclude:</p>
+<ul>
+<li><p>If <span class="math inline">\(v_r &gt; 0\)</span>, then <span class="math inline">\(\cos \psi &gt; 0 \;\Rightarrow\; \psi &lt; 90^\circ\)</span>. In this case, the velocity has a <strong>growing radial component</strong>, meaning the satellite is moving <strong>away from perigee</strong> toward apogee.</p></li>
+<li><p>If <span class="math inline">\(v_r &lt; 0\)</span>, then <span class="math inline">\(\cos \psi &lt; 0 \;\Rightarrow\; \psi &gt; 90^\circ\)</span>. Here, the velocity has a <strong>shrinking radial component</strong>, meaning the satellite is moving <strong>back toward perigee</strong> from apogee.</p></li>
+</ul>
+<p>Thus, a quick test for “toward/away” is simply the sign of <span class="math inline">\(v_r\)</span>.</p>
+</section>
+<section id="full-derivation-express-cospsi-in-terms-of-e-and-theta" class="level2">
+<h2 class="anchored" data-anchor-id="full-derivation-express-cospsi-in-terms-of-e-and-theta">Full derivation: express <span class="math inline">\(\cos\psi\)</span> in terms of <span class="math inline">\(e\)</span> and <span class="math inline">\(\theta\)</span></h2>
+<p>Below we derive an explicit relation <span class="math inline">\(\cos\psi=\cos\psi(\theta)\)</span> so a reader can compute <span class="math inline">\(\psi\)</span> (not only its sign).</p>
+<section id="orbit-geometry" class="level3">
+<h3 class="anchored" data-anchor-id="orbit-geometry">Orbit geometry</h3>
+<p>The orbit in polar coordinates (focus at origin) is <span id="eq-r-of-theta"><span class="math display">\[
+r(\theta) = \frac{p}{1 + e\cos\theta}, \qquad p = a(1-e^2), \quad 0&lt;e&lt;1.
+\tag{3}\]</span></span></p>
+</section>
+<section id="radial-velocity-via-the-chain-rule" class="level3">
+<h3 class="anchored" data-anchor-id="radial-velocity-via-the-chain-rule">Radial velocity via the chain rule</h3>
+<p>Because <span class="math inline">\(r=r(\theta(t))\)</span>, <span id="eq-vr-chain"><span class="math display">\[
+v_r \equiv \dot r = \frac{dr}{dt} = \frac{dr}{d\theta}\,\dot\theta.
+\tag{4}\]</span></span></p>
+<p>Differentiate <span class="math inline">\(r(\theta)\)</span> with respect to <span class="math inline">\(\theta\)</span>: <span id="eq-dr-dtheta"><span class="math display">\[
+\frac{dr}{d\theta}
+= \frac{d}{d\theta}\!\left(\frac{p}{1+e\cos\theta}\right)
+= \frac{p\,e\sin\theta}{(1+e\cos\theta)^2}.
+\tag{5}\]</span></span></p>
+<p>Specific angular momentum gives <span id="eq-h"><span class="math display">\[
+h = r^2\dot\theta = \sqrt{\mu p},
+\tag{6}\]</span></span> so <span class="math inline">\(\dot\theta = h/r^2\)</span>. Using <span class="math inline">\(r=\dfrac{p}{1+e\cos\theta}\)</span> and substituting into <a href="#eq-vr-chain" class="quarto-xref">Equation&nbsp;4</a>: <span id="eq-vr"><span class="math display">\[
+\begin{aligned}
+v_r
+&amp;= \frac{p\,e\sin\theta}{(1+e\cos\theta)^2}\cdot\frac{h}{r^2} \\
+&amp;= \frac{p\,e\sin\theta}{(1+e\cos\theta)^2}\cdot\frac{h(1+e\cos\theta)^2}{p^2} \\
+&amp;= \frac{h}{p}\,e\sin\theta
+= \sqrt{\frac{\mu}{p}}\,e\sin\theta.
+\end{aligned}
+\tag{7}\]</span></span></p>
+</section>
+<section id="transverse-component-and-speed" class="level3">
+<h3 class="anchored" data-anchor-id="transverse-component-and-speed">Transverse component and speed</h3>
+<p>From <span class="math inline">\(h = r v_\theta\)</span>, <span id="eq-vtheta"><span class="math display">\[
+v_\theta = \frac{h}{r} = \sqrt{\frac{\mu}{p}}\,(1+e\cos\theta).
+\tag{8}\]</span></span></p>
+<p>Then the speed is <span id="eq-speed"><span class="math display">\[
+\begin{aligned}
+v &amp;= \sqrt{v_r^2 + v_\theta^2} \\
+&amp;= \sqrt{\frac{\mu}{p}\Big(e^2\sin^2\theta + (1+e\cos\theta)^2\Big)} \\
+&amp;= \sqrt{\frac{\mu}{p}}\sqrt{1 + 2e\cos\theta + e^2}.
+\end{aligned}
+\tag{9}\]</span></span></p>
+</section>
+<section id="final-formula-for-cospsi" class="level3">
+<h3 class="anchored" data-anchor-id="final-formula-for-cospsi">Final formula for <span class="math inline">\(\cos\psi\)</span></h3>
+<p>Using <a href="#eq-cospsi-vr-over-v" class="quarto-xref">Equation&nbsp;2</a>, <a href="#eq-vr" class="quarto-xref">Equation&nbsp;7</a> and <a href="#eq-speed" class="quarto-xref">Equation&nbsp;9</a> we get <span id="eq-cospsi-final"><span class="math display">\[
+\boxed{%
+\cos\psi(\theta) = \frac{e\sin\theta}{\sqrt{\,1 + 2e\cos\theta + e^2\,}}%
+}
+\tag{10}\]</span></span></p>
+</section>
+</section>
+<section id="why-the-denominator-is-always-positive-ellipses" class="level2">
+<h2 class="anchored" data-anchor-id="why-the-denominator-is-always-positive-ellipses">Why the denominator is always positive (ellipses)</h2>
+<p>The term under the square root can be rearranged as <span id="eq-denom-rewrite"><span class="math display">\[
+1 + 2e\cos\theta + e^2 = (1+e\cos\theta)^2 + e^2\sin^2\theta,
+\tag{11}\]</span></span> which is a sum of two non-negative terms. For <span class="math inline">\(0&lt;e&lt;1\)</span> there is no <span class="math inline">\(\theta\)</span> making both terms zero simultaneously (that would require <span class="math inline">\(\cos\theta=-1/e\)</span>, impossible). Hence the denominator in <a href="#eq-cospsi-final" class="quarto-xref">Equation&nbsp;10</a> is strictly positive for elliptic orbits.</p>
+<p>As a simple check, at <span class="math inline">\(\theta=\pi\)</span> the expression becomes <span class="math inline">\((1-e)^2&gt;0\)</span>.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>We can now conclude the following.<br>
+Since the velocity vector in an elliptical orbit always has a tangential component, the angle <span class="math inline">\(\psi\)</span> between <span class="math inline">\(\mathbf{r}\)</span> and <span class="math inline">\(\mathbf{v}\)</span> is restricted to the physically meaningful range</p>
+<p><span class="math display">\[
+0^\circ &lt; \psi &lt; 180^\circ.
+\]</span></p>
+<p>The endpoints are excluded, because <span class="math inline">\(\psi = 0^\circ\)</span> or <span class="math inline">\(180^\circ\)</span> would imply purely radial motion, which is impossible in a bound Keplerian orbit.</p>
+<p>Within this range:</p>
+<ul>
+<li><p>If <span class="math inline">\(v_r &gt; 0\)</span>, then <span class="math inline">\(\cos\psi &gt; 0 \;\;\Rightarrow\;\; \psi &lt; 90^\circ\)</span> (velocity has a <strong>growing</strong> radial component → satellite moving <strong>away</strong> from perigee).</p></li>
+<li><p>If <span class="math inline">\(v_r &lt; 0\)</span>, then <span class="math inline">\(\cos\psi &lt; 0 \;\;\Rightarrow\;\; \psi &gt; 90^\circ\)</span> (velocity has a <strong>shrinking</strong> radial component → satellite moving <strong>toward</strong> perigee).</p></li>
+</ul>
+<p>We can express this in terms of dot product of the radius and velocity vectors:</p>
+<p><span class="math display">\[
+\mathbf{r}\cdot\mathbf{v} = r v \cos \psi
+\]</span></p>
+<p>Since <span class="math inline">\(r&gt;0\)</span> and <span class="math inline">\(v&gt;0\)</span>, the sign of <span class="math inline">\(\mathbf{r}\cdot\mathbf{v}\)</span> is determined entirely by <span class="math inline">\(\cos\psi\)</span>:</p>
+<ul>
+<li><p>If <span class="math inline">\(\mathbf{r}\cdot\mathbf{v} &gt; 0\)</span>, then <span class="math inline">\(0^\circ &lt; \psi &lt; 90^\circ\)</span> (satellite is moving <strong>away</strong> from perigee).</p></li>
+<li><p>If <span class="math inline">\(\mathbf{r}\cdot\mathbf{v} &lt; 0\)</span>, then <span class="math inline">\(90^\circ &lt; \psi &lt; 180^\circ\)</span> (satellite is moving <strong>toward</strong> perigee).</p></li>
+</ul>
+<hr>
+<p><strong><em>AI Attribution:</em></strong> Textbooks often state that the dot product of the radius and velocity vectors indicates the direction of a satellite’s motion, but they rarely explain the reasoning in detail. I explored this idea in depth through a long conversation with AI, making detailed notes along the way. The first draft of this post grew out of those notes, and I refined it further with AI’s help.</p>
 
 
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="b3JiaXRhbCUyMG1lY2hhbmljcw==" data-listing-date-sort="1755887400000" data-listing-file-modified-sort="1755960131417" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="746">
-<div class="thumbnail"><a href="./posts/position_vel_angle/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/position_vel_angle/index.html" class="no-external">What the Radius–Velocity Angle Reveals About Orbit Direction</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/position_vel_angle/index.html" class="no-external">A geometric shortcut for interpreting orbital motion.</a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('b3JiaXRhbCUyMG1lY2hhbmljcw=='); return false;">orbital mechanics</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/position_vel_angle/index.html" class="no-external">
-<p>A geometric look at how the dot product of radius and velocity vectors reveals whether a satellite is moving toward or away from perigee.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/position_vel_angle/index.html" class="no-external">
-<div class="listing-date">
-Aug 23, 2025
-</div>
-<div class="listing-author">
-Madhukara Putty
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="b3JiaXRhbCUyMG1lY2hhbmljcyUyQ3BvbGlhc3Rybw==" data-listing-date-sort="1755196200000" data-listing-file-modified-sort="1755367736356" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1090">
-<div class="thumbnail"><a href="./posts/poliastro_plot_orbits/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/poliastro_plot_orbits/index.html" class="no-external">Visualizing Orbits with Poliastro — A Detailed Walkthrough</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/poliastro_plot_orbits/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('b3JiaXRhbCUyMG1lY2hhbmljcw=='); return false;">orbital mechanics</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cG9saWFzdHJv'); return false;">poliastro</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/poliastro_plot_orbits/index.html" class="no-external">
-<p>A detailed guide to plotting orbits using Python</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/poliastro_plot_orbits/index.html" class="no-external">
-<div class="listing-date">
-Aug 15, 2025
-</div>
-<div class="listing-author">
-Madhukara Putty
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="b3JiaXRhbCUyMG1lY2hhbmljcw==" data-listing-date-sort="1753209000000" data-listing-file-modified-sort="1755959948123" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="746">
-<div class="thumbnail"><a href="./posts/temp/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/temp/index.html" class="no-external">What the Radius–Velocity Angle Reveals About Orbit Direction</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/temp/index.html" class="no-external">A geometric shortcut for interpreting orbital motion.</a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('b3JiaXRhbCUyMG1lY2hhbmljcw=='); return false;">orbital mechanics</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/temp/index.html" class="no-external">
-<p>A geometric look at how the dot product of radius and velocity vectors reveals whether a satellite is moving toward or away from perigee.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/temp/index.html" class="no-external">
-<div class="listing-date">
-Jul 23, 2025
-</div>
-<div class="listing-author">
-Madhukara Putty
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="b3JiaXRhbCUyMG1lY2hhbmljcyUyQ3NjaWVudGlmaWMlMjBjb21wdXRpbmclMkNwb2xpYXN0cm8=" data-listing-date-sort="1751135400000" data-listing-file-modified-sort="1751199361568" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="731">
-<div class="thumbnail"><a href="./posts/poliastro_orbits/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/poliastro_orbits/index.html" class="no-external">Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/poliastro_orbits/index.html" class="no-external">Learn how to create circular and elliptical orbit objects in Python using Poliastro.</a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('b3JiaXRhbCUyMG1lY2hhbmljcw=='); return false;">orbital mechanics</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c2NpZW50aWZpYyUyMGNvbXB1dGluZw=='); return false;">scientific computing</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cG9saWFzdHJv'); return false;">poliastro</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/poliastro_orbits/index.html" class="no-external">
-<p>Learn how to create orbit objects in Poliastro using classical elements and state vectors — with beginner-friendly explanations of key concepts like epochs and astronomical units.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/poliastro_orbits/index.html" class="no-external">
-<div class="listing-date">
-Jun 29, 2025
-</div>
-<div class="listing-author">
-Madhukara S Putty
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="b3JiaXRhbCUyMG1lY2hhbmljcyUyQ3NjaWVudGlmaWMlMjBjb21wdXRpbmclMkNwb2xpYXN0cm8lMkNzaGVsbCUyMHNjcmlwdHM=" data-listing-date-sort="1750789800000" data-listing-file-modified-sort="1750811984872" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="754">
-<div class="thumbnail"><a href="./posts/install_poliastro/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/install_poliastro/index.html" class="no-external">Automating a Scientific Python Setup: A Gentle Walkthrough</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/install_poliastro/index.html" class="no-external">A shell script to set up poliastro and its dependencies</a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('b3JiaXRhbCUyMG1lY2hhbmljcw=='); return false;">orbital mechanics</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c2NpZW50aWZpYyUyMGNvbXB1dGluZw=='); return false;">scientific computing</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cG9saWFzdHJv'); return false;">poliastro</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c2hlbGwlMjBzY3JpcHRz'); return false;">shell scripts</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/install_poliastro/index.html" class="no-external">
-<p>The first in a series of posts on poliastro – a Python library for visualizing and analyzing orbits in Python.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/install_poliastro/index.html" class="no-external">
-<div class="listing-date">
-Jun 25, 2025
-</div>
-<div class="listing-author">
-Madhukara S Putty
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

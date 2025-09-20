@@ -221,6 +221,48 @@
     "href": "index.html",
     "title": "All articles",
     "section": "",
-    "text": "What the Radius–Velocity Angle Reveals About Orbit Direction\n\n\nA geometric shortcut for interpreting orbital motion.\n\n\n\norbital mechanics\n\n\n\nA geometric look at how the dot product of radius and velocity vectors reveals whether a satellite is moving toward or away from perigee.\n\n\n\n\n\nAug 23, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nVisualizing Orbits with Poliastro — A Detailed Walkthrough\n\n\n\n\n\n\norbital mechanics\n\npoliastro\n\n\n\nA detailed guide to plotting orbits using Python\n\n\n\n\n\nAug 15, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nVisualizing Orbits with Poliastro – Part 1: Creating Orbit Objects\n\n\nLearn how to create circular and elliptical orbit objects in Python using Poliastro.\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\n\n\nLearn how to create orbit objects in Poliastro using classical elements and state vectors — with beginner-friendly explanations of key concepts like epochs and astronomical units.\n\n\n\n\n\nJun 29, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\n\n\n\n\n\n\n\nAutomating a Scientific Python Setup: A Gentle Walkthrough\n\n\nA shell script to set up poliastro and its dependencies\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\nshell scripts\n\n\n\nThe first in a series of posts on poliastro – a Python library for visualizing and analyzing orbits in Python.\n\n\n\n\n\nJun 25, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\nNo matching items"
+    "text": "How AI will Redfine Human Roles in Space Software\n\n\n\n\n\n\nThoughts\n\n\n\nIn the AI era, the “default engineer” in space will not be someone confined to one subsystem, but someone capable of thinking across the entire satellite.\n\n\n\n\n\nSep 20, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nWhat the Radius–Velocity Angle Reveals About Orbit Direction\n\n\nA geometric shortcut for interpreting orbital motion.\n\n\n\norbital mechanics\n\n\n\nA geometric look at how the dot product of radius and velocity vectors reveals whether a satellite is moving toward or away from perigee.\n\n\n\n\n\nAug 23, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nVisualizing Orbits with Poliastro — A Detailed Walkthrough\n\n\n\n\n\n\norbital mechanics\n\npoliastro\n\n\n\nA detailed guide to plotting orbits using Python\n\n\n\n\n\nAug 15, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nVisualizing Orbits with Poliastro – Part 1: Creating Orbit Objects\n\n\nLearn how to create circular and elliptical orbit objects in Python using Poliastro.\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\n\n\nLearn how to create orbit objects in Poliastro using classical elements and state vectors — with beginner-friendly explanations of key concepts like epochs and astronomical units.\n\n\n\n\n\nJun 29, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\n\n\n\n\n\n\n\nAutomating a Scientific Python Setup: A Gentle Walkthrough\n\n\nA shell script to set up poliastro and its dependencies\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\nshell scripts\n\n\n\nThe first in a series of posts on poliastro – a Python library for visualizing and analyzing orbits in Python.\n\n\n\n\n\nJun 25, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/ai_and_software/index.html",
+    "href": "posts/ai_and_software/index.html",
+    "title": "How AI will Redfine Human Roles in Space Software",
+    "section": "",
+    "text": "Artificial Intelligence is reshaping software development at a breathtaking pace. What used to take teams of engineers months or years can now be prototyped in hours with the help of tools like ChatGPT. The shift is not simply about speed — it’s about cost. The marginal cost of producing code has collapsed, and that has profound implications for engineers in every industry, especially space."
+  },
+  {
+    "objectID": "posts/ai_and_software/index.html#technology-has-always-made-things-cheaper",
+    "href": "posts/ai_and_software/index.html#technology-has-always-made-things-cheaper",
+    "title": "How AI will Redfine Human Roles in Space Software",
+    "section": "Technology has always made things cheaper",
+    "text": "Technology has always made things cheaper\nEvery wave of technology has reduced the cost of something. Consider Very Large Scale Integration (VLSI), which pushed the cost of a single semiconductor gate effectively to zero. That breakthrough allowed engineers to pack millions of gates into a single chip, enabling the rise of personal computers, smartphones, and ultimately the AI systems we use today.\nWithout VLSI, AI would still be an elite tool for the few. With it, the most advanced technology in human history is literally available to anyone with a smartphone and an internet connection.\nAI is playing a similar role for software. What used to be scarce — high-quality code — is rapidly becoming abundant."
+  },
+  {
+    "objectID": "posts/ai_and_software/index.html#how-ai-is-reshaping-software-development",
+    "href": "posts/ai_and_software/index.html#how-ai-is-reshaping-software-development",
+    "title": "How AI will Redfine Human Roles in Space Software",
+    "section": "How AI is reshaping software development",
+    "text": "How AI is reshaping software development\nTraditionally, writing software meant long hours of typing, debugging, and maintaining code. AI flips this model. The human’s role is no longer “code producer” but “problem architect.”\n\nThe human defines the structure of the program.\nThe human decides what needs to be tested and how.\nThe AI generates the implementation, while the human stays active and vigilant — reviewing, refining, and stress-testing what comes out.\n\nIt’s not about outsourcing thinking. It’s about elevating the human role to where it matters most."
+  },
+  {
+    "objectID": "posts/ai_and_software/index.html#domain-knowledge-becomes-the-premium",
+    "href": "posts/ai_and_software/index.html#domain-knowledge-becomes-the-premium",
+    "title": "How AI will Redfine Human Roles in Space Software",
+    "section": "Domain knowledge becomes the premium",
+    "text": "Domain knowledge becomes the premium\nWhen the effort of writing code drops to near zero, what becomes valuable is not syntax knowledge but domain expertise. The premium is on people who deeply understand the system they are working with, and who can translate that knowledge into precise prompts, rigorous test plans, and meaningful reviews.\nThis is where scientists, engineers, and researchers stand to benefit enormously. Many of them already possess deep expertise in their domains but have not always had the time or training to produce robust, reusable software. With AI, modest knowledge of software best practices — combined with their expertise — is enough to produce high-quality tools usable by broader teams.\nFor professional software developers, the bar shifts. It is no longer enough to know how to code. They must:\n\nStrengthen their domain knowledge.\nLearn to articulate problems as strong prompts.\nMaster the art of reviewing AI-generated code.\nDesign tests that reflect real-world conditions, not just “happy paths.”\n\nIn short: coding itself is no longer the scarce skill. Thinking deeply about the problem is."
+  },
+  {
+    "objectID": "posts/ai_and_software/index.html#the-space-industry-example",
+    "href": "posts/ai_and_software/index.html#the-space-industry-example",
+    "title": "How AI will Redfine Human Roles in Space Software",
+    "section": "The space industry example",
+    "text": "The space industry example\nFew fields illustrate this better than space. Satellites are systems of systems: power, thermal, communications, payload, and attitude control are all intertwined.\nTraditionally, a young engineer might enter the field specializing in one subsystem, such as Attitude Determination and Control (ADCS). They would be aware that their work interacts with power or thermal, but their focus would remain on ADCS alone. Only with years of experience would they begin to see the satellite as a whole system.\nAI changes this expectation. With the heavy lifting of coding handled, engineers will increasingly be expected to explore coupled effects earlier in their careers. Instead of just calculating pointing accuracy, they might simulate how attitude affects solar power generation and thermal loads — and do so in a single integrated workflow.\nIn other words, AI forces us to stop treating a satellite as a collection of silos. It pushes us to see it as one unified system."
+  },
+  {
+    "objectID": "posts/ai_and_software/index.html#conclusion",
+    "href": "posts/ai_and_software/index.html#conclusion",
+    "title": "How AI will Redfine Human Roles in Space Software",
+    "section": "Conclusion",
+    "text": "Conclusion\nThe cost of code has collapsed, but the value of human expertise has never been higher. In the AI era, the “default engineer” in space will not be someone confined to one subsystem, but someone capable of thinking across the entire satellite.\nThe winners will be those who pair deep domain knowledge with a collaborative approach to AI — writing strong prompts, reviewing critically, and testing rigorously.\nThis is not the end of engineering. It’s the beginning of a new kind of engineer."
   }
 ]

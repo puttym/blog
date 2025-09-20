@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/ai_and_software/index.html",
       "/posts/position_vel_angle/index.html",
       "/posts/poliastro_plot_orbits/index.html",
       "/posts/poliastro_orbits/index.html",

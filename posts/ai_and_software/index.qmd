@@ -1,0 +1,62 @@
+---
+title: "How AI will Redfine Human Roles in Space Software"
+subtitle: ""
+description: "In the AI era, the “default engineer” in space will not be someone 
+confined to one subsystem, but someone capable of thinking across the entire satellite."
+author: "Madhukara Putty"
+date: "2025-09-20"
+categories: [Thoughts]
+---
+
+Artificial Intelligence is reshaping software development at a breathtaking pace. What used to take teams of engineers months or years can now be prototyped in hours with the help of tools like ChatGPT. The shift is not simply about speed — it’s about cost. The marginal cost of producing code has collapsed, and that has profound implications for engineers in every industry, especially space.
+
+## Technology has always made things cheaper
+
+Every wave of technology has reduced the cost of something. Consider Very Large Scale Integration (VLSI), which pushed the cost of a single semiconductor gate effectively to zero. That breakthrough allowed engineers to pack millions of gates into a single chip, enabling the rise of personal computers, smartphones, and ultimately the AI systems we use today.
+
+Without VLSI, AI would still be an elite tool for the few. With it, the most advanced technology in human history is literally available to anyone with a smartphone and an internet connection.
+
+AI is playing a similar role for software. What used to be scarce — high-quality code — is rapidly becoming abundant.
+
+## How AI is reshaping software development
+
+Traditionally, writing software meant long hours of typing, debugging, and maintaining code. AI flips this model. The human’s role is no longer “code producer” but “problem architect.”
+
+- The human defines the structure of the program.
+- The human decides what needs to be tested and how.
+- The AI generates the implementation, while the human stays active and vigilant — reviewing, refining, and stress-testing what comes out.
+
+It’s not about outsourcing thinking. It’s about elevating the human role to where it matters most.
+
+## Domain knowledge becomes the premium
+
+When the effort of writing code drops to near zero, what becomes valuable is not syntax knowledge but domain expertise. The premium is on people who deeply understand the system they are working with, and who can translate that knowledge into precise prompts, rigorous test plans, and meaningful reviews.
+
+This is where scientists, engineers, and researchers stand to benefit enormously. Many of them already possess deep expertise in their domains but have not always had the time or training to produce robust, reusable software. With AI, modest knowledge of software best practices — combined with their expertise — is enough to produce high-quality tools usable by broader teams.
+
+For professional software developers, the bar shifts. It is no longer enough to know how to code. They must:
+
+- Strengthen their domain knowledge.
+- Learn to articulate problems as strong prompts.
+- Master the art of reviewing AI-generated code.
+- Design tests that reflect real-world conditions, not just “happy paths.”
+
+In short: coding itself is no longer the scarce skill. Thinking deeply about the problem is.
+
+## The space industry example
+
+Few fields illustrate this better than space. Satellites are systems of systems: power, thermal, communications, payload, and attitude control are all intertwined.
+
+Traditionally, a young engineer might enter the field specializing in one subsystem, such as Attitude Determination and Control (ADCS). They would be aware that their work interacts with power or thermal, but their focus would remain on ADCS alone. Only with years of experience would they begin to see the satellite as a whole system.
+
+AI changes this expectation. With the heavy lifting of coding handled, engineers will increasingly be expected to explore coupled effects earlier in their careers. Instead of just calculating pointing accuracy, they might simulate how attitude affects solar power generation and thermal loads — and do so in a single integrated workflow.
+
+In other words, AI forces us to stop treating a satellite as a collection of silos. It pushes us to see it as one unified system.
+
+## Conclusion
+
+The cost of code has collapsed, but the value of human expertise has never been higher. In the AI era, the “default engineer” in space will not be someone confined to one subsystem, but someone capable of thinking across the entire satellite.
+
+The winners will be those who pair deep domain knowledge with a collaborative approach to AI — writing strong prompts, reviewing critically, and testing rigorously.
+
+This is not the end of engineering. It’s the beginning of a new kind of engineer.

@@ -357,4 +357,6 @@ Separating this into a main.py is good practice:
 
 - Mirrors real-world software projects where library code and application entry points are distinct.
 
+**Image source:** Mission planning for the mitigation of hazardous Near Earth Objects [electronic resource] / - Scientific Figure on ResearchGate. Available from: https://www.researchgate.net/figure/Figure-A3-Diagram-of-Classical-Keplerian-Orbital-Elements_fig36_36174303 [accessed 29 Sept 2025]
+
 ***AI Attribution:*** A few weeks ago, I had written a function to compute COEs from a satellite’s state vector. I shared it with AI and asked to reframe it using Python classes, dictionaries, and YAML as an exercise. The AI refactored the function into a clean, class-based design with modular files, design docs, and tests. What started as a single function evolved into something much closer to industry-level code. In this post, I focused on the core class; in later posts, I’ll cover documentation and testing.

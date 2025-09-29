@@ -7,88 +7,151 @@
     "text": "Hello! I am Madhukara. Welcome to my blog!\nI’m exploring space systems and scientific software, with the help of AI.\nThis blog is a reflection of my journey — learning one step at a time, and building in public.\nI work with AI not just as a tool, but as a thinking partner, editor, and teacher. Most blog posts here are part of that collaboration. You’ll also find these ideas on my LinkedIn, where I regularly share posts about the work and the evolving way I do it.\nMy goal is to become very good at what I do — and to stay true to the process."
   },
   {
-    "objectID": "posts/position_vel_angle/index.html",
-    "href": "posts/position_vel_angle/index.html",
-    "title": "What the Radius–Velocity Angle Reveals About Orbit Direction",
+    "objectID": "posts/classical_orbital_elements/index.html",
+    "href": "posts/classical_orbital_elements/index.html",
+    "title": "A Python class for computing classical orbital elements",
     "section": "",
-    "text": "We want a clear, intuitive answer to: given the true anomaly \\(\\theta\\), how can we tell from the geometry whether a satellite in an elliptical orbit is moving toward perigee or away from it?\nWe will first give a short, intuitive argument (no heavy algebra), then derive an explicit formula for the angle \\(\\psi\\) between the position vector \\(\\mathbf{r}\\) and velocity vector \\(\\mathbf{v}\\)."
+    "text": "Classical orbital elements\n\n\nWhen describing a satellite’s orbit, we have two common approaches:\nState vectors: position \\(\\mathbf{r}\\) and velocity \\(\\mathbf{v}\\) at a given instant.\nClassical Orbital Elements (COEs): Six geometric parameters that define the shape and orientation of the orbit.\n\nEccentricity (\\(\\mathbf{e}\\))\nInclination (\\(i\\))\nRight Ascension of the ascending node (\\(\\Omega\\))\nArgument of Perigee (\\(\\omega\\))\nTrue Anomaly (\\(\\nu\\))\nSemi-major axis (\\(a\\))\n\nThis post walks through computing COEs from state vectors in Python using NumPy.\nTo keep the workflow reproducible and easy to integrate, the program reads inputs and writes outputs in YAML. YAML is human-readable, machine-parseable, and widely used in configuration files, which makes it ideal for storing both raw inputs and structured outputs.\nThe code:\n\nReads the position and velocity vectors from a YAML file.\nProduces outputs in three ways:\n\nStored in a Python dictionary (full float64 precision).\nPrinted on screen (rounded to 2 decimals for readability).\nWritten back to a YAML file (full float64 precision).\n\n\nAll project files are available on All project files are available on GitHub."
   },
   {
-    "objectID": "posts/position_vel_angle/index.html#goal",
-    "href": "posts/position_vel_angle/index.html#goal",
-    "title": "What the Radius–Velocity Angle Reveals About Orbit Direction",
+    "objectID": "posts/classical_orbital_elements/index.html#introduction",
+    "href": "posts/classical_orbital_elements/index.html#introduction",
+    "title": "A Python class for computing classical orbital elements",
     "section": "",
-    "text": "We want a clear, intuitive answer to: given the true anomaly \\(\\theta\\), how can we tell from the geometry whether a satellite in an elliptical orbit is moving toward perigee or away from it?\nWe will first give a short, intuitive argument (no heavy algebra), then derive an explicit formula for the angle \\(\\psi\\) between the position vector \\(\\mathbf{r}\\) and velocity vector \\(\\mathbf{v}\\)."
+    "text": "Classical orbital elements\n\n\nWhen describing a satellite’s orbit, we have two common approaches:\nState vectors: position \\(\\mathbf{r}\\) and velocity \\(\\mathbf{v}\\) at a given instant.\nClassical Orbital Elements (COEs): Six geometric parameters that define the shape and orientation of the orbit.\n\nEccentricity (\\(\\mathbf{e}\\))\nInclination (\\(i\\))\nRight Ascension of the ascending node (\\(\\Omega\\))\nArgument of Perigee (\\(\\omega\\))\nTrue Anomaly (\\(\\nu\\))\nSemi-major axis (\\(a\\))\n\nThis post walks through computing COEs from state vectors in Python using NumPy.\nTo keep the workflow reproducible and easy to integrate, the program reads inputs and writes outputs in YAML. YAML is human-readable, machine-parseable, and widely used in configuration files, which makes it ideal for storing both raw inputs and structured outputs.\nThe code:\n\nReads the position and velocity vectors from a YAML file.\nProduces outputs in three ways:\n\nStored in a Python dictionary (full float64 precision).\nPrinted on screen (rounded to 2 decimals for readability).\nWritten back to a YAML file (full float64 precision).\n\n\nAll project files are available on All project files are available on GitHub."
   },
   {
-    "objectID": "posts/position_vel_angle/index.html#quick-intuitive-argument-sign-of-radial-velocity",
-    "href": "posts/position_vel_angle/index.html#quick-intuitive-argument-sign-of-radial-velocity",
-    "title": "What the Radius–Velocity Angle Reveals About Orbit Direction",
-    "section": "Quick, intuitive argument (sign of radial velocity)",
-    "text": "Quick, intuitive argument (sign of radial velocity)\nDecompose the velocity into radial and transverse components: \\[\n\\mathbf{v} = v_r\\,\\hat{\\mathbf r} + v_\\theta\\,\\hat{\\boldsymbol\\theta}.\n\\tag{1}\\]\nThe cosine of the angle \\(\\psi\\) between \\(\\mathbf r\\) and \\(\\mathbf v\\) is \\[\n\\cos\\psi = \\frac{\\mathbf r\\cdot\\mathbf v}{r\\,v} = \\frac{r v_r}{r v} = \\frac{v_r}{v},\n\\tag{2}\\] so the sign of \\(v_r\\) alone determines whether \\(\\psi\\) is less than or greater than \\(90^\\circ\\).\nThe radial component of velocity is simply \\(\\dot{r}\\) — the time rate of change of the satellite’s distance from Earth.\n\nWhen the satellite moves away from perigee (the closest point), its distance from Earth is growing until it reaches a maximum at apogee. In this phase, \\(\\dot{r} &gt; 0\\), so the radial velocity \\(v_r\\) is positive.\nWhen the satellite moves back toward perigee, its distance is shrinking until it reaches a minimum again at perigee. Here, \\(\\dot{r} &lt; 0\\), so \\(v_r\\) is negative.\n\nWe can now conclude:\n\nIf \\(v_r &gt; 0\\), then \\(\\cos \\psi &gt; 0 \\;\\Rightarrow\\; \\psi &lt; 90^\\circ\\). In this case, the velocity has a growing radial component, meaning the satellite is moving away from perigee toward apogee.\nIf \\(v_r &lt; 0\\), then \\(\\cos \\psi &lt; 0 \\;\\Rightarrow\\; \\psi &gt; 90^\\circ\\). Here, the velocity has a shrinking radial component, meaning the satellite is moving back toward perigee from apogee.\n\nThus, a quick test for “toward/away” is simply the sign of \\(v_r\\)."
+    "objectID": "posts/classical_orbital_elements/index.html#step-1-setting-up-the-class",
+    "href": "posts/classical_orbital_elements/index.html#step-1-setting-up-the-class",
+    "title": "A Python class for computing classical orbital elements",
+    "section": "Step 1 — Setting up the Class",
+    "text": "Step 1 — Setting up the Class\nclass ClassicalOrbitalElements:\n    \"\"\"\n    Computes the Classical Orbital Elements (COEs) from a position\n    and velocity state vector.\n    \"\"\"\n\n    def __init__(self, position, velocity, mu=MU_EARTH):\n        self.r = np.array(position, dtype=float)\n        self.v = np.array(velocity, dtype=float)\n        self.mu = mu\n        self.coe = None\n\n        self._validate_input()\nThe __init__ method is the constructor of the class. It runs automatically whenever a new object is created. Line by line:\nself.r = np.array(position, dtype=float) → converts the input position list into a NumPy array of floats and stores it inside the object.\nself.v = np.array(velocity, dtype=float) → does the same for the velocity vector.\nself.mu = mu → stores the gravitational parameter, defaulting to Earth’s \\(\\mu\\).\nself.coe = None → initializes the orbital elements; they’ll be computed later.\nself._validate_input() → calls a helper method to make sure the inputs are valid before proceeding.\nThis ensures every object starts with clean, checked data.\n\nWhy self appears everywhere\nIn Python, self is a reference to the object being created. When we write:\nself.r = np.array(position)\nwe are saving the position vector inside the object so other methods can reuse it. Each instance of ClassicalOrbitalElements carries its own memory of \\(\\vec{r}\\), \\(\\vec{v}\\), and computed elements."
   },
   {
-    "objectID": "posts/position_vel_angle/index.html#full-derivation-express-cospsi-in-terms-of-e-and-theta",
-    "href": "posts/position_vel_angle/index.html#full-derivation-express-cospsi-in-terms-of-e-and-theta",
-    "title": "What the Radius–Velocity Angle Reveals About Orbit Direction",
-    "section": "Full derivation: express \\(\\cos\\psi\\) in terms of \\(e\\) and \\(\\theta\\)",
-    "text": "Full derivation: express \\(\\cos\\psi\\) in terms of \\(e\\) and \\(\\theta\\)\nBelow we derive an explicit relation \\(\\cos\\psi=\\cos\\psi(\\theta)\\) so a reader can compute \\(\\psi\\) (not only its sign).\n\nOrbit geometry\nThe orbit in polar coordinates (focus at origin) is \\[\nr(\\theta) = \\frac{p}{1 + e\\cos\\theta}, \\qquad p = a(1-e^2), \\quad 0&lt;e&lt;1.\n\\tag{3}\\]\n\n\nRadial velocity via the chain rule\nBecause \\(r=r(\\theta(t))\\), \\[\nv_r \\equiv \\dot r = \\frac{dr}{dt} = \\frac{dr}{d\\theta}\\,\\dot\\theta.\n\\tag{4}\\]\nDifferentiate \\(r(\\theta)\\) with respect to \\(\\theta\\): \\[\n\\frac{dr}{d\\theta}\n= \\frac{d}{d\\theta}\\!\\left(\\frac{p}{1+e\\cos\\theta}\\right)\n= \\frac{p\\,e\\sin\\theta}{(1+e\\cos\\theta)^2}.\n\\tag{5}\\]\nSpecific angular momentum gives \\[\nh = r^2\\dot\\theta = \\sqrt{\\mu p},\n\\tag{6}\\] so \\(\\dot\\theta = h/r^2\\). Using \\(r=\\dfrac{p}{1+e\\cos\\theta}\\) and substituting into Equation 4: \\[\n\\begin{aligned}\nv_r\n&= \\frac{p\\,e\\sin\\theta}{(1+e\\cos\\theta)^2}\\cdot\\frac{h}{r^2} \\\\\n&= \\frac{p\\,e\\sin\\theta}{(1+e\\cos\\theta)^2}\\cdot\\frac{h(1+e\\cos\\theta)^2}{p^2} \\\\\n&= \\frac{h}{p}\\,e\\sin\\theta\n= \\sqrt{\\frac{\\mu}{p}}\\,e\\sin\\theta.\n\\end{aligned}\n\\tag{7}\\]\n\n\nTransverse component and speed\nFrom \\(h = r v_\\theta\\), \\[\nv_\\theta = \\frac{h}{r} = \\sqrt{\\frac{\\mu}{p}}\\,(1+e\\cos\\theta).\n\\tag{8}\\]\nThen the speed is \\[\n\\begin{aligned}\nv &= \\sqrt{v_r^2 + v_\\theta^2} \\\\\n&= \\sqrt{\\frac{\\mu}{p}\\Big(e^2\\sin^2\\theta + (1+e\\cos\\theta)^2\\Big)} \\\\\n&= \\sqrt{\\frac{\\mu}{p}}\\sqrt{1 + 2e\\cos\\theta + e^2}.\n\\end{aligned}\n\\tag{9}\\]\n\n\nFinal formula for \\(\\cos\\psi\\)\nUsing Equation 2, Equation 7 and Equation 9 we get \\[\n\\boxed{%\n\\cos\\psi(\\theta) = \\frac{e\\sin\\theta}{\\sqrt{\\,1 + 2e\\cos\\theta + e^2\\,}}%\n}\n\\tag{10}\\]"
+    "objectID": "posts/classical_orbital_elements/index.html#step-2---input-validation",
+    "href": "posts/classical_orbital_elements/index.html#step-2---input-validation",
+    "title": "A Python class for computing classical orbital elements",
+    "section": "Step 2 - Input Validation",
+    "text": "Step 2 - Input Validation\ndef _validate_input(self):\n    if np.allclose(self.r, 0):\n        raise ValueError(\"Position vector cannot be zero.\")\n    if np.allclose(self.v, 0):\n        raise ValueError(\"Velocity vector cannot be zero.\")\n    if not np.isfinite(self.r).all() or not np.isfinite(self.v).all():\n        raise ValueError(\"Position and velocity must contain finite numbers.\")\nThe leading underscore (_validate_input) is a Python naming convention that signals this is an internal method. It’s not meant to be called by users of the class but rather used only inside the class itself.\nnp.allclose()\nnp.allclose(arr, 0) checks whether every element of arr is close to zero within a default tolerance (rtol=1e-05, atol=1e-08).\nExamples:\nnp.allclose([0.0, 0.0, 0.0], 0)   # True\nnp.allclose([1e-12, 0.0, 0.0], 0) # True\nnp.allclose([1e-3, 0.0, 0.0], 0)  # False\nThis prevents “almost-zero” vectors that would make orbital elements undefined.\nFor more details on np.allclose() please refer to the documentation here.\nnp.isfinite()\nThis checks whether numbers are finite (not \\(\\infty\\) or NaN).\nExamples:\nnp.isfinite([1.0, np.inf, np.nan])\n# → array([ True, False, False ])\nUsing .all() lets us check every element:\nnp.isfinite([1.0, 2.0, np.inf]).all()\n# → False (because of the infinity)\nThis protects us against corrupted inputs like infinite velocity."
   },
   {
-    "objectID": "posts/position_vel_angle/index.html#why-the-denominator-is-always-positive-ellipses",
-    "href": "posts/position_vel_angle/index.html#why-the-denominator-is-always-positive-ellipses",
-    "title": "What the Radius–Velocity Angle Reveals About Orbit Direction",
-    "section": "Why the denominator is always positive (ellipses)",
-    "text": "Why the denominator is always positive (ellipses)\nThe term under the square root can be rearranged as \\[\n1 + 2e\\cos\\theta + e^2 = (1+e\\cos\\theta)^2 + e^2\\sin^2\\theta,\n\\tag{11}\\] which is a sum of two non-negative terms. For \\(0&lt;e&lt;1\\) there is no \\(\\theta\\) making both terms zero simultaneously (that would require \\(\\cos\\theta=-1/e\\), impossible). Hence the denominator in Equation 10 is strictly positive for elliptic orbits.\nAs a simple check, at \\(\\theta=\\pi\\) the expression becomes \\((1-e)^2&gt;0\\)."
+    "objectID": "posts/classical_orbital_elements/index.html#step-3-angular-momentum-and-inclination",
+    "href": "posts/classical_orbital_elements/index.html#step-3-angular-momentum-and-inclination",
+    "title": "A Python class for computing classical orbital elements",
+    "section": "Step 3 — Angular Momentum and Inclination",
+    "text": "Step 3 — Angular Momentum and Inclination\nh_vec = np.cross(r, v)\nh = np.linalg.norm(h_vec)\ni = np.degrees(safe_arccos(h_vec[2] / h))\nThe specific angular momentum is:\n\\[\n\\mathbf{h} = \\mathbf{r} \\times \\mathbf{v}.\n\\]\nIts magnitude \\(|\\vec{h}|\\) is constant for Keplerian motion.\nInclination \\(i\\) is the tilt of the orbital plane:\n\\[\ni = \\cos^{-1}\\left(\\frac{h_z}{h}\\right).\n\\]"
   },
   {
-    "objectID": "posts/position_vel_angle/index.html#conclusion",
-    "href": "posts/position_vel_angle/index.html#conclusion",
-    "title": "What the Radius–Velocity Angle Reveals About Orbit Direction",
-    "section": "Conclusion",
-    "text": "Conclusion\nWe can now conclude the following.\nSince the velocity vector in an elliptical orbit always has a tangential component, the angle \\(\\psi\\) between \\(\\mathbf{r}\\) and \\(\\mathbf{v}\\) is restricted to the physically meaningful range\n\\[\n0^\\circ &lt; \\psi &lt; 180^\\circ.\n\\]\nThe endpoints are excluded, because \\(\\psi = 0^\\circ\\) or \\(180^\\circ\\) would imply purely radial motion, which is impossible in a bound Keplerian orbit.\nWithin this range:\n\nIf \\(v_r &gt; 0\\), then \\(\\cos\\psi &gt; 0 \\;\\;\\Rightarrow\\;\\; \\psi &lt; 90^\\circ\\) (velocity has a growing radial component → satellite moving away from perigee).\nIf \\(v_r &lt; 0\\), then \\(\\cos\\psi &lt; 0 \\;\\;\\Rightarrow\\;\\; \\psi &gt; 90^\\circ\\) (velocity has a shrinking radial component → satellite moving toward perigee).\n\nWe can express this in terms of dot product of the radius and velocity vectors:\n\\[\n\\mathbf{r}\\cdot\\mathbf{v} = r v \\cos \\psi\n\\]\nSince \\(r&gt;0\\) and \\(v&gt;0\\), the sign of \\(\\mathbf{r}\\cdot\\mathbf{v}\\) is determined entirely by \\(\\cos\\psi\\):\n\nIf \\(\\mathbf{r}\\cdot\\mathbf{v} &gt; 0\\), then \\(0^\\circ &lt; \\psi &lt; 90^\\circ\\) (satellite is moving away from perigee).\nIf \\(\\mathbf{r}\\cdot\\mathbf{v} &lt; 0\\), then \\(90^\\circ &lt; \\psi &lt; 180^\\circ\\) (satellite is moving toward perigee).\n\n\nAI Attribution: Textbooks often state that the dot product of the radius and velocity vectors indicates the direction of a satellite’s motion, but they rarely explain the reasoning in detail. I explored this idea in depth through a long conversation with AI, making detailed notes along the way. The first draft of this post grew out of those notes, and I refined it further with AI’s help."
+    "objectID": "posts/classical_orbital_elements/index.html#step-4-node-vector-and-raan",
+    "href": "posts/classical_orbital_elements/index.html#step-4-node-vector-and-raan",
+    "title": "A Python class for computing classical orbital elements",
+    "section": "Step 4 — Node Vector and RAAN",
+    "text": "Step 4 — Node Vector and RAAN\nk_hat = np.array([0, 0, 1])\nn_vec = np.cross(k_hat, h_vec)\nn = np.linalg.norm(n_vec)\n\nif n != 0:\n    RAAN = np.degrees(safe_arccos(n_vec[0] / n))\n    if n_vec[1] &lt; 0:\n        RAAN = 360 - RAAN\nelse:\n    RAAN = np.nan\nThe node vector\n\\[\n\\mathbf{n} = \\mathbf{k} \\times \\mathbf{h}\n\\]\npoints to the ascending node (\\(\\mathbf{k} = [0, 0, 1]\\)).\nThe Right Ascension of the Ascending Node (RAAN) is:\n\\[\n\\Omega = \\cos^{-1}\\left(\\frac{n_x}{n}\\right)\n\\]\nIf \\(n_y &lt; 0\\), we flip to \\(360^\\circ - \\Omega\\).\nWhen \\(i \\approx 0^\\circ\\) (equatorial orbit), the node line is undefined. We return NaN instead of zero — because zero would falsely suggest a meaningful direction. NaN makes it explicit: RAAN is not defined in this case."
   },
   {
-    "objectID": "posts/poliastro_orbits/index.html",
-    "href": "posts/poliastro_orbits/index.html",
-    "title": "Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects",
+    "objectID": "posts/classical_orbital_elements/index.html#step-5---eccentricity-vector",
+    "href": "posts/classical_orbital_elements/index.html#step-5---eccentricity-vector",
+    "title": "A Python class for computing classical orbital elements",
+    "section": "Step 5 - Eccentricity Vector",
+    "text": "Step 5 - Eccentricity Vector\ne_vec = (1/mu) * ((v_norm**2 - mu/r_norm)*r - np.dot(r, v)*v)\ne = np.linalg.norm(e_vec)\nAdd equation \\[\n\\mathbf{e} = \\frac{1}{\\mu}\n\\left[ (v^2 - \\tfrac{\\mu}{r})\\mathbf{r} - (\\mathbf{r}\\cdot \\mathbf{v})\\mathbf{v} \\right]\n\\]\nThe magnitude \\(e = |\\vec{e}|\\) defines orbit shape:\n\n\\(e=0\\): circle\n\\(0&lt;e&lt;1\\): ellipse\n\\(e=1\\): parabola\n\\(e&gt;1\\): hyperbola"
+  },
+  {
+    "objectID": "posts/classical_orbital_elements/index.html#step-6-argument-of-perigee-and-true-anomaly",
+    "href": "posts/classical_orbital_elements/index.html#step-6-argument-of-perigee-and-true-anomaly",
+    "title": "A Python class for computing classical orbital elements",
+    "section": "Step 6 — Argument of Perigee and True Anomaly",
+    "text": "Step 6 — Argument of Perigee and True Anomaly\nif n != 0 and e &gt; 1e-8:\n    omega = np.degrees(safe_arccos(np.dot(n_vec, e_vec) / (n * e)))\n    if e_vec[2] &lt; 0:\n        omega = 360 - omega\nelse:\n    omega = np.nan\n\\[\n\\omega = \\cos^{-1}\\left( \\frac{\\mathbf{n}\\cdot \\mathbf{e}}{n e} \\right),\n\\quad\n\\text{if } e_z &lt; 0 \\;\\;\\Rightarrow\\;\\; \\omega = 2\\pi - \\omega\n\\]\nBut if \\(e \\approx 0\\), the direction of perigee is meaningless → we return NaN. Again, NaN is better than zero because zero would wrongly suggest perigee lies on the x-axis.\nFor the true anomaly \\(\\nu\\):\n\\[\n\\nu = \\cos^{-1}\\left( \\frac{\\mathbf{e}\\cdot \\mathbf{r}}{e r} \\right)\n\\]\nIf \\(\\vec{r}\\cdot\\vec{v} &lt; 0\\), we take \\(360^\\circ - \\nu\\). If \\(e \\approx 0\\), we compute \\(\\nu\\) relative to \\(\\vec{n}\\), unless the orbit is both circular and equatorial — in which case \\(\\nu\\) is undefined.\nFor circular orbits (\\(e \\approx 0\\)), (\\(\\nu\\)) is measured from the node vector (\\(\\mathbf{n}\\))."
+  },
+  {
+    "objectID": "posts/classical_orbital_elements/index.html#step-7-semi-major-axis",
+    "href": "posts/classical_orbital_elements/index.html#step-7-semi-major-axis",
+    "title": "A Python class for computing classical orbital elements",
+    "section": "Step 7 — Semi-major Axis",
+    "text": "Step 7 — Semi-major Axis\nenergy = v_norm**2 / 2 - mu / r_norm\na = -mu / (2 * energy)\nFrom specific orbital energy:\n\\[\n\\varepsilon = \\frac{v^2}{2} - \\frac{\\mu}{r}\n\\]\n\\[\na = -\\frac{\\mu}{2\\varepsilon}\n\\] If \\(\\epsilon \\to 0\\) (parabolic trajectory), \\(a \\to \\infty\\)."
+  },
+  {
+    "objectID": "posts/classical_orbital_elements/index.html#step-8-safe-arccos-with-np.clip",
+    "href": "posts/classical_orbital_elements/index.html#step-8-safe-arccos-with-np.clip",
+    "title": "A Python class for computing classical orbital elements",
+    "section": "Step 8 — Safe arccos with np.clip",
+    "text": "Step 8 — Safe arccos with np.clip\nWhy do we need safe_arccos()?\nExample:\nx = 1.0000000002\nnp.arccos(x)   # ValueError\nsafe_arccos(x) # Works fine\nBy clamping values into \\([-1, 1]\\), np.clip ensures we never hit numerical errors even when floating-point rounding pushes us slightly out of bounds."
+  },
+  {
+    "objectID": "posts/classical_orbital_elements/index.html#step-9-summarizing-results",
+    "href": "posts/classical_orbital_elements/index.html#step-9-summarizing-results",
+    "title": "A Python class for computing classical orbital elements",
+    "section": "Step 9 — Summarizing Results",
+    "text": "Step 9 — Summarizing Results\ncoe = {\n    \"h (km^2/s)\": h,\n    \"a (km)\": a,\n    \"i (deg)\": i,\n    \"RAAN (deg)\": RAAN,\n    \"e\": e,\n    \"omega (deg)\": omega,\n    \"nu (deg)\": nu,\n}\nWe print the table using tabulate:\n╒═══════════════╤══════════════╕\n│ Element       │ Value        │\n├───────────────┼──────────────┤\n│ h (km^2/s)    │ 52822.346304 │\n│ a (km)        │ 7000.000000  │\n│ i (deg)       │ 28.500000    │\n│ RAAN (deg)    │ 45.000000    │\n│ e             │ 0.010000     │\n│ omega (deg)   │ 90.000000    │\n│ nu (deg)      │ 120.000000   │\n╘═══════════════╧══════════════╛"
+  },
+  {
+    "objectID": "posts/classical_orbital_elements/index.html#writing-output-to-yaml",
+    "href": "posts/classical_orbital_elements/index.html#writing-output-to-yaml",
+    "title": "A Python class for computing classical orbital elements",
+    "section": "Writing output to YAML",
+    "text": "Writing output to YAML\ndef save_to_yaml(self, filename=\"coe_output.yaml\"):\n        if self.coe is None:\n            raise RuntimeError(\"COEs not yet calculated. Call calculate() first.\")\n\n        with open(filename, \"w\") as f:\n            yaml.dump(self.coe, f, default_flow_style=False)\n\n        print(f\"COEs saved to {filename}\")\nThis method saves the computed COEs into a YAML file.\n\nif self.coe is None: → safety check: don’t save until COEs are actually calculated.\nwith open(filename, \"w\") as f: → opens the target file in write mode.\nyaml.dump(self.coe, f, default_flow_style=False) → writes the Python dictionary self.coe to the file:\n\nself.coe: the data being written.\nf: the open file handle.\ndefault_flow_style=False: ensures YAML is written in block style (easy to read), rather than inline JSON-like style.\n\n\nThis produces a clean, shareable configuration-style output."
+  },
+  {
+    "objectID": "posts/classical_orbital_elements/index.html#the-calling-program",
+    "href": "posts/classical_orbital_elements/index.html#the-calling-program",
+    "title": "A Python class for computing classical orbital elements",
+    "section": "The calling program",
+    "text": "The calling program\nimport yaml\nfrom core import ClassicalOrbitalElements\n\ndef main():\n    # Load state vector from YAML\n    with open(\"config.yaml\", \"r\") as f:\n        config = yaml.safe_load(f)\n\n    position = config[\"state_vector\"][\"position\"]\n    velocity = config[\"state_vector\"][\"velocity\"]\n\n    coe_calc = ClassicalOrbitalElements(position, velocity)\n    coe_calc.calculate()\n    coe_calc.summary()\n    coe_calc.save_to_yaml(\"orbit_output.yaml\")\n\nif __name__ == \"__main__\":\n    main()\nThis is the driver script. Its job is to:\n\nRead the input state vectors from config.yaml.\nCreate a ClassicalOrbitalElements object with the data.\nCompute, summarize, and save the results.\n\nSeparating this into a main.py is good practice:\n\nKeeps the class code clean and reusable.\nLets us change how we call the class (e.g., from CLI or tests) without modifying the core logic.\nMirrors real-world software projects where library code and application entry points are distinct.\n\nAI Attribution: A few weeks ago, I had written a function to compute COEs from a satellite’s state vector. I shared it with AI and asked to reframe it using Python classes, dictionaries, and YAML as an exercise. The AI refactored the function into a clean, class-based design with modular files, design docs, and tests. What started as a single function evolved into something much closer to industry-level code. In this post, I focused on the core class; in later posts, I’ll cover documentation and testing."
+  },
+  {
+    "objectID": "posts/install_poliastro/index.html",
+    "href": "posts/install_poliastro/index.html",
+    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
     "section": "",
-    "text": "Poliastro is a modern Python library for orbital mechanics. It’s designed for both educational use and practical analysis, and integrates beautifully with Python tools like Astropy and Matplotlib.\nIn this post, we’ll learn how to define orbits in Poliastro using both state vectors and orbital elements. We won’t dive into plotting yet — we’ll just set up the orbits. Visualizations will come in a follow-up article."
+    "text": "Setting up scientific Python environments used to feel overwhelming to me—until I started collaborating with AI. With its help, I’ve learned how to automate my setup using shell scripts and gained confidence in managing the tools I use for orbital mechanics and data visualization.\nIn this post, I’ll walk you through a script that sets up a fully functional Python environment to work with Poliastro, a powerful library for orbital mechanics. Whether you’re a beginner or someone looking to streamline your workflow, this guide will give you both a working setup and an understanding of what each step does."
   },
   {
-    "objectID": "posts/poliastro_orbits/index.html#introduction",
-    "href": "posts/poliastro_orbits/index.html#introduction",
-    "title": "Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects",
+    "objectID": "posts/install_poliastro/index.html#introduction",
+    "href": "posts/install_poliastro/index.html#introduction",
+    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
     "section": "",
-    "text": "Poliastro is a modern Python library for orbital mechanics. It’s designed for both educational use and practical analysis, and integrates beautifully with Python tools like Astropy and Matplotlib.\nIn this post, we’ll learn how to define orbits in Poliastro using both state vectors and orbital elements. We won’t dive into plotting yet — we’ll just set up the orbits. Visualizations will come in a follow-up article."
+    "text": "Setting up scientific Python environments used to feel overwhelming to me—until I started collaborating with AI. With its help, I’ve learned how to automate my setup using shell scripts and gained confidence in managing the tools I use for orbital mechanics and data visualization.\nIn this post, I’ll walk you through a script that sets up a fully functional Python environment to work with Poliastro, a powerful library for orbital mechanics. Whether you’re a beginner or someone looking to streamline your workflow, this guide will give you both a working setup and an understanding of what each step does."
   },
   {
-    "objectID": "posts/poliastro_orbits/index.html#understanding-the-imports",
-    "href": "posts/poliastro_orbits/index.html#understanding-the-imports",
-    "title": "Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects",
-    "section": "Understanding the imports",
-    "text": "Understanding the imports\nfrom poliastro.bodies import Earth\nfrom poliastro.twobody import Orbit\nfrom poliastro.plotting.static import StaticOrbitPlotter\nfrom astropy import units as u\nfrom astropy.time import Time\nLet’s break these down:\n\nEarth is a predefined object representing Earth, with built-in values\nfor radius, mass, and gravitational constant.\nOrbit is the main class for representing orbits using either position/velocity vectors or classical elements.\nStaticOrbitPlotter will let us visualize the orbit using Matplotlib (we won’t use it in this post).\nunits comes from Astropy — it allows us to specify and enforce physical units in our calculations.\nTime is used to represent specific epochs (times) for orbital calculations."
+    "objectID": "posts/install_poliastro/index.html#what-well-do",
+    "href": "posts/install_poliastro/index.html#what-well-do",
+    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
+    "section": "What We’ll Do",
+    "text": "What We’ll Do\nBy the end of this post, you’ll know how to:\n\nWrite and run a basic shell script\nUse conda to manage environments and packages\nInstall the correct versions of poliastro, astropy, and other tools\nUnderstand why versions matter in scientific computing"
   },
   {
-    "objectID": "posts/poliastro_orbits/index.html#the-earth-object-in-poliastro",
-    "href": "posts/poliastro_orbits/index.html#the-earth-object-in-poliastro",
-    "title": "Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects",
-    "section": "The Earth Object in Poliastro",
-    "text": "The Earth Object in Poliastro\nWhen you run from poliastro.bodies import Earth, you’re import a predefined instance of the SolarSystemPlanet class. It comes with physical constants like:\nEarth.R       # Radius of Earth\nEarth.k       # Gravitational parameter (GM)\nEarth.mass    # Mass\nThese are essential when calculating orbits."
+    "objectID": "posts/install_poliastro/index.html#the-full-script-preview",
+    "href": "posts/install_poliastro/index.html#the-full-script-preview",
+    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
+    "section": "The Full Script (Preview)",
+    "text": "The Full Script (Preview)\nHere’s what you’ll build and understand step by step. To get started, copy the code below into a new file and save it as setup_orbitviz.sh. This script will automate the creation of your orbital mechanics Python environment.\n#!/bin/bash\n\necho \"🛰️  Creating conda environment 'orbitviz' with Python 3.10...\"\nconda create -y -n orbitviz python=3.10\n\necho \"🚀 Activating environment (if this fails, activate manually)...\"\nconda activate orbitviz || source activate orbitviz\n\necho \"🔭 Installing astropy 5.3...\"\nconda install -y -n orbitviz -c conda-forge astropy=5.3\n\necho \"📈 Installing matplotlib 3.5...\"\nconda install -y -n orbitviz matplotlib=3.5\n\necho \"🌌 Installing poliastro (with all extras)...\"\nconda run -n orbitviz pip install poliastro[all]\n\necho \"📓 Installing JupyterLab...\"\nconda install -y -n orbitviz -c conda-forge jupyterlab\n\necho \"🎨 Installing Plotly...\"\nconda install -y -n orbitviz -c plotly plotly\n\necho \"🧮 Installing numpy, scipy, tqdm...\"\nconda install -y -n orbitviz numpy scipy tqdm\n\necho \"✅ Setup complete. To activate the environment later, run: conda activate orbitviz\""
   },
   {
-    "objectID": "posts/poliastro_orbits/index.html#creating-orbit-objects",
-    "href": "posts/poliastro_orbits/index.html#creating-orbit-objects",
-    "title": "Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects",
-    "section": "Creating Orbit Objects",
-    "text": "Creating Orbit Objects\nThere are two ways to create an orbit in Poliastro:\n\nUsing Position and Velocity Vectors\n\nr = [7000, 0, 0] * u.km\nv = [0, 7.5, 1] * u.km / u.s\nepoch = Time(\"2025-01-01\", scale=\"utc\")\n\norbit1 = Orbit.from_vectors(Earth, r, v, epoch=epoch)\nThis method is useful when you have raw observational data or simulation outputs.\nNote: When creating orbits from vectors, epoch is required. This is the time at which the vectors are valid.\n\nUsing Classical Orbital Elements\n\nYou can also define an orbit using elements like:\n\nSemi-major axis (a): average size of the orbit\nEccentricity (ecc): shape of the orbit\nInclination (inc): tilt of the orbit relative to Earth’s equator\nRAAN: Right Ascension of the Ascending Node\nArgument of perigee (argp)\nTrue anomaly (nu): position of the object along the orbit\n\nHere’s how to define a circular orbit at 500 km altitude with a 30° inclination:\na_circ = Earth.R + 500 * u.km\ninc_circ = 30 * u.deg\norbit2 = Orbit.circular(Earth, alt=500 * u.km, inc=inc_circ)\nNow, let’s define an elliptical orbit with perigee at 500 km and apogee at 1500 km:\nr_p = Earth.R + 500 * u.km  # Perigee\nr_a = Earth.R + 1500 * u.km # Apogee\n\na = (r_p + r_a) / 2                     # Semi-major axis\necc = (r_a - r_p) / (r_a + r_p)        # Eccentricity\ninc = 60 * u.deg                       # Inclination\nraan = 30 * u.deg\nargp = 0 * u.deg\nnu = 0 * u.deg\n\norbit3 = Orbit.from_classical(Earth, a, ecc, inc, raan, argp, nu)\nNote: You don’t need to provide epoch when creating orbits using classical elements — the default is J2000, the standard astronomical epoch corresponding to January 1, 2000, 12:00 TT.\n\nA Note on Units and u.one\nPoliastro uses Astropy Units to manage dimensions. That’s why you’ll often see values like:\necc = 0.1 * u.one  # Eccentricity is dimensionless\nHere, u.one is a special unit that denotes “dimensionless” quantities. This ensures compatibility with Astropy’s quantity system while preserving physical correctness.\n\n\nWhat is J2000?\nJ2000 refers to January 1, 2000, 12:00 TT (Terrestrial Time). It’s a standard epoch used in astronomy and orbital mechanics.\nIn Poliastro, if you don’t specify an epoch, it defaults to J2000. Since Poliastro assumes perfect Keplerian motion (i.e., no perturbations), these orbits don’t change over time — so using J2000 as the default epoch is a safe baseline."
+    "objectID": "posts/install_poliastro/index.html#line-by-line-explanation",
+    "href": "posts/install_poliastro/index.html#line-by-line-explanation",
+    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
+    "section": "Line-by-Line Explanation",
+    "text": "Line-by-Line Explanation\n\n#!/bin/bash\n\nThis is called a shebang. It tells the operating system: “Run this file using the bash shell.”\nWithout this line, the system might not know how to run the script.\n\necho\n\nThe echo command prints messages to the terminal. It’s a simple way to give feedback while the script runs:\necho \"Creating environment...\"\nYou’ll often use this to keep the user informed of progress.\n\nconda create -y -n orbitviz python=3.10\n\nLet’s break this down:\nconda is a package and environment manager, especially useful for scientific work.\ncreate tells it to make a new environment.\n-n orbitviz gives the environment a name.\npython=3.10 installs Python 3.10 in that environment.\n-y means “yes to all prompts” — it won’t ask for confirmation.\nWhy use environments?\nThey keep your projects isolated. This way, a change in one project (e.g. upgrading NumPy) won’t break another.\n\nconda activate orbitviz || source activate orbitviz This tries to activate the environment so all future commands run inside it.\n\nconda activate orbitviz: Standard command for modern conda setups.\n|| source activate orbitviz: This part runs only if the first one fails (older conda versions).\n\nconda install -n orbitviz -c conda-forge astropy=5.3 This installs a package called astropy from the conda-forge channel:\n\n-n orbitviz: Install into this environment.\n-c conda-forge: Use the conda-forge channel — a community-driven source of scientific packages.\nastropy=5.3: Install exactly version 5.3.\nWhy a specific version? Not all versions of Astropy work well with Poliastro. Version pinning helps avoid compatibility issues.\nThis logic repeats for:\nmatplotlib=3.5\njupyterlab\nplotly\nnumpy, scipy, and tqdm.\n\nconda run -n orbitviz pip install poliastro[all]\n\nSometimes, we need pip to install packages from PyPI (Python Package Index).\n\nconda run -n orbitviz: Run a command inside the environment.\npip install poliastro[all]: Install Poliastro and all its optional features.\n\n\nchmod +x setup_orbitviz.sh\n\nBefore you run the script, you make it executable with:\nchmod +x setup_orbitviz.sh\nchmod changes file permissions.\n+x means “make this file executable.”\nNow you can run it as:\n./setup_orbitviz.sh"
   },
   {
-    "objectID": "posts/poliastro_orbits/index.html#summary",
-    "href": "posts/poliastro_orbits/index.html#summary",
-    "title": "Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects",
+    "objectID": "posts/install_poliastro/index.html#why-do-versions-matter",
+    "href": "posts/install_poliastro/index.html#why-do-versions-matter",
+    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
+    "section": "Why Do Versions Matter?",
+    "text": "Why Do Versions Matter?\nScientific libraries like astropy, matplotlib, and poliastro evolve constantly. But newer isn’t always better—especially when libraries depend on each other.\nFor example:\n\nPoliastro might rely on internal behavior of Astropy 5.3 that’s changed in 5.4.\nMatplotlib might break visualization formatting if you jump versions.\n\nVersion pinning ensures a stable and predictable environment—which is critical when you’re doing simulations or research."
+  },
+  {
+    "objectID": "posts/install_poliastro/index.html#want-to-try",
+    "href": "posts/install_poliastro/index.html#want-to-try",
+    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
+    "section": "Want to try?",
+    "text": "Want to try?\nHere’s how you can run the whole thing:\n# Make the script executable\nchmod +x setup_orbitviz.sh\n\n# Run it!\n./setup_orbitviz.sh\nIf something fails (e.g. activation), try this manually:\nconda activate orbitviz\nAnd then:\njupyterlab"
+  },
+  {
+    "objectID": "posts/install_poliastro/index.html#summary",
+    "href": "posts/install_poliastro/index.html#summary",
+    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
     "section": "Summary",
-    "text": "Summary\nIn this post, we learnt how to:\n\nImport and use Poliastro’s core modules\nDefine orbits using state vectors or classical elements\nHandle physical units properly using Astropy\nUnderstand default behavior like epoch and dimensionless quantities\nIn the next post, we’ll use StaticOrbitPlotter to visualize these orbits with Matplotlib.\n\n\nAI Attribution: This post is the result of an ongoing collaboration between the author and AI. The code examples were generated by AI based on specific requests. The author asked many follow-up questions, made detailed notes, and shared key takeaways — which were then shaped into this post with help from AI. This is part of an ongoing experiment in human–AI collaboration for technical learning and writing."
+    "text": "Summary\n\nYou learned how to write and run a bash script\nUnderstood conda environments, channels, and version pinning\nSet up a working Python lab for orbital mechanics in just a few commands\n\nIn the next post, we’ll write our first orbit simulation using Poliastro. You’ll be able to compute orbital elements, propagate orbits, and visualize them in 3D.\n\nAI Attribution: This blog post is part of an ongoing experiment in human–AI collaboration. The shell script presented here was generated by AI based on the author’s request and intent. The initial draft of this article was also AI-assisted, with light human edits and review."
   },
   {
     "objectID": "posts/poliastro_plot_orbits/index.html",
@@ -161,69 +224,6 @@
     "text": "Conclusion\nPoliastro is a fantastic tool for visualizing satellite orbits. In this post, we not only plotted orbits but also found opportunities to work with Python dictionaries and touch on a few other programming concepts along the way.\nAI Attribution: This post came together over a week-long conversation with AI. I started by asking it to write code, making sure dictionaries were included where they made sense. As we went along, I asked plenty of follow-up questions, took detailed notes, and eventually handed those notes back to the AI to shape into the post you’ve just read."
   },
   {
-    "objectID": "posts/install_poliastro/index.html",
-    "href": "posts/install_poliastro/index.html",
-    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
-    "section": "",
-    "text": "Setting up scientific Python environments used to feel overwhelming to me—until I started collaborating with AI. With its help, I’ve learned how to automate my setup using shell scripts and gained confidence in managing the tools I use for orbital mechanics and data visualization.\nIn this post, I’ll walk you through a script that sets up a fully functional Python environment to work with Poliastro, a powerful library for orbital mechanics. Whether you’re a beginner or someone looking to streamline your workflow, this guide will give you both a working setup and an understanding of what each step does."
-  },
-  {
-    "objectID": "posts/install_poliastro/index.html#introduction",
-    "href": "posts/install_poliastro/index.html#introduction",
-    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
-    "section": "",
-    "text": "Setting up scientific Python environments used to feel overwhelming to me—until I started collaborating with AI. With its help, I’ve learned how to automate my setup using shell scripts and gained confidence in managing the tools I use for orbital mechanics and data visualization.\nIn this post, I’ll walk you through a script that sets up a fully functional Python environment to work with Poliastro, a powerful library for orbital mechanics. Whether you’re a beginner or someone looking to streamline your workflow, this guide will give you both a working setup and an understanding of what each step does."
-  },
-  {
-    "objectID": "posts/install_poliastro/index.html#what-well-do",
-    "href": "posts/install_poliastro/index.html#what-well-do",
-    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
-    "section": "What We’ll Do",
-    "text": "What We’ll Do\nBy the end of this post, you’ll know how to:\n\nWrite and run a basic shell script\nUse conda to manage environments and packages\nInstall the correct versions of poliastro, astropy, and other tools\nUnderstand why versions matter in scientific computing"
-  },
-  {
-    "objectID": "posts/install_poliastro/index.html#the-full-script-preview",
-    "href": "posts/install_poliastro/index.html#the-full-script-preview",
-    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
-    "section": "The Full Script (Preview)",
-    "text": "The Full Script (Preview)\nHere’s what you’ll build and understand step by step. To get started, copy the code below into a new file and save it as setup_orbitviz.sh. This script will automate the creation of your orbital mechanics Python environment.\n#!/bin/bash\n\necho \"🛰️  Creating conda environment 'orbitviz' with Python 3.10...\"\nconda create -y -n orbitviz python=3.10\n\necho \"🚀 Activating environment (if this fails, activate manually)...\"\nconda activate orbitviz || source activate orbitviz\n\necho \"🔭 Installing astropy 5.3...\"\nconda install -y -n orbitviz -c conda-forge astropy=5.3\n\necho \"📈 Installing matplotlib 3.5...\"\nconda install -y -n orbitviz matplotlib=3.5\n\necho \"🌌 Installing poliastro (with all extras)...\"\nconda run -n orbitviz pip install poliastro[all]\n\necho \"📓 Installing JupyterLab...\"\nconda install -y -n orbitviz -c conda-forge jupyterlab\n\necho \"🎨 Installing Plotly...\"\nconda install -y -n orbitviz -c plotly plotly\n\necho \"🧮 Installing numpy, scipy, tqdm...\"\nconda install -y -n orbitviz numpy scipy tqdm\n\necho \"✅ Setup complete. To activate the environment later, run: conda activate orbitviz\""
-  },
-  {
-    "objectID": "posts/install_poliastro/index.html#line-by-line-explanation",
-    "href": "posts/install_poliastro/index.html#line-by-line-explanation",
-    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
-    "section": "Line-by-Line Explanation",
-    "text": "Line-by-Line Explanation\n\n#!/bin/bash\n\nThis is called a shebang. It tells the operating system: “Run this file using the bash shell.”\nWithout this line, the system might not know how to run the script.\n\necho\n\nThe echo command prints messages to the terminal. It’s a simple way to give feedback while the script runs:\necho \"Creating environment...\"\nYou’ll often use this to keep the user informed of progress.\n\nconda create -y -n orbitviz python=3.10\n\nLet’s break this down:\nconda is a package and environment manager, especially useful for scientific work.\ncreate tells it to make a new environment.\n-n orbitviz gives the environment a name.\npython=3.10 installs Python 3.10 in that environment.\n-y means “yes to all prompts” — it won’t ask for confirmation.\nWhy use environments?\nThey keep your projects isolated. This way, a change in one project (e.g. upgrading NumPy) won’t break another.\n\nconda activate orbitviz || source activate orbitviz This tries to activate the environment so all future commands run inside it.\n\nconda activate orbitviz: Standard command for modern conda setups.\n|| source activate orbitviz: This part runs only if the first one fails (older conda versions).\n\nconda install -n orbitviz -c conda-forge astropy=5.3 This installs a package called astropy from the conda-forge channel:\n\n-n orbitviz: Install into this environment.\n-c conda-forge: Use the conda-forge channel — a community-driven source of scientific packages.\nastropy=5.3: Install exactly version 5.3.\nWhy a specific version? Not all versions of Astropy work well with Poliastro. Version pinning helps avoid compatibility issues.\nThis logic repeats for:\nmatplotlib=3.5\njupyterlab\nplotly\nnumpy, scipy, and tqdm.\n\nconda run -n orbitviz pip install poliastro[all]\n\nSometimes, we need pip to install packages from PyPI (Python Package Index).\n\nconda run -n orbitviz: Run a command inside the environment.\npip install poliastro[all]: Install Poliastro and all its optional features.\n\n\nchmod +x setup_orbitviz.sh\n\nBefore you run the script, you make it executable with:\nchmod +x setup_orbitviz.sh\nchmod changes file permissions.\n+x means “make this file executable.”\nNow you can run it as:\n./setup_orbitviz.sh"
-  },
-  {
-    "objectID": "posts/install_poliastro/index.html#why-do-versions-matter",
-    "href": "posts/install_poliastro/index.html#why-do-versions-matter",
-    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
-    "section": "Why Do Versions Matter?",
-    "text": "Why Do Versions Matter?\nScientific libraries like astropy, matplotlib, and poliastro evolve constantly. But newer isn’t always better—especially when libraries depend on each other.\nFor example:\n\nPoliastro might rely on internal behavior of Astropy 5.3 that’s changed in 5.4.\nMatplotlib might break visualization formatting if you jump versions.\n\nVersion pinning ensures a stable and predictable environment—which is critical when you’re doing simulations or research."
-  },
-  {
-    "objectID": "posts/install_poliastro/index.html#want-to-try",
-    "href": "posts/install_poliastro/index.html#want-to-try",
-    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
-    "section": "Want to try?",
-    "text": "Want to try?\nHere’s how you can run the whole thing:\n# Make the script executable\nchmod +x setup_orbitviz.sh\n\n# Run it!\n./setup_orbitviz.sh\nIf something fails (e.g. activation), try this manually:\nconda activate orbitviz\nAnd then:\njupyterlab"
-  },
-  {
-    "objectID": "posts/install_poliastro/index.html#summary",
-    "href": "posts/install_poliastro/index.html#summary",
-    "title": "Automating a Scientific Python Setup: A Gentle Walkthrough",
-    "section": "Summary",
-    "text": "Summary\n\nYou learned how to write and run a bash script\nUnderstood conda environments, channels, and version pinning\nSet up a working Python lab for orbital mechanics in just a few commands\n\nIn the next post, we’ll write our first orbit simulation using Poliastro. You’ll be able to compute orbital elements, propagate orbits, and visualize them in 3D.\n\nAI Attribution: This blog post is part of an ongoing experiment in human–AI collaboration. The shell script presented here was generated by AI based on the author’s request and intent. The initial draft of this article was also AI-assisted, with light human edits and review."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "All articles",
-    "section": "",
-    "text": "How AI will Redfine Human Roles in Space Software\n\n\n\n\n\n\nThoughts\n\n\n\nIn the AI era, the “default engineer” in space will not be someone confined to one subsystem, but someone capable of thinking across the entire satellite.\n\n\n\n\n\nSep 20, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nWhat the Radius–Velocity Angle Reveals About Orbit Direction\n\n\nA geometric shortcut for interpreting orbital motion.\n\n\n\norbital mechanics\n\n\n\nA geometric look at how the dot product of radius and velocity vectors reveals whether a satellite is moving toward or away from perigee.\n\n\n\n\n\nAug 23, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nVisualizing Orbits with Poliastro — A Detailed Walkthrough\n\n\n\n\n\n\norbital mechanics\n\npoliastro\n\n\n\nA detailed guide to plotting orbits using Python\n\n\n\n\n\nAug 15, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nVisualizing Orbits with Poliastro – Part 1: Creating Orbit Objects\n\n\nLearn how to create circular and elliptical orbit objects in Python using Poliastro.\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\n\n\nLearn how to create orbit objects in Poliastro using classical elements and state vectors — with beginner-friendly explanations of key concepts like epochs and astronomical units.\n\n\n\n\n\nJun 29, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\n\n\n\n\n\n\n\nAutomating a Scientific Python Setup: A Gentle Walkthrough\n\n\nA shell script to set up poliastro and its dependencies\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\nshell scripts\n\n\n\nThe first in a series of posts on poliastro – a Python library for visualizing and analyzing orbits in Python.\n\n\n\n\n\nJun 25, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "posts/ai_and_software/index.html",
     "href": "posts/ai_and_software/index.html",
     "title": "How AI will Redfine Human Roles in Space Software",
@@ -264,5 +264,96 @@
     "title": "How AI will Redfine Human Roles in Space Software",
     "section": "Conclusion",
     "text": "Conclusion\nThe cost of code has collapsed, but the value of human expertise has never been higher. In the AI era, the “default engineer” in space will not be someone confined to one subsystem, but someone capable of thinking across the entire satellite.\nThe winners will be those who pair deep domain knowledge with a collaborative approach to AI — writing strong prompts, reviewing critically, and testing rigorously.\nThis is not the end of engineering. It’s the beginning of a new kind of engineer."
+  },
+  {
+    "objectID": "posts/poliastro_orbits/index.html",
+    "href": "posts/poliastro_orbits/index.html",
+    "title": "Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects",
+    "section": "",
+    "text": "Poliastro is a modern Python library for orbital mechanics. It’s designed for both educational use and practical analysis, and integrates beautifully with Python tools like Astropy and Matplotlib.\nIn this post, we’ll learn how to define orbits in Poliastro using both state vectors and orbital elements. We won’t dive into plotting yet — we’ll just set up the orbits. Visualizations will come in a follow-up article."
+  },
+  {
+    "objectID": "posts/poliastro_orbits/index.html#introduction",
+    "href": "posts/poliastro_orbits/index.html#introduction",
+    "title": "Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects",
+    "section": "",
+    "text": "Poliastro is a modern Python library for orbital mechanics. It’s designed for both educational use and practical analysis, and integrates beautifully with Python tools like Astropy and Matplotlib.\nIn this post, we’ll learn how to define orbits in Poliastro using both state vectors and orbital elements. We won’t dive into plotting yet — we’ll just set up the orbits. Visualizations will come in a follow-up article."
+  },
+  {
+    "objectID": "posts/poliastro_orbits/index.html#understanding-the-imports",
+    "href": "posts/poliastro_orbits/index.html#understanding-the-imports",
+    "title": "Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects",
+    "section": "Understanding the imports",
+    "text": "Understanding the imports\nfrom poliastro.bodies import Earth\nfrom poliastro.twobody import Orbit\nfrom poliastro.plotting.static import StaticOrbitPlotter\nfrom astropy import units as u\nfrom astropy.time import Time\nLet’s break these down:\n\nEarth is a predefined object representing Earth, with built-in values\nfor radius, mass, and gravitational constant.\nOrbit is the main class for representing orbits using either position/velocity vectors or classical elements.\nStaticOrbitPlotter will let us visualize the orbit using Matplotlib (we won’t use it in this post).\nunits comes from Astropy — it allows us to specify and enforce physical units in our calculations.\nTime is used to represent specific epochs (times) for orbital calculations."
+  },
+  {
+    "objectID": "posts/poliastro_orbits/index.html#the-earth-object-in-poliastro",
+    "href": "posts/poliastro_orbits/index.html#the-earth-object-in-poliastro",
+    "title": "Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects",
+    "section": "The Earth Object in Poliastro",
+    "text": "The Earth Object in Poliastro\nWhen you run from poliastro.bodies import Earth, you’re import a predefined instance of the SolarSystemPlanet class. It comes with physical constants like:\nEarth.R       # Radius of Earth\nEarth.k       # Gravitational parameter (GM)\nEarth.mass    # Mass\nThese are essential when calculating orbits."
+  },
+  {
+    "objectID": "posts/poliastro_orbits/index.html#creating-orbit-objects",
+    "href": "posts/poliastro_orbits/index.html#creating-orbit-objects",
+    "title": "Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects",
+    "section": "Creating Orbit Objects",
+    "text": "Creating Orbit Objects\nThere are two ways to create an orbit in Poliastro:\n\nUsing Position and Velocity Vectors\n\nr = [7000, 0, 0] * u.km\nv = [0, 7.5, 1] * u.km / u.s\nepoch = Time(\"2025-01-01\", scale=\"utc\")\n\norbit1 = Orbit.from_vectors(Earth, r, v, epoch=epoch)\nThis method is useful when you have raw observational data or simulation outputs.\nNote: When creating orbits from vectors, epoch is required. This is the time at which the vectors are valid.\n\nUsing Classical Orbital Elements\n\nYou can also define an orbit using elements like:\n\nSemi-major axis (a): average size of the orbit\nEccentricity (ecc): shape of the orbit\nInclination (inc): tilt of the orbit relative to Earth’s equator\nRAAN: Right Ascension of the Ascending Node\nArgument of perigee (argp)\nTrue anomaly (nu): position of the object along the orbit\n\nHere’s how to define a circular orbit at 500 km altitude with a 30° inclination:\na_circ = Earth.R + 500 * u.km\ninc_circ = 30 * u.deg\norbit2 = Orbit.circular(Earth, alt=500 * u.km, inc=inc_circ)\nNow, let’s define an elliptical orbit with perigee at 500 km and apogee at 1500 km:\nr_p = Earth.R + 500 * u.km  # Perigee\nr_a = Earth.R + 1500 * u.km # Apogee\n\na = (r_p + r_a) / 2                     # Semi-major axis\necc = (r_a - r_p) / (r_a + r_p)        # Eccentricity\ninc = 60 * u.deg                       # Inclination\nraan = 30 * u.deg\nargp = 0 * u.deg\nnu = 0 * u.deg\n\norbit3 = Orbit.from_classical(Earth, a, ecc, inc, raan, argp, nu)\nNote: You don’t need to provide epoch when creating orbits using classical elements — the default is J2000, the standard astronomical epoch corresponding to January 1, 2000, 12:00 TT.\n\nA Note on Units and u.one\nPoliastro uses Astropy Units to manage dimensions. That’s why you’ll often see values like:\necc = 0.1 * u.one  # Eccentricity is dimensionless\nHere, u.one is a special unit that denotes “dimensionless” quantities. This ensures compatibility with Astropy’s quantity system while preserving physical correctness.\n\n\nWhat is J2000?\nJ2000 refers to January 1, 2000, 12:00 TT (Terrestrial Time). It’s a standard epoch used in astronomy and orbital mechanics.\nIn Poliastro, if you don’t specify an epoch, it defaults to J2000. Since Poliastro assumes perfect Keplerian motion (i.e., no perturbations), these orbits don’t change over time — so using J2000 as the default epoch is a safe baseline."
+  },
+  {
+    "objectID": "posts/poliastro_orbits/index.html#summary",
+    "href": "posts/poliastro_orbits/index.html#summary",
+    "title": "Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects",
+    "section": "Summary",
+    "text": "Summary\nIn this post, we learnt how to:\n\nImport and use Poliastro’s core modules\nDefine orbits using state vectors or classical elements\nHandle physical units properly using Astropy\nUnderstand default behavior like epoch and dimensionless quantities\nIn the next post, we’ll use StaticOrbitPlotter to visualize these orbits with Matplotlib.\n\n\nAI Attribution: This post is the result of an ongoing collaboration between the author and AI. The code examples were generated by AI based on specific requests. The author asked many follow-up questions, made detailed notes, and shared key takeaways — which were then shaped into this post with help from AI. This is part of an ongoing experiment in human–AI collaboration for technical learning and writing."
+  },
+  {
+    "objectID": "posts/position_vel_angle/index.html",
+    "href": "posts/position_vel_angle/index.html",
+    "title": "What the Radius–Velocity Angle Reveals About Orbit Direction",
+    "section": "",
+    "text": "We want a clear, intuitive answer to: given the true anomaly \\(\\theta\\), how can we tell from the geometry whether a satellite in an elliptical orbit is moving toward perigee or away from it?\nWe will first give a short, intuitive argument (no heavy algebra), then derive an explicit formula for the angle \\(\\psi\\) between the position vector \\(\\mathbf{r}\\) and velocity vector \\(\\mathbf{v}\\)."
+  },
+  {
+    "objectID": "posts/position_vel_angle/index.html#goal",
+    "href": "posts/position_vel_angle/index.html#goal",
+    "title": "What the Radius–Velocity Angle Reveals About Orbit Direction",
+    "section": "",
+    "text": "We want a clear, intuitive answer to: given the true anomaly \\(\\theta\\), how can we tell from the geometry whether a satellite in an elliptical orbit is moving toward perigee or away from it?\nWe will first give a short, intuitive argument (no heavy algebra), then derive an explicit formula for the angle \\(\\psi\\) between the position vector \\(\\mathbf{r}\\) and velocity vector \\(\\mathbf{v}\\)."
+  },
+  {
+    "objectID": "posts/position_vel_angle/index.html#quick-intuitive-argument-sign-of-radial-velocity",
+    "href": "posts/position_vel_angle/index.html#quick-intuitive-argument-sign-of-radial-velocity",
+    "title": "What the Radius–Velocity Angle Reveals About Orbit Direction",
+    "section": "Quick, intuitive argument (sign of radial velocity)",
+    "text": "Quick, intuitive argument (sign of radial velocity)\nDecompose the velocity into radial and transverse components: \\[\n\\mathbf{v} = v_r\\,\\hat{\\mathbf r} + v_\\theta\\,\\hat{\\boldsymbol\\theta}.\n\\tag{1}\\]\nThe cosine of the angle \\(\\psi\\) between \\(\\mathbf r\\) and \\(\\mathbf v\\) is \\[\n\\cos\\psi = \\frac{\\mathbf r\\cdot\\mathbf v}{r\\,v} = \\frac{r v_r}{r v} = \\frac{v_r}{v},\n\\tag{2}\\] so the sign of \\(v_r\\) alone determines whether \\(\\psi\\) is less than or greater than \\(90^\\circ\\).\nThe radial component of velocity is simply \\(\\dot{r}\\) — the time rate of change of the satellite’s distance from Earth.\n\nWhen the satellite moves away from perigee (the closest point), its distance from Earth is growing until it reaches a maximum at apogee. In this phase, \\(\\dot{r} &gt; 0\\), so the radial velocity \\(v_r\\) is positive.\nWhen the satellite moves back toward perigee, its distance is shrinking until it reaches a minimum again at perigee. Here, \\(\\dot{r} &lt; 0\\), so \\(v_r\\) is negative.\n\nWe can now conclude:\n\nIf \\(v_r &gt; 0\\), then \\(\\cos \\psi &gt; 0 \\;\\Rightarrow\\; \\psi &lt; 90^\\circ\\). In this case, the velocity has a growing radial component, meaning the satellite is moving away from perigee toward apogee.\nIf \\(v_r &lt; 0\\), then \\(\\cos \\psi &lt; 0 \\;\\Rightarrow\\; \\psi &gt; 90^\\circ\\). Here, the velocity has a shrinking radial component, meaning the satellite is moving back toward perigee from apogee.\n\nThus, a quick test for “toward/away” is simply the sign of \\(v_r\\)."
+  },
+  {
+    "objectID": "posts/position_vel_angle/index.html#full-derivation-express-cospsi-in-terms-of-e-and-theta",
+    "href": "posts/position_vel_angle/index.html#full-derivation-express-cospsi-in-terms-of-e-and-theta",
+    "title": "What the Radius–Velocity Angle Reveals About Orbit Direction",
+    "section": "Full derivation: express \\(\\cos\\psi\\) in terms of \\(e\\) and \\(\\theta\\)",
+    "text": "Full derivation: express \\(\\cos\\psi\\) in terms of \\(e\\) and \\(\\theta\\)\nBelow we derive an explicit relation \\(\\cos\\psi=\\cos\\psi(\\theta)\\) so a reader can compute \\(\\psi\\) (not only its sign).\n\nOrbit geometry\nThe orbit in polar coordinates (focus at origin) is \\[\nr(\\theta) = \\frac{p}{1 + e\\cos\\theta}, \\qquad p = a(1-e^2), \\quad 0&lt;e&lt;1.\n\\tag{3}\\]\n\n\nRadial velocity via the chain rule\nBecause \\(r=r(\\theta(t))\\), \\[\nv_r \\equiv \\dot r = \\frac{dr}{dt} = \\frac{dr}{d\\theta}\\,\\dot\\theta.\n\\tag{4}\\]\nDifferentiate \\(r(\\theta)\\) with respect to \\(\\theta\\): \\[\n\\frac{dr}{d\\theta}\n= \\frac{d}{d\\theta}\\!\\left(\\frac{p}{1+e\\cos\\theta}\\right)\n= \\frac{p\\,e\\sin\\theta}{(1+e\\cos\\theta)^2}.\n\\tag{5}\\]\nSpecific angular momentum gives \\[\nh = r^2\\dot\\theta = \\sqrt{\\mu p},\n\\tag{6}\\] so \\(\\dot\\theta = h/r^2\\). Using \\(r=\\dfrac{p}{1+e\\cos\\theta}\\) and substituting into Equation 4: \\[\n\\begin{aligned}\nv_r\n&= \\frac{p\\,e\\sin\\theta}{(1+e\\cos\\theta)^2}\\cdot\\frac{h}{r^2} \\\\\n&= \\frac{p\\,e\\sin\\theta}{(1+e\\cos\\theta)^2}\\cdot\\frac{h(1+e\\cos\\theta)^2}{p^2} \\\\\n&= \\frac{h}{p}\\,e\\sin\\theta\n= \\sqrt{\\frac{\\mu}{p}}\\,e\\sin\\theta.\n\\end{aligned}\n\\tag{7}\\]\n\n\nTransverse component and speed\nFrom \\(h = r v_\\theta\\), \\[\nv_\\theta = \\frac{h}{r} = \\sqrt{\\frac{\\mu}{p}}\\,(1+e\\cos\\theta).\n\\tag{8}\\]\nThen the speed is \\[\n\\begin{aligned}\nv &= \\sqrt{v_r^2 + v_\\theta^2} \\\\\n&= \\sqrt{\\frac{\\mu}{p}\\Big(e^2\\sin^2\\theta + (1+e\\cos\\theta)^2\\Big)} \\\\\n&= \\sqrt{\\frac{\\mu}{p}}\\sqrt{1 + 2e\\cos\\theta + e^2}.\n\\end{aligned}\n\\tag{9}\\]\n\n\nFinal formula for \\(\\cos\\psi\\)\nUsing Equation 2, Equation 7 and Equation 9 we get \\[\n\\boxed{%\n\\cos\\psi(\\theta) = \\frac{e\\sin\\theta}{\\sqrt{\\,1 + 2e\\cos\\theta + e^2\\,}}%\n}\n\\tag{10}\\]"
+  },
+  {
+    "objectID": "posts/position_vel_angle/index.html#why-the-denominator-is-always-positive-ellipses",
+    "href": "posts/position_vel_angle/index.html#why-the-denominator-is-always-positive-ellipses",
+    "title": "What the Radius–Velocity Angle Reveals About Orbit Direction",
+    "section": "Why the denominator is always positive (ellipses)",
+    "text": "Why the denominator is always positive (ellipses)\nThe term under the square root can be rearranged as \\[\n1 + 2e\\cos\\theta + e^2 = (1+e\\cos\\theta)^2 + e^2\\sin^2\\theta,\n\\tag{11}\\] which is a sum of two non-negative terms. For \\(0&lt;e&lt;1\\) there is no \\(\\theta\\) making both terms zero simultaneously (that would require \\(\\cos\\theta=-1/e\\), impossible). Hence the denominator in Equation 10 is strictly positive for elliptic orbits.\nAs a simple check, at \\(\\theta=\\pi\\) the expression becomes \\((1-e)^2&gt;0\\)."
+  },
+  {
+    "objectID": "posts/position_vel_angle/index.html#conclusion",
+    "href": "posts/position_vel_angle/index.html#conclusion",
+    "title": "What the Radius–Velocity Angle Reveals About Orbit Direction",
+    "section": "Conclusion",
+    "text": "Conclusion\nWe can now conclude the following.\nSince the velocity vector in an elliptical orbit always has a tangential component, the angle \\(\\psi\\) between \\(\\mathbf{r}\\) and \\(\\mathbf{v}\\) is restricted to the physically meaningful range\n\\[\n0^\\circ &lt; \\psi &lt; 180^\\circ.\n\\]\nThe endpoints are excluded, because \\(\\psi = 0^\\circ\\) or \\(180^\\circ\\) would imply purely radial motion, which is impossible in a bound Keplerian orbit.\nWithin this range:\n\nIf \\(v_r &gt; 0\\), then \\(\\cos\\psi &gt; 0 \\;\\;\\Rightarrow\\;\\; \\psi &lt; 90^\\circ\\) (velocity has a growing radial component → satellite moving away from perigee).\nIf \\(v_r &lt; 0\\), then \\(\\cos\\psi &lt; 0 \\;\\;\\Rightarrow\\;\\; \\psi &gt; 90^\\circ\\) (velocity has a shrinking radial component → satellite moving toward perigee).\n\nWe can express this in terms of dot product of the radius and velocity vectors:\n\\[\n\\mathbf{r}\\cdot\\mathbf{v} = r v \\cos \\psi\n\\]\nSince \\(r&gt;0\\) and \\(v&gt;0\\), the sign of \\(\\mathbf{r}\\cdot\\mathbf{v}\\) is determined entirely by \\(\\cos\\psi\\):\n\nIf \\(\\mathbf{r}\\cdot\\mathbf{v} &gt; 0\\), then \\(0^\\circ &lt; \\psi &lt; 90^\\circ\\) (satellite is moving away from perigee).\nIf \\(\\mathbf{r}\\cdot\\mathbf{v} &lt; 0\\), then \\(90^\\circ &lt; \\psi &lt; 180^\\circ\\) (satellite is moving toward perigee).\n\n\nAI Attribution: Textbooks often state that the dot product of the radius and velocity vectors indicates the direction of a satellite’s motion, but they rarely explain the reasoning in detail. I explored this idea in depth through a long conversation with AI, making detailed notes along the way. The first draft of this post grew out of those notes, and I refined it further with AI’s help."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "All articles",
+    "section": "",
+    "text": "A Python class for computing classical orbital elements\n\n\n\n\n\n\norbital mechanics\n\nscientific computing\n\n\n\nThis post walks through computing COEs from state vectors in Python using NumPy.\n\n\n\n\n\nSep 29, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nHow AI will Redfine Human Roles in Space Software\n\n\n\n\n\n\nThoughts\n\n\n\nIn the AI era, the “default engineer” in space will not be someone confined to one subsystem, but someone capable of thinking across the entire satellite.\n\n\n\n\n\nSep 20, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nWhat the Radius–Velocity Angle Reveals About Orbit Direction\n\n\nA geometric shortcut for interpreting orbital motion.\n\n\n\norbital mechanics\n\n\n\nA geometric look at how the dot product of radius and velocity vectors reveals whether a satellite is moving toward or away from perigee.\n\n\n\n\n\nAug 23, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nVisualizing Orbits with Poliastro — A Detailed Walkthrough\n\n\n\n\n\n\norbital mechanics\n\npoliastro\n\n\n\nA detailed guide to plotting orbits using Python\n\n\n\n\n\nAug 15, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nVisualizing Orbits with Poliastro – Part 1: Creating Orbit Objects\n\n\nLearn how to create circular and elliptical orbit objects in Python using Poliastro.\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\n\n\nLearn how to create orbit objects in Poliastro using classical elements and state vectors — with beginner-friendly explanations of key concepts like epochs and astronomical units.\n\n\n\n\n\nJun 29, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\n\n\n\n\n\n\n\nAutomating a Scientific Python Setup: A Gentle Walkthrough\n\n\nA shell script to set up poliastro and its dependencies\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\nshell scripts\n\n\n\nThe first in a series of posts on poliastro – a Python library for visualizing and analyzing orbits in Python.\n\n\n\n\n\nJun 25, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\nNo matching items"
   }
 ]

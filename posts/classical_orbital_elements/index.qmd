@@ -3,7 +3,7 @@ title: "A Python class for computing classical orbital elements"
 subtitle: ""
 description: "This post walks through computing COEs from state vectors in Python using NumPy."
 author: "Madhukara Putty"
-date: "2025-09-27"
+date: "2025-09-29"
 categories: [orbital mechanics, scientific computing]
 ---
 

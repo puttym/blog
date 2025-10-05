@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/common_python_errors/index.html",
       "/posts/classical_orbital_elements/index.html",
       "/posts/ai_and_software/index.html",
       "/posts/position_vel_angle/index.html",

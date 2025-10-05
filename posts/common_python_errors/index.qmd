@@ -1,0 +1,125 @@
+---
+title: "Common Python Errors in Space Software — and How to Handle Them"
+subtitle: ""
+description: "In scientific programming, and especially in space systems, we don’t just write code that “works.” We write code that fails safely and predictably."
+author: "Madhukara Putty"
+date: "2025-10-05"
+categories: "scientific computing"
+---
+
+## Introduction
+Software is as mission-critical in space as the hardware it controls. A small bug in how we handle errors can ripple into large consequences — from lost data to incorrect orbital predictions. In scientific programming, and especially in space systems, we don’t just write code that “works.” We write code that **fails safely and predictably**.
+
+Here are some Python errors you’ll encounter often in scientific/space software, with examples drawn from orbital mechanics, ground operations, and spacecraft systems.
+
+---
+
+## `ValueError` — When numbers don’t make sense
+A `ValueError` crops up when the type is correct, but the *value* is invalid.
+
+**Example (orbital mechanics):**
+
+If you try to compute orbital elements with a negative semi-major axis for an Earth orbit, that’s not physically valid.
+
+```python
+if a <= 0:
+    raise ValueError("Semi-major axis must be positive for Earth orbits.")
+```
+
+## `TypeError` — When the wrong kind of thing is passed
+
+A `TypeError` means the input isn’t the right *type*.
+
+**Example (ground station scheduling):**
+
+Say your function expects a `datetime` object, but you pass a string instead.
+
+```python
+def schedule_pass(pass_time):
+    if not isinstance(pass_time, datetime):
+        raise TypeError("Expected a datetime object for pass_time.")
+```
+
+Catching this early avoids subtle time conversion errors.
+
+## `IndexError` — When you go beyond the array
+
+In space software, arrays are everywhere — ephemerides, sensor readings, power budgets. An `IndexError` means you asked for an element outside the array.
+
+**Example (power subsystem data):**
+
+```python
+voltages = [3.3, 5.0, 12.0]
+print(voltages[3])  # IndexError: list index out of range
+```
+
+If you’re processing telemetry batches, careful index checking prevents crashes during anomaly analysis.
+
+
+## `RuntimeError` — When the system state is wrong
+
+A `RuntimeError` signals that something about the current program state makes the operation impossible.
+
+**Example (attitude dynamics):**
+
+```python
+if not self.coe_calculated:
+    raise RuntimeError("Orbital elements not calculated before attitude propagation.")
+```
+
+Here, the inputs might be valid, but the sequence of operations is wrong. This enforces logical order in mission pipelines.
+
+
+## `AssertionError` — When assumptions fail
+
+Assertions are like sanity checks. They confirm that conditions you believe to be true really hold.
+
+**Example (ADCS quaternion):**
+
+A unit quaternion must have norm = 1.
+
+```python
+assert np.isclose(np.linalg.norm(q), 1.0), "Quaternion not normalized!"
+```
+
+In simulation, this catches numerical drift before it contaminates control outputs.
+
+## `IOError` / `FileNotFoundError` — When external data is missing
+
+Space software often relies on ephemeris files, TLE data, or config YAMLs. If a file is missing, the program must fail clearly.
+
+```python
+try:
+    tle = open("orbit.tle").read()
+except FileNotFoundError:
+    raise FileNotFoundError("TLE file not found. Did you fetch the latest orbital data?")
+```
+
+This is far better than letting downstream functions fail mysteriously.
+
+
+## `OverflowError` — When numbers blow up
+
+Numerical instability is a fact of life in orbital mechanics. An `OverflowError` occurs when calculations exceed representable values.
+
+**Example (thermal subsystem):**
+
+```python
+import math
+try:
+    flux = math.exp(1000)
+except OverflowError:
+    flux = float('inf')
+```
+
+Here, defensive coding avoids silent wraparounds in calculations involving exponential growth (like radiative heat flux).
+
+
+## Wrapping Up
+
+In space systems, we don’t always control the environment — but we *do* control how our software responds to unexpected conditions. By using Python’s error types thoughtfully, we make our code more transparent, robust, and trustworthy.
+
+Error handling isn’t just programming hygiene. It’s part of the engineering discipline that keeps spacecraft (and careers) in orbit.
+
+---
+**AI Attribution:** This post was created in collaboration with AI. I asked it to draft a piece explaining Python error messages using examples from space software, building on a discussion we had about error handling in mission-critical code. The result is the post above.

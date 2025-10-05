@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Madhukara Putty">
+<meta name="dcterms.date" content="2025-10-05">
+<meta name="description" content="In scientific programming, and especially in space systems, we don’t just write code that “works.” We write code that fails safely and predictably.">
 
-<title>All articles – Learning with AI</title>
+<title>Common Python Errors in Space Software — and How to Handle Them – Learning with AI</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,28 +23,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,77 +105,19 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-subtitle','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Learning with AI</span>
     </a>
   </div>
@@ -150,7 +128,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
@@ -173,287 +151,130 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">All articles</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">Common Python Errors in Space Software — and How to Handle Them</h1>
+                  <div>
+        <div class="description">
+          In scientific programming, and especially in space systems, we don’t just write code that “works.” We write code that fails safely and predictably.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">scientific computing</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Madhukara Putty </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 5, 2025</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(7)</span></div><div class="category" data-category="b3JiaXRhbCUyMG1lY2hhbmljcw==">orbital mechanics <span class="quarto-category-count">(5)</span></div><div class="category" data-category="cG9saWFzdHJv">poliastro <span class="quarto-category-count">(3)</span></div><div class="category" data-category="c2NpZW50aWZpYyUyMGNvbXB1dGluZw==">scientific computing <span class="quarto-category-count">(4)</span></div><div class="category" data-category="c2hlbGwlMjBzY3JpcHRz">shell scripts <span class="quarto-category-count">(1)</span></div><div class="category" data-category="VGhvdWdodHM=">Thoughts <span class="quarto-category-count">(1)</span></div></div></div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Software is as mission-critical in space as the hardware it controls. A small bug in how we handle errors can ripple into large consequences — from lost data to incorrect orbital predictions. In scientific programming, and especially in space systems, we don’t just write code that “works.” We write code that <strong>fails safely and predictably</strong>.</p>
+<p>Here are some Python errors you’ll encounter often in scientific/space software, with examples drawn from orbital mechanics, ground operations, and spacecraft systems.</p>
+<hr>
+</section>
+<section id="valueerror-when-numbers-dont-make-sense" class="level2">
+<h2 class="anchored" data-anchor-id="valueerror-when-numbers-dont-make-sense"><code>ValueError</code> — When numbers don’t make sense</h2>
+<p>A <code>ValueError</code> crops up when the type is correct, but the <em>value</em> is invalid.</p>
+<p><strong>Example (orbital mechanics):</strong></p>
+<p>If you try to compute orbital elements with a negative semi-major axis for an Earth orbit, that’s not physically valid.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> a <span class="op">&lt;=</span> <span class="dv">0</span>:</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Semi-major axis must be positive for Earth orbits."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="typeerror-when-the-wrong-kind-of-thing-is-passed" class="level2">
+<h2 class="anchored" data-anchor-id="typeerror-when-the-wrong-kind-of-thing-is-passed"><code>TypeError</code> — When the wrong kind of thing is passed</h2>
+<p>A <code>TypeError</code> means the input isn’t the right <em>type</em>.</p>
+<p><strong>Example (ground station scheduling):</strong></p>
+<p>Say your function expects a <code>datetime</code> object, but you pass a string instead.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> schedule_pass(pass_time):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="bu">isinstance</span>(pass_time, datetime):</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">TypeError</span>(<span class="st">"Expected a datetime object for pass_time."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Catching this early avoids subtle time conversion errors.</p>
+</section>
+<section id="indexerror-when-you-go-beyond-the-array" class="level2">
+<h2 class="anchored" data-anchor-id="indexerror-when-you-go-beyond-the-array"><code>IndexError</code> — When you go beyond the array</h2>
+<p>In space software, arrays are everywhere — ephemerides, sensor readings, power budgets. An <code>IndexError</code> means you asked for an element outside the array.</p>
+<p><strong>Example (power subsystem data):</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>voltages <span class="op">=</span> [<span class="fl">3.3</span>, <span class="fl">5.0</span>, <span class="fl">12.0</span>]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(voltages[<span class="dv">3</span>])  <span class="co"># IndexError: list index out of range</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you’re processing telemetry batches, careful index checking prevents crashes during anomaly analysis.</p>
+</section>
+<section id="runtimeerror-when-the-system-state-is-wrong" class="level2">
+<h2 class="anchored" data-anchor-id="runtimeerror-when-the-system-state-is-wrong"><code>RuntimeError</code> — When the system state is wrong</h2>
+<p>A <code>RuntimeError</code> signals that something about the current program state makes the operation impossible.</p>
+<p><strong>Example (attitude dynamics):</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> <span class="va">self</span>.coe_calculated:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">RuntimeError</span>(<span class="st">"Orbital elements not calculated before attitude propagation."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here, the inputs might be valid, but the sequence of operations is wrong. This enforces logical order in mission pipelines.</p>
+</section>
+<section id="assertionerror-when-assumptions-fail" class="level2">
+<h2 class="anchored" data-anchor-id="assertionerror-when-assumptions-fail"><code>AssertionError</code> — When assumptions fail</h2>
+<p>Assertions are like sanity checks. They confirm that conditions you believe to be true really hold.</p>
+<p><strong>Example (ADCS quaternion):</strong></p>
+<p>A unit quaternion must have norm = 1.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.isclose(np.linalg.norm(q), <span class="fl">1.0</span>), <span class="st">"Quaternion not normalized!"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In simulation, this catches numerical drift before it contaminates control outputs.</p>
+</section>
+<section id="ioerror-filenotfounderror-when-external-data-is-missing" class="level2">
+<h2 class="anchored" data-anchor-id="ioerror-filenotfounderror-when-external-data-is-missing"><code>IOError</code> / <code>FileNotFoundError</code> — When external data is missing</h2>
+<p>Space software often relies on ephemeris files, TLE data, or config YAMLs. If a file is missing, the program must fail clearly.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    tle <span class="op">=</span> <span class="bu">open</span>(<span class="st">"orbit.tle"</span>).read()</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">FileNotFoundError</span>:</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">FileNotFoundError</span>(<span class="st">"TLE file not found. Did you fetch the latest orbital data?"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is far better than letting downstream functions fail mysteriously.</p>
+</section>
+<section id="overflowerror-when-numbers-blow-up" class="level2">
+<h2 class="anchored" data-anchor-id="overflowerror-when-numbers-blow-up"><code>OverflowError</code> — When numbers blow up</h2>
+<p>Numerical instability is a fact of life in orbital mechanics. An <code>OverflowError</code> occurs when calculations exceed representable values.</p>
+<p><strong>Example (thermal subsystem):</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    flux <span class="op">=</span> math.exp(<span class="dv">1000</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">OverflowError</span>:</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    flux <span class="op">=</span> <span class="bu">float</span>(<span class="st">'inf'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here, defensive coding avoids silent wraparounds in calculations involving exponential growth (like radiative heat flux).</p>
+</section>
+<section id="wrapping-up" class="level2">
+<h2 class="anchored" data-anchor-id="wrapping-up">Wrapping Up</h2>
+<p>In space systems, we don’t always control the environment — but we <em>do</em> control how our software responds to unexpected conditions. By using Python’s error types thoughtfully, we make our code more transparent, robust, and trustworthy.</p>
+<p>Error handling isn’t just programming hygiene. It’s part of the engineering discipline that keeps spacecraft (and careers) in orbit.</p>
+<hr>
+<p><strong>AI Attribution:</strong> This post was created in collaboration with AI. I asked it to draft a piece explaining Python error messages using examples from space software, building on a discussion we had about error handling in mission-critical code. The result is the post above.</p>
 
 
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="c2NpZW50aWZpYyUyMGNvbXB1dGluZw==" data-listing-date-sort="1759602600000" data-listing-file-modified-sort="1759661805222" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="562">
-<div class="thumbnail"><a href="./posts/common_python_errors/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/common_python_errors/index.html" class="no-external">Common Python Errors in Space Software — and How to Handle Them</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/common_python_errors/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('c2NpZW50aWZpYyUyMGNvbXB1dGluZw=='); return false;">scientific computing</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/common_python_errors/index.html" class="no-external">
-<p>In scientific programming, and especially in space systems, we don’t just write code that “works.” We write code that fails safely and predictably.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/common_python_errors/index.html" class="no-external">
-<div class="listing-date">
-Oct 5, 2025
-</div>
-<div class="listing-author">
-Madhukara Putty
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="b3JiaXRhbCUyMG1lY2hhbmljcyUyQ3NjaWVudGlmaWMlMjBjb21wdXRpbmc=" data-listing-date-sort="1759084200000" data-listing-file-modified-sort="1759166249823" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1618">
-<div class="thumbnail"><a href="./posts/classical_orbital_elements/index.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/classical_orbital_elements/orbital_elements.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/classical_orbital_elements/index.html" class="no-external">A Python class for computing classical orbital elements</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/classical_orbital_elements/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('b3JiaXRhbCUyMG1lY2hhbmljcw=='); return false;">orbital mechanics</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c2NpZW50aWZpYyUyMGNvbXB1dGluZw=='); return false;">scientific computing</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/classical_orbital_elements/index.html" class="no-external">
-<p>This post walks through computing COEs from state vectors in Python using NumPy.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/classical_orbital_elements/index.html" class="no-external">
-<div class="listing-date">
-Sep 29, 2025
-</div>
-<div class="listing-author">
-Madhukara Putty
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="VGhvdWdodHM=" data-listing-date-sort="1758306600000" data-listing-file-modified-sort="1758370295834" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="663">
-<div class="thumbnail"><a href="./posts/ai_and_software/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ai_and_software/index.html" class="no-external">How AI will Redfine Human Roles in Space Software</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ai_and_software/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('VGhvdWdodHM='); return false;">Thoughts</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/ai_and_software/index.html" class="no-external">
-<p>In the AI era, the “default engineer” in space will not be someone confined to one subsystem, but someone capable of thinking across the entire satellite.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/ai_and_software/index.html" class="no-external">
-<div class="listing-date">
-Sep 20, 2025
-</div>
-<div class="listing-author">
-Madhukara Putty
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="b3JiaXRhbCUyMG1lY2hhbmljcw==" data-listing-date-sort="1755887400000" data-listing-file-modified-sort="1755960131417" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="746">
-<div class="thumbnail"><a href="./posts/position_vel_angle/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/position_vel_angle/index.html" class="no-external">What the Radius–Velocity Angle Reveals About Orbit Direction</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/position_vel_angle/index.html" class="no-external">A geometric shortcut for interpreting orbital motion.</a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('b3JiaXRhbCUyMG1lY2hhbmljcw=='); return false;">orbital mechanics</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/position_vel_angle/index.html" class="no-external">
-<p>A geometric look at how the dot product of radius and velocity vectors reveals whether a satellite is moving toward or away from perigee.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/position_vel_angle/index.html" class="no-external">
-<div class="listing-date">
-Aug 23, 2025
-</div>
-<div class="listing-author">
-Madhukara Putty
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="b3JiaXRhbCUyMG1lY2hhbmljcyUyQ3BvbGlhc3Rybw==" data-listing-date-sort="1755196200000" data-listing-file-modified-sort="1755367736356" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1090">
-<div class="thumbnail"><a href="./posts/poliastro_plot_orbits/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/poliastro_plot_orbits/index.html" class="no-external">Visualizing Orbits with Poliastro — A Detailed Walkthrough</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/poliastro_plot_orbits/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('b3JiaXRhbCUyMG1lY2hhbmljcw=='); return false;">orbital mechanics</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cG9saWFzdHJv'); return false;">poliastro</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/poliastro_plot_orbits/index.html" class="no-external">
-<p>A detailed guide to plotting orbits using Python</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/poliastro_plot_orbits/index.html" class="no-external">
-<div class="listing-date">
-Aug 15, 2025
-</div>
-<div class="listing-author">
-Madhukara Putty
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="5" data-categories="b3JiaXRhbCUyMG1lY2hhbmljcyUyQ3NjaWVudGlmaWMlMjBjb21wdXRpbmclMkNwb2xpYXN0cm8=" data-listing-date-sort="1751135400000" data-listing-file-modified-sort="1751199361568" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="731">
-<div class="thumbnail"><a href="./posts/poliastro_orbits/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/poliastro_orbits/index.html" class="no-external">Visualizing Orbits with Poliastro – Part 1: Creating Orbit Objects</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/poliastro_orbits/index.html" class="no-external">Learn how to create circular and elliptical orbit objects in Python using Poliastro.</a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('b3JiaXRhbCUyMG1lY2hhbmljcw=='); return false;">orbital mechanics</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c2NpZW50aWZpYyUyMGNvbXB1dGluZw=='); return false;">scientific computing</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cG9saWFzdHJv'); return false;">poliastro</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/poliastro_orbits/index.html" class="no-external">
-<p>Learn how to create orbit objects in Poliastro using classical elements and state vectors — with beginner-friendly explanations of key concepts like epochs and astronomical units.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/poliastro_orbits/index.html" class="no-external">
-<div class="listing-date">
-Jun 29, 2025
-</div>
-<div class="listing-author">
-Madhukara S Putty
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="6" data-categories="b3JiaXRhbCUyMG1lY2hhbmljcyUyQ3NjaWVudGlmaWMlMjBjb21wdXRpbmclMkNwb2xpYXN0cm8lMkNzaGVsbCUyMHNjcmlwdHM=" data-listing-date-sort="1750789800000" data-listing-file-modified-sort="1750811984872" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="754">
-<div class="thumbnail"><a href="./posts/install_poliastro/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/install_poliastro/index.html" class="no-external">Automating a Scientific Python Setup: A Gentle Walkthrough</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/install_poliastro/index.html" class="no-external">A shell script to set up poliastro and its dependencies</a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('b3JiaXRhbCUyMG1lY2hhbmljcw=='); return false;">orbital mechanics</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c2NpZW50aWZpYyUyMGNvbXB1dGluZw=='); return false;">scientific computing</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cG9saWFzdHJv'); return false;">poliastro</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c2hlbGwlMjBzY3JpcHRz'); return false;">shell scripts</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/install_poliastro/index.html" class="no-external">
-<p>The first in a series of posts on poliastro – a Python library for visualizing and analyzing orbits in Python.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/install_poliastro/index.html" class="no-external">
-<div class="listing-date">
-Jun 25, 2025
-</div>
-<div class="listing-author">
-Madhukara S Putty
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

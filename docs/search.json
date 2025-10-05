@@ -354,6 +354,76 @@
     "href": "index.html",
     "title": "All articles",
     "section": "",
-    "text": "A Python class for computing classical orbital elements\n\n\n\n\n\n\norbital mechanics\n\nscientific computing\n\n\n\nThis post walks through computing COEs from state vectors in Python using NumPy.\n\n\n\n\n\nSep 29, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nHow AI will Redfine Human Roles in Space Software\n\n\n\n\n\n\nThoughts\n\n\n\nIn the AI era, the “default engineer” in space will not be someone confined to one subsystem, but someone capable of thinking across the entire satellite.\n\n\n\n\n\nSep 20, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nWhat the Radius–Velocity Angle Reveals About Orbit Direction\n\n\nA geometric shortcut for interpreting orbital motion.\n\n\n\norbital mechanics\n\n\n\nA geometric look at how the dot product of radius and velocity vectors reveals whether a satellite is moving toward or away from perigee.\n\n\n\n\n\nAug 23, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nVisualizing Orbits with Poliastro — A Detailed Walkthrough\n\n\n\n\n\n\norbital mechanics\n\npoliastro\n\n\n\nA detailed guide to plotting orbits using Python\n\n\n\n\n\nAug 15, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nVisualizing Orbits with Poliastro – Part 1: Creating Orbit Objects\n\n\nLearn how to create circular and elliptical orbit objects in Python using Poliastro.\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\n\n\nLearn how to create orbit objects in Poliastro using classical elements and state vectors — with beginner-friendly explanations of key concepts like epochs and astronomical units.\n\n\n\n\n\nJun 29, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\n\n\n\n\n\n\n\nAutomating a Scientific Python Setup: A Gentle Walkthrough\n\n\nA shell script to set up poliastro and its dependencies\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\nshell scripts\n\n\n\nThe first in a series of posts on poliastro – a Python library for visualizing and analyzing orbits in Python.\n\n\n\n\n\nJun 25, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\nNo matching items"
+    "text": "Common Python Errors in Space Software — and How to Handle Them\n\n\n\n\n\n\nscientific computing\n\n\n\nIn scientific programming, and especially in space systems, we don’t just write code that “works.” We write code that fails safely and predictably.\n\n\n\n\n\nOct 5, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nA Python class for computing classical orbital elements\n\n\n\n\n\n\norbital mechanics\n\nscientific computing\n\n\n\nThis post walks through computing COEs from state vectors in Python using NumPy.\n\n\n\n\n\nSep 29, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nHow AI will Redfine Human Roles in Space Software\n\n\n\n\n\n\nThoughts\n\n\n\nIn the AI era, the “default engineer” in space will not be someone confined to one subsystem, but someone capable of thinking across the entire satellite.\n\n\n\n\n\nSep 20, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nWhat the Radius–Velocity Angle Reveals About Orbit Direction\n\n\nA geometric shortcut for interpreting orbital motion.\n\n\n\norbital mechanics\n\n\n\nA geometric look at how the dot product of radius and velocity vectors reveals whether a satellite is moving toward or away from perigee.\n\n\n\n\n\nAug 23, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nVisualizing Orbits with Poliastro — A Detailed Walkthrough\n\n\n\n\n\n\norbital mechanics\n\npoliastro\n\n\n\nA detailed guide to plotting orbits using Python\n\n\n\n\n\nAug 15, 2025\n\n\nMadhukara Putty\n\n\n\n\n\n\n\n\n\n\n\n\nVisualizing Orbits with Poliastro – Part 1: Creating Orbit Objects\n\n\nLearn how to create circular and elliptical orbit objects in Python using Poliastro.\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\n\n\nLearn how to create orbit objects in Poliastro using classical elements and state vectors — with beginner-friendly explanations of key concepts like epochs and astronomical units.\n\n\n\n\n\nJun 29, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\n\n\n\n\n\n\n\nAutomating a Scientific Python Setup: A Gentle Walkthrough\n\n\nA shell script to set up poliastro and its dependencies\n\n\n\norbital mechanics\n\nscientific computing\n\npoliastro\n\nshell scripts\n\n\n\nThe first in a series of posts on poliastro – a Python library for visualizing and analyzing orbits in Python.\n\n\n\n\n\nJun 25, 2025\n\n\nMadhukara S Putty\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/common_python_errors/index.html",
+    "href": "posts/common_python_errors/index.html",
+    "title": "Common Python Errors in Space Software — and How to Handle Them",
+    "section": "",
+    "text": "Software is as mission-critical in space as the hardware it controls. A small bug in how we handle errors can ripple into large consequences — from lost data to incorrect orbital predictions. In scientific programming, and especially in space systems, we don’t just write code that “works.” We write code that fails safely and predictably.\nHere are some Python errors you’ll encounter often in scientific/space software, with examples drawn from orbital mechanics, ground operations, and spacecraft systems."
+  },
+  {
+    "objectID": "posts/common_python_errors/index.html#introduction",
+    "href": "posts/common_python_errors/index.html#introduction",
+    "title": "Common Python Errors in Space Software — and How to Handle Them",
+    "section": "",
+    "text": "Software is as mission-critical in space as the hardware it controls. A small bug in how we handle errors can ripple into large consequences — from lost data to incorrect orbital predictions. In scientific programming, and especially in space systems, we don’t just write code that “works.” We write code that fails safely and predictably.\nHere are some Python errors you’ll encounter often in scientific/space software, with examples drawn from orbital mechanics, ground operations, and spacecraft systems."
+  },
+  {
+    "objectID": "posts/common_python_errors/index.html#valueerror-when-numbers-dont-make-sense",
+    "href": "posts/common_python_errors/index.html#valueerror-when-numbers-dont-make-sense",
+    "title": "Common Python Errors in Space Software — and How to Handle Them",
+    "section": "ValueError — When numbers don’t make sense",
+    "text": "ValueError — When numbers don’t make sense\nA ValueError crops up when the type is correct, but the value is invalid.\nExample (orbital mechanics):\nIf you try to compute orbital elements with a negative semi-major axis for an Earth orbit, that’s not physically valid.\nif a &lt;= 0:\n    raise ValueError(\"Semi-major axis must be positive for Earth orbits.\")"
+  },
+  {
+    "objectID": "posts/common_python_errors/index.html#typeerror-when-the-wrong-kind-of-thing-is-passed",
+    "href": "posts/common_python_errors/index.html#typeerror-when-the-wrong-kind-of-thing-is-passed",
+    "title": "Common Python Errors in Space Software — and How to Handle Them",
+    "section": "TypeError — When the wrong kind of thing is passed",
+    "text": "TypeError — When the wrong kind of thing is passed\nA TypeError means the input isn’t the right type.\nExample (ground station scheduling):\nSay your function expects a datetime object, but you pass a string instead.\ndef schedule_pass(pass_time):\n    if not isinstance(pass_time, datetime):\n        raise TypeError(\"Expected a datetime object for pass_time.\")\nCatching this early avoids subtle time conversion errors."
+  },
+  {
+    "objectID": "posts/common_python_errors/index.html#indexerror-when-you-go-beyond-the-array",
+    "href": "posts/common_python_errors/index.html#indexerror-when-you-go-beyond-the-array",
+    "title": "Common Python Errors in Space Software — and How to Handle Them",
+    "section": "IndexError — When you go beyond the array",
+    "text": "IndexError — When you go beyond the array\nIn space software, arrays are everywhere — ephemerides, sensor readings, power budgets. An IndexError means you asked for an element outside the array.\nExample (power subsystem data):\nvoltages = [3.3, 5.0, 12.0]\nprint(voltages[3])  # IndexError: list index out of range\nIf you’re processing telemetry batches, careful index checking prevents crashes during anomaly analysis."
+  },
+  {
+    "objectID": "posts/common_python_errors/index.html#runtimeerror-when-the-system-state-is-wrong",
+    "href": "posts/common_python_errors/index.html#runtimeerror-when-the-system-state-is-wrong",
+    "title": "Common Python Errors in Space Software — and How to Handle Them",
+    "section": "RuntimeError — When the system state is wrong",
+    "text": "RuntimeError — When the system state is wrong\nA RuntimeError signals that something about the current program state makes the operation impossible.\nExample (attitude dynamics):\nif not self.coe_calculated:\n    raise RuntimeError(\"Orbital elements not calculated before attitude propagation.\")\nHere, the inputs might be valid, but the sequence of operations is wrong. This enforces logical order in mission pipelines."
+  },
+  {
+    "objectID": "posts/common_python_errors/index.html#assertionerror-when-assumptions-fail",
+    "href": "posts/common_python_errors/index.html#assertionerror-when-assumptions-fail",
+    "title": "Common Python Errors in Space Software — and How to Handle Them",
+    "section": "AssertionError — When assumptions fail",
+    "text": "AssertionError — When assumptions fail\nAssertions are like sanity checks. They confirm that conditions you believe to be true really hold.\nExample (ADCS quaternion):\nA unit quaternion must have norm = 1.\nassert np.isclose(np.linalg.norm(q), 1.0), \"Quaternion not normalized!\"\nIn simulation, this catches numerical drift before it contaminates control outputs."
+  },
+  {
+    "objectID": "posts/common_python_errors/index.html#ioerror-filenotfounderror-when-external-data-is-missing",
+    "href": "posts/common_python_errors/index.html#ioerror-filenotfounderror-when-external-data-is-missing",
+    "title": "Common Python Errors in Space Software — and How to Handle Them",
+    "section": "IOError / FileNotFoundError — When external data is missing",
+    "text": "IOError / FileNotFoundError — When external data is missing\nSpace software often relies on ephemeris files, TLE data, or config YAMLs. If a file is missing, the program must fail clearly.\ntry:\n    tle = open(\"orbit.tle\").read()\nexcept FileNotFoundError:\n    raise FileNotFoundError(\"TLE file not found. Did you fetch the latest orbital data?\")\nThis is far better than letting downstream functions fail mysteriously."
+  },
+  {
+    "objectID": "posts/common_python_errors/index.html#overflowerror-when-numbers-blow-up",
+    "href": "posts/common_python_errors/index.html#overflowerror-when-numbers-blow-up",
+    "title": "Common Python Errors in Space Software — and How to Handle Them",
+    "section": "OverflowError — When numbers blow up",
+    "text": "OverflowError — When numbers blow up\nNumerical instability is a fact of life in orbital mechanics. An OverflowError occurs when calculations exceed representable values.\nExample (thermal subsystem):\nimport math\ntry:\n    flux = math.exp(1000)\nexcept OverflowError:\n    flux = float('inf')\nHere, defensive coding avoids silent wraparounds in calculations involving exponential growth (like radiative heat flux)."
+  },
+  {
+    "objectID": "posts/common_python_errors/index.html#wrapping-up",
+    "href": "posts/common_python_errors/index.html#wrapping-up",
+    "title": "Common Python Errors in Space Software — and How to Handle Them",
+    "section": "Wrapping Up",
+    "text": "Wrapping Up\nIn space systems, we don’t always control the environment — but we do control how our software responds to unexpected conditions. By using Python’s error types thoughtfully, we make our code more transparent, robust, and trustworthy.\nError handling isn’t just programming hygiene. It’s part of the engineering discipline that keeps spacecraft (and careers) in orbit.\n\nAI Attribution: This post was created in collaboration with AI. I asked it to draft a piece explaining Python error messages using examples from space software, building on a discussion we had about error handling in mission-critical code. The result is the post above."
   }
 ]

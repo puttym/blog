@@ -2,6 +2,8 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/attitude_determination_theory/index.html",
+      "/posts/adcs_sensors/index.html",
       "/posts/common_python_errors/index.html",
       "/posts/classical_orbital_elements/index.html",
       "/posts/ai_and_software/index.html",

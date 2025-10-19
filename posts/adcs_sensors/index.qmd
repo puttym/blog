@@ -1,0 +1,130 @@
+---
+title: "How Satellites Know Which Way They’re Pointing: Inside ADCS Sensors"
+subtitle: "An overview of satellite attitude sensors, their principles, and performance."
+description: ""
+author: "Madhukara S Putty"
+date: "2025-10-19"
+categories: "ADCS"
+---
+
+## Introduction
+
+A satellite that knows where it is but not which way it’s facing is half-blind. It can’t aim its antenna, orient its solar panels, or point its camera at Earth. That’s why every satellite carries an **Attitude Determination and Control System (ADCS)** — a set of sensors, actuators, and algorithms that together sense and control its **attitude**, the technical term for *orientation in space*.
+
+### The Function of ADCS
+
+ADCS ensures that the spacecraft maintains or changes its orientation as needed. It performs three key tasks:
+
+1. **Determine current attitude** using sensors.
+2. **Compute how to change it** using algorithms.
+3. **Apply torques** through actuators to make that change happen.
+
+Many spacecraft dedicate a separate computer to ADCS. Unlike the main onboard computer, which handles mission tasks, the ADCS computer must run continuously, making rapid calculations and issuing real-time control commands to maintain stable pointing.
+
+### ADCS Components
+
+| Component                 | Function                                     | Examples                                                          |
+| ------------------------- | -------------------------------------------- | ----------------------------------------------------------------- |
+| **Sensors**               | Measure attitude or angular rate             | Sun sensors, magnetometers, horizon sensors, star trackers, gyros |
+| **Actuators**             | Apply torques to control attitude            | Reaction wheels, magnetic torquers, thrusters                     |
+| **Algorithms & Computer** | Estimate attitude and compute control inputs | TRIAD, QUEST, Kalman filters, PID controllers                     |
+
+At the heart of attitude determination is the idea of comparing what sensors *measure* with what physics *predicts*.
+Each sensor provides a **vector measurement** in the spacecraft’s *body frame*. The same vector’s direction in an *inertial frame* is known from orbital data or ephemerides. The goal is to find the **rotation matrix** that aligns the two:
+
+$$
+\hat{\mathbf{v}}_I = \mathbf{R}_{IB}\,\hat{\mathbf{v}}_B
+$$
+
+Here,
+
+* $\hat{\mathbf{v}}_B$: unit vector measured by a sensor in the body frame
+* $\hat{\mathbf{v}}_I$: known direction of the same vector in inertial coordinates
+* $\mathbf{R}_{IB}$: rotation matrix transforming body-frame vectors to inertial-frame coordinates
+
+This equation underlies every sensor discussed below.
+
+### **Key ADCS Sensors**
+
+#### **1. Sun Sensor**
+
+Measures the direction of the Sun relative to the spacecraft.
+
+* **Principle:** Uses photodiodes or imaging arrays to find where sunlight hits.
+* **Accuracy:** 0.05°–0.5°.
+* **Pros:** Simple, low-cost, low power.
+* **Cons:** Works only when the Sun is visible.
+* **Best for:** CubeSats, spin-stabilized or Sun-pointing satellites.
+
+The Sun sensor defines a unit vector toward the Sun, (\hat{\mathbf{s}}_B), in the body frame. Ephemeris data provide the corresponding inertial vector (\hat{\mathbf{s}}_I). The ADCS computer then uses the equation above to align the two.
+
+#### **2. Magnetometer**
+
+Measures Earth’s magnetic field vector in the spacecraft’s body frame.
+
+* **Principle:** Detects magnetic flux density using fluxgate or magnetoresistive sensors.
+* **Accuracy:** 1°–2°.
+* **Pros:** Works in eclipse, lightweight, inexpensive.
+* **Cons:** Sensitive to spacecraft-generated magnetic noise.
+* **Best for:** LEO satellites, especially in combination with Sun sensors.
+
+The measured field is compared with the expected one from a geomagnetic model (like IGRF). Together, they provide another pair of corresponding vectors for solving the rotation matrix.
+
+#### **3. Earth Horizon Sensor**
+
+Detects Earth’s infrared limb to find the local vertical (nadir) direction.
+
+* **Principle:** Scans the infrared contrast between Earth and space.
+* **Accuracy:** 0.1°–0.2°.
+* **Pros:** Continuous Earth reference.
+* **Cons:** Requires Earth in view, less useful at GEO or deep space.
+* **Best for:** Earth observation or imaging missions.
+
+The measured nadir vector helps determine which way “down” is in space.
+
+
+#### **4. Star Tracker**
+
+Provides the most accurate attitude measurements.
+
+* **Principle:** Captures star fields, matches them to a catalog, and computes full 3D orientation directly.
+* **Accuracy:** Arcseconds (<0.01°).
+* **Pros:** Extremely precise, fully autonomous.
+* **Cons:** Expensive, high power, sensitive to bright light.
+* **Best for:** Deep-space and scientific missions.
+
+#### **5. Gyroscopes (Gyros)**
+
+Measure the spacecraft’s **angular rate**, not a direction vector — yet they’re indispensable for smooth attitude propagation between sensor updates.
+
+* **Principle:** Detect angular velocity via the Coriolis effect (MEMS), fiber-optic interference, or spinning rotors.
+* **Accuracy:** Gyroscopes (gyros) measure the spacecraft’s angular velocity. There are several types: MEMS (Micro-Electro-Mechanical Systems) gyroscopes, which are compact and low-cost but typically have higher drift errors (~0.1°/s); FOG (Fiber-Optic Gyroscopes), which use interference of light in coiled optical fibers to detect rotation; and RLG (Ring Laser Gyroscopes), which operate on the Sagnac effect using laser beams in a closed path. FOGs and RLGs are far more accurate (drift < 0.001°/s) and used in high-precision missions.
+* **Pros:** Provide continuous, instantaneous rate data; unaffected by lighting or field models.
+* **Cons:** Drift over time; need periodic correction using vector sensors.
+* **Best for:** All missions requiring stable attitude estimation.
+
+### **Comparison Table**
+
+| Sensor         | Quantity Measured     | Accuracy            | Advantages               | Limitations        | Typical Missions |
+| -------------- | --------------------- | ------------------- | ------------------------ | ------------------ | ---------------- |
+| Sun Sensor     | Sun direction         | 0.05–0.5°           | Simple, low cost         | Needs sunlight     | LEO, CubeSats    |
+| Magnetometer   | Magnetic field vector | 1–2°                | Works in eclipse         | Magnetic noise     | LEO              |
+| Horizon Sensor | Earth IR edge         | 0.1–0.2°            | Reliable Earth reference | Needs Earth view   | LEO, EO          |
+| Star Tracker   | Star field            | <0.01°              | Ultra-precise            | Expensive, complex | Deep-space       |
+| Gyroscope      | Angular rate          | <0.001–0.1°/s drift | Fast response            | Cumulative drift   | All missions     |
+
+
+### **How Sensors Work Together**
+
+No single sensor can provide a complete or always-available reference. Satellites therefore **fuse data** from multiple sensors.
+Algorithms like **TRIAD**, **QUEST**, and **Kalman filters** combine Sun, magnetic field, and gyro measurements to produce a consistent and robust attitude estimate.
+Errors from individual sensors propagate into the final solution — for example, two sensors each with ±0.5° uncertainty might together yield an overall uncertainty around ±1°, depending on geometry.
+
+In practice, no single sensor can provide complete and reliable attitude information under all conditions. Most spacecraft therefore carry a combination of sensors — for example, sun sensors and magnetometers for coarse attitude determination, aided by gyroscopes for short-term stability and star trackers for fine pointing. The choice depends strongly on the mission: CubeSats often rely on low-cost MEMS sensors and coarse sun sensors, while larger Earth-observation or astronomy missions use precise FOG or RLG gyros with star trackers. Sensor data are fused using estimation algorithms such as the Extended Kalman Filter to filter out noise and bias. Ultimately, attitude determination is not just about measuring directions but about combining multiple imperfect observations to reconstruct orientation accurately and robustly over time.
+
+### **Closing Thoughts**
+
+ADCS sensors are the spacecraft’s eyes — each one offering a different way to sense direction or motion. Choosing the right combination depends on mission altitude, accuracy needs, and cost.
+Modern miniaturized sensors and onboard processing are making precise attitude determination possible even for CubeSats — a remarkable step toward fully autonomous small-spacecraft navigation.
+
+***AI Attribution:*** I drafted this article with help from OpenAI’s GPT-5 model. I provided the detailed outline, structure, and technical inputs, and used the model to generate the first draft. All interpretations, edits, and final content were reviewed and refined by me to ensure technical accuracy and clarity.

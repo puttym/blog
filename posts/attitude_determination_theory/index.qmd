@@ -1,0 +1,239 @@
+---
+title: "Attitude Determination: From Principles to Practice — Part 1: The Theory"
+subtitle: "Understanding how spacecraft sense and describe their orientation in space."
+author: "Madhukara Putty"
+date: "2025-10-19"
+categories: "ADCS"
+draft: true
+---
+
+## **1. Introduction: Why ADCS Matters**
+
+A satellite that knows where it is but not where it’s facing is almost as helpless as one that’s lost in orbit. Orientation — or *attitude*, in spacecraft terms — determines whether a satellite can point its camera toward Earth, align its antenna toward a ground station, or keep its solar panels facing the Sun.
+
+The **Attitude Determination and Control System (ADCS)** is responsible for knowing and managing that orientation.
+It consists of three key subsystems:
+
+* **Sensors** — help determine the *current attitude* of the satellite.
+* **Actuators** — apply controlled torques to *change the attitude*.
+* **Algorithms** — process raw sensor data to *estimate* the current attitude and to *compute* control inputs for actuators.
+
+In most modern spacecraft, ADCS has a **dedicated onboard computer**. This separation from the main Onboard Computer (OBC) allows attitude calculations and control loops to run at high frequency without interfering with payload or telemetry operations.
+
+This post focuses on the **first step** in ADCS — how satellites *sense* their orientation in space.
+
+## **2. Sensors in ADCS — What They Do and How**
+
+Each sensor measures either a **direction** or a **rate** in the **body frame** — a coordinate system fixed to the spacecraft.
+For example, a Sun sensor doesn’t tell you where the Sun is in the sky; it tells you the Sun’s direction *as seen from the spacecraft’s body axes.*
+
+Every sensor measurement corresponds to a **vector** that can be expressed in two coordinate frames:
+
+* In the **body frame (B)** — measured directly by the sensor.
+* In an **inertial frame (I)** — known from external information such as orbital data or astronomical ephemerides.
+
+The central problem of attitude determination is therefore:
+
+> Find the **rotation matrix** that transforms vectors from the body frame to the inertial frame.
+
+When only one vector is available, the spacecraft’s orientation is *partially constrained* — we know one axis but not the full three-dimensional orientation. With two or more non-collinear vectors, the full attitude can be determined.
+
+*Figure 1. Two vectors in two frames — find rotation between them.*
+
+The Sun sensor serves as the running example in this article, but the same mathematical principles apply to other attitude sensors such as **magnetometers**, **Earth horizon sensors**, and **star trackers**.
+
+## **3. Example: The Sun Sensor**
+
+A Sun sensor determines the **unit vector** pointing toward the Sun, expressed in the spacecraft’s body frame.
+Let this vector be denoted by $\hat{\mathbf{s}}_B$
+
+At the same instant of time, the **inertial-frame** direction of the Sun — obtained from astronomical **ephemerides** — is represented by 
+$\hat{\mathbf{s}}_I$
+
+Ephemeris data, stored in the ADCS computer memory, provides the position of the Sun in the Earth-centered inertial (ECI) frame for any given time. From this, the corresponding **unit vector** at the measurement instant can be computed.
+
+The goal of attitude determination, in this case, is to find the **rotation matrix**
+$\mathbf{R}_{IB}$ that maps the body-frame vector into the inertial frame:
+
+$$
+\hat{\mathbf{s}}_I = \mathbf{R}_{IB}\,\hat{\mathbf{s}}_B
+$$
+
+This matrix represents the spacecraft’s orientation relative to the ECI frame.
+
+### **3.1 Finding the Rotation Axis and Angle**
+
+We can map one unit vector into another by rotating it about an axis **normal** to both vectors.
+The **axis of rotation** is given by the cross product:
+$$
+\hat{\mathbf{u}} =
+\frac{\hat{\mathbf{s}}_I \times \hat{\mathbf{s}}_B}
+{|\hat{\mathbf{s}}_I \times \hat{\mathbf{s}}_B|}
+$${#eq-axis}
+
+The **rotation angle** between the two vectors is found using the dot product:
+
+$$
+\theta = \cos^{-1}(\hat{\mathbf{s}}_I \cdot \hat{\mathbf{s}}_B)
+$${#eq-angle}
+
+Equations (@eq-axis) and (@eq-angle) together define a unique axis–angle pair ($\hat{\mathbf{u}}, \theta$) that aligns the two vectors through the *shortest possible rotation* in three-dimensional space.
+
+The **cross product** gives the **axis** of rotation because it produces a vector **perpendicular to both** $\hat{\mathbf{s}}_I$ and $\hat{\mathbf{s}}_B$, following the right-hand rule.
+
+The **dot product**, on the other hand, directly gives the **cosine of the included angle** between them.
+
+In principle, the magnitude of the cross product also encodes the sine of that angle:
+
+$$
+\left|\hat{\mathbf{s}}_I \times \hat{\mathbf{s}}_B\right|=\sin \theta
+$$
+
+but the dot product is preferred for computing $\theta$ because it is numerically more stable, especially for small rotation angles, where $\sin \theta \approx \theta$ makes cross-product magnitudes susceptible to rounding errors.
+Using the dot product ensures an accurate estimate of $\theta$ even when the two vectors are nearly parallel.
+
+### **3.2 Constructing the Rotation Matrix**
+
+Once the axis and angle are known, the **Rodrigues’ rotation formula** provides a direct way to construct the rotation matrix:
+
+$$
+\mathbf{R}_{IB}
+= \mathbf{I}_3
++ \sin\theta [\hat{\mathbf{u}}_\times]
++ (1 - \cos\theta) [\hat{\mathbf{u}}_\times]^2
+$${#eq-rodrigues}
+
+where:
+
+* $\mathbf{I}_3$ is the 3×3 identity matrix, and
+* $[\hat{\mathbf{u}}_\times]$ is the **skew-symmetric matrix** of $\hat{\mathbf{u}}$, defined as:
+
+$$
+[\hat{\mathbf{u}}_\times] =
+\begin{bmatrix}
+0 & -u_z & u_y \\
+u_z & 0 & -u_x \\
+-u_y & u_x & 0
+\end{bmatrix}
+$${#eq-skew}
+
+This compact expression encodes the geometry of 3D rotation directly in matrix form.
+
+The rotation axis and angle are both derived from the two known direction vectors.
+
+## **4. Numerical Example — Body → ECI and ECI → Body**
+
+To illustrate, consider the following example. Assume that the unit vectors 
+in the direction of the Sun from ECI and the body frame are:
+
+$$
+\hat{\mathbf{s}}_I =
+\begin{bmatrix}
+1 \\ 0\\ \ 0
+\end{bmatrix} \quad
+\text{and} \quad
+\hat{\mathbf{s}}_B =
+\begin{bmatrix}
+0.866 \\ 0.5 \\ 0
+\end{bmatrix}.
+$$
+
+Note that both vectors lie in their respective $xy$-planes, but this *does not* imply that the planes themselves are parallel — only that the $z$-components are zero.
+
+### **4.1 Determining the Rotation**
+
+Using (@eq-axis) and (@eq-angle):
+
+$$
+\hat{\mathbf{u}} =
+\frac{\hat{\mathbf{s}}_I \times \hat{\mathbf{s}}_B}
+{|\hat{\mathbf{s}}_I \times \hat{\mathbf{s}}_B|} =
+\begin{bmatrix}
+0 \\ 0 \\ 1
+\end{bmatrix}
+$$
+
+and
+
+$$
+\theta = \cos^{-1}(0.866) = 30^\circ
+$$
+
+Thus, the rotation is about the **z-axis** by **30°**.
+
+### **4.2 Computing the Rotation Matrix**
+
+Substituting into (@eq-rodrigues):
+
+$$
+\mathbf{R}_{IB} =
+\begin{bmatrix}
+\cos 30^\circ & -\sin 30^\circ & 0 \\
+\sin 30^\circ & \cos 30^\circ  & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+0.866 & -0.5 & 0 \\
+0.5 & 0.866 & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+$$
+
+This is the **Body → Inertial** transformation matrix.
+
+To transform vectors from **inertial to body**, we use the **transpose** of this matrix:
+
+$$
+\mathbf{R}_{BI} = \mathbf{R}_{IB}^\mathsf{T}
+$$
+
+since rotation matrices are orthogonal ($\mathbf{R}_{IB}^{-1} = \mathbf{R}_{IB}^\mathsf{T}$).
+
+### **4.3 Interpreting the Matrix**
+
+The first column of $\mathbf{R}_{BI}$ represents the ECI $x$-axis expressed in the body frame, the second column corresponds to the ECI $y$-axis in the body frame, and the third column to the ECI $z$-axis.
+
+Although the origins of the two frames differ — one at Earth’s center, the other at the spacecraft — **unit direction vectors** are unaffected by translation. Hence, origin offsets are irrelevant for these computations.
+
+*Figure 3. Body and ECI frames related by a 30° rotation about z-axis.*
+
+## **5. Attitude Determination Algorithms**
+
+The single-vector approach illustrates the principle, but full attitude determination usually combines data from multiple sensors. The most widely used algorithms are:
+
+| Algorithm                     | Vectors Used | Characteristics                                                                          |
+| ----------------------------- | ------------ | ---------------------------------------------------------------------------------------- |
+| **TRIAD**                     | 2            | Simple and fast; uses two non-collinear vectors; sensitive to noise.                     |
+| **QUEST**                     | ≥2           | Solves for optimal attitude by minimizing vector residuals using quaternion formulation. |
+| **Kalman Filters (EKF, UKF)** | Many + gyros | Fuse dynamic data over time; provide best real-time estimate.                            |
+
+Each method builds upon the same geometric principle captured in **Rodrigues’ formula** — the rotation that best aligns measured and reference vectors.
+
+## **6. Limitations of Sun Sensors**
+
+Sun sensors are reliable and simple but have inherent constraints:
+
+* They work only when the Sun is visible.
+* They can determine the direction of the Sun, but not the rotation about that direction — an issue known as **indeterminacy about the Sun vector**.
+
+In principle, one could add another Sun sensor mounted at an offset orientation to remove this ambiguity.
+However, in practice, spacecraft use *different types of sensors* (magnetometers, star trackers, etc.) that provide non-parallel reference vectors instead.
+
+## **7. Other Attitude Sensors**
+
+| Sensor Type              | Measurement                   | Typical Use                                         |
+| ------------------------ | ----------------------------- | --------------------------------------------------- |
+| **Magnetometer**         | Earth’s magnetic field vector | Coarse attitude or in combination with Sun sensors. |
+| **Earth horizon sensor** | Vector toward Earth’s center  | Earth-pointing missions.                            |
+| **Star tracker**         | Star pattern recognition      | High-precision missions (arc-second accuracy).      |
+
+Although their sensing principles differ, **all attitude sensors rely on the same concept** — comparing what is measured in the **body frame** with what is *known* in the **inertial frame**.
+
+## **8. Conclusion**
+
+Attitude determination is, at its core, the problem of finding the **rotation** that aligns what the satellite *measures* with what is *expected* from physics.
+Every sensor provides a fragment of this relationship — a direction or a rate — and the algorithms combine them into a complete, consistent orientation.
+
+This post introduced the principle using the simplest possible case: the Sun sensor.
+In the next article, we will move from theory to **real-world sensing** — exploring how measurement inaccuracies arise, how they combine across sensors, and how they influence mission performance.

@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/sensor_accuracy/index.html",
       "/posts/attitude_determination_theory/index.html",
       "/posts/adcs_sensors/index.html",
       "/posts/common_python_errors/index.html",

@@ -1,7 +1,7 @@
 ---
 title: "How Accurate Should Your Satellite Sensors Be?"
 subtitle: "A Practical Look at Pointing Errors and Mission Tolerance."
-description: "An intuitive, back-of-the-envelope guide connecting sensor accuracy, pointing stability, and ground resolution."
+description: "An intuitive, back-of-the-envelope guide connecting sensor accuracy, and ground resolution."
 author: "Madhukara Putty"
 date: "2025-10-30"
 categories: [ADCS, sensors]

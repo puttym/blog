@@ -149,6 +149,7 @@ window.Quarto = {
             <p class="subtitle lead">From Sun sensors to star trackers — how spacecraft turn raw measurements into a sense of direction.</p>
                                 <div class="quarto-categories">
                 <div class="quarto-category">ADCS</div>
+                <div class="quarto-category">sensors</div>
               </div>
                   </div>
   </div>
@@ -320,6 +321,11 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="conclusion"><strong>8. Conclusion</strong></h2>
 <p>Attitude determination is, at its core, the problem of finding the <strong>rotation</strong> that aligns what the satellite <em>measures</em> with what is <em>expected</em> from physics. Every sensor provides a fragment of this relationship — a direction or a rate — and the algorithms combine them into a complete, consistent orientation.</p>
 <p>This post introduced the principle using the simplest possible case: the Sun sensor. In the next article, we will move from theory to <strong>real-world sensing</strong> — exploring how measurement inaccuracies arise, how they combine across sensors, and how they influence mission performance.</p>
+<hr>
+<p><strong><em>Related Articles:</em></strong></p>
+<ol type="1">
+<li><a href="https://puttym.github.io/blog/posts/sensor_accuracy/">How Accurate Should Your Satellite Sensors Be?</a></li>
+</ol>
 <p><strong><em>AI Attribution:</em></strong> I couldn’t find a clear explanation in textbooks of how a spacecraft’s attitude is determined directly from sensor measurements — though I can’t claim my search was exhaustive. So, I asked ChatGPT to help. Its reasoning made physical sense, and our discussion evolved into an interesting exchange on the topic. We even debated whether Rodrigues’ formula could be used to find the rotation matrix, ultimately concluding that it couldn’t. The draft was prepared with AI assistance; I reviewed, refined, and finalised it.</p>
 
 

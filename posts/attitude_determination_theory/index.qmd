@@ -3,7 +3,7 @@ title: "How Satellites Sense Their Orientation: The Geometry Behind Attitude Det
 subtitle: "From Sun sensors to star trackers — how spacecraft turn raw measurements into a sense of direction."
 author: "Madhukara Putty"
 date: "2025-10-22"
-categories: "ADCS"
+categories: [ADCS, sensors]
 ---
 
 ## **1. Introduction: Why ADCS Matters**
@@ -118,6 +118,11 @@ Every sensor provides a fragment of this relationship — a direction or a rate 
 
 This post introduced the principle using the simplest possible case: the Sun sensor.
 In the next article, we will move from theory to **real-world sensing** — exploring how measurement inaccuracies arise, how they combine across sensors, and how they influence mission performance.
+
+---
+***Related Articles:***
+
+1. [How Accurate Should Your Satellite Sensors Be?](https://puttym.github.io/blog/posts/sensor_accuracy/)
 
 ***AI Attribution:***
 I couldn’t find a clear explanation in textbooks of how a spacecraft’s attitude is determined directly from sensor measurements — though I can’t claim my search was exhaustive. So, I asked ChatGPT to help. Its reasoning made physical sense, and our discussion evolved into an interesting exchange on the topic. We even debated whether Rodrigues’ formula could be used to find the rotation matrix, ultimately concluding that it couldn’t. The draft was prepared with AI assistance; I reviewed, refined, and finalised it.
